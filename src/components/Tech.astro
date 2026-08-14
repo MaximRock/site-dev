@@ -1,0 +1,81 @@
+---
+import { CONTACTS } from "../data/site.js";
+import Icon from "./Icon.astro";
+
+const platforms = [
+  {
+    key: "tilda",
+    title: "Tilda",
+    points: ["Быстрый запуск", "Подходит большинству компаний", "Простая поддержка сайта"],
+  },
+  {
+    key: "custom",
+    title: "Индивидуальная разработка",
+    points: ["Максимальная производительность", "Любой функционал", "Любые интеграции", "Любой дизайн"],
+  },
+];
+
+const channels = [
+  { label: "Telegram", href: CONTACTS.telegram, icon: "telegram" },
+  { label: "Телефон", href: CONTACTS.phoneUrl, icon: "phone" },
+  { label: "Email", href: CONTACTS.emailUrl, icon: "mail" },
+];
+---
+
+<section class="section-spacing bg-section/50">
+  <div class="container-x">
+    <div class="max-w-2xl">
+      <p class="eyebrow mb-4">Технологии и поддержка</p>
+      <h2 class="text-3xl sm:text-4xl">На чем создаем сайты</h2>
+    </div>
+
+    <div class="mt-10 grid gap-5 lg:grid-cols-2">
+      {
+        platforms.map((platform) => (
+          <article class="card flex flex-col p-7 hover:bg-[#202025]">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/15 text-accent2">
+              <Icon name={platform.key === "tilda" ? "window" : "code"} size={24} />
+            </div>
+            <h3 class="mt-5 text-2xl">{platform.title}</h3>
+            <ul class="mt-4 flex flex-1 flex-col gap-2.5">
+              {
+                platform.points.map((point) => (
+                  <li class="flex items-start gap-3 text-body">
+                    <Icon name="check" size={20} class="mt-0.5 text-accent2" />
+                    {point}
+                  </li>
+                ))
+              }
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+
+    <aside class="card mt-8 flex flex-col gap-6 p-7 sm:flex-row sm:items-center">
+      <div class="min-w-0 flex-1">
+        <h3 class="text-xl">Поддержка после запуска</h3>
+        <p class="mt-2 text-sm text-muted">
+          Правки входят в сопровождение. Связь семь дней в неделю.
+        </p>
+      </div>
+      <ul class="flex flex-wrap gap-3">
+        {
+          channels.map((channel) => (
+            <li>
+              <a
+                href={channel.href}
+                target={channel.href.startsWith("http") ? "_blank" : undefined}
+                rel={channel.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                class="chip transition hover:border-accent hover:text-heading"
+              >
+                <Icon name={channel.icon} size={16} class="text-accent2" />
+                {channel.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </aside>
+  </div>
+</section>

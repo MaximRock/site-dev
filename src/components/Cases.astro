@@ -1,0 +1,181 @@
+---
+import { CASES, SITE } from "../data/site.js";
+import Icon from "./Icon.astro";
+---
+
+<section id="cases" class="section-spacing">
+  <div class="container-x">
+    <div class="max-w-2xl">
+      <p class="eyebrow mb-4">Кейсы</p>
+      <h2 class="text-3xl sm:text-4xl">Наши проекты</h2>
+      <p class="mt-4 text-muted">
+        {
+          SITE.demoMode
+            ? "Демонстрационные примеры структуры и подхода к работе. Будут заменены реальными проектами."
+            : "Примеры проектов, которые мы разработали: от лендингов до корпоративных сайтов."
+        }
+      </p>
+    </div>
+
+    <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {
+        CASES.map((item, index) => (
+          <article class="card group flex flex-col overflow-hidden p-0">
+            <div class="mockup relative flex h-44 items-end p-5">
+              {SITE.demoMode ? (
+                <span class="demo-badge absolute left-4 top-4">Демонстрационный материал</span>
+              ) : null}
+              <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/25 text-accent2">
+                  <Icon name="window" size={22} />
+                </div>
+                <div>
+                  <p class="font-display text-sm font-bold text-heading">{item.niche}</p>
+                  <p class="text-xs text-muted">{item.type}</p>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-1 flex-col p-5">
+              <h3 class="text-xl">{item.title}</h3>
+              <ul class="mt-3 flex flex-1 flex-col gap-1.5 text-sm text-muted">
+                {
+                  item.works.map((w) => (
+                    <li class="flex items-start gap-2">
+                      <Icon name="check" size={16} class="mt-0.5 text-accent2" />
+                      {w}
+                    </li>
+                  ))
+                }
+              </ul>
+              <button
+                type="button"
+                class="btn btn-ghost btn-sm mt-5 w-full"
+                data-open-case={index}
+                aria-haspopup="dialog"
+              >
+                Подробнее
+              </button>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<dialog id="case-modal" aria-labelledby="case-modal-title">
+  <div class="flex max-h-[85dvh] flex-col overflow-hidden">
+    <div class="flex shrink-0 items-start justify-between gap-4 border-b border-line p-6">
+      <div class="min-w-0">
+        <p id="case-chip" class="eyebrow mb-2 text-accent2"></p>
+        <h3 id="case-modal-title" class="text-2xl"></h3>
+      </div>
+      <button
+        type="button"
+        data-close-case
+        class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-edge text-body transition hover:text-heading"
+        aria-label="Закрыть"
+      >
+        <Icon name="close" size={20} />
+      </button>
+    </div>
+
+    <div class="min-h-0 flex-1 overflow-y-auto p-6">
+      <div class="mockup relative flex h-40 items-end p-5">
+        {SITE.demoMode ? (
+          <span class="demo-badge absolute left-4 top-4">Демонстрационный материал</span>
+        ) : null}
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/25 text-accent2">
+            <Icon name="window" size={22} />
+          </div>
+          <div>
+            <p id="case-niche" class="font-display text-sm font-bold text-heading"></p>
+            <p id="case-type" class="text-xs text-muted"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 grid gap-6">
+        <section>
+          <h4 class="text-lg">Задача</h4>
+          <p id="case-task" class="mt-2 text-muted"></p>
+        </section>
+        <section>
+          <h4 class="text-lg">Что сделали</h4>
+          <ul id="case-works" class="mt-2 flex flex-col gap-2 text-muted"></ul>
+        </section>
+        <section>
+          <h4 class="text-lg">Результат</h4>
+          <p id="case-result" class="mt-2 text-muted"></p>
+        </section>
+      </div>
+
+      <blockquote class="mt-6 rounded-2xl border border-edge bg-section/60 p-5">
+        <p id="case-review" class="italic text-body"></p>
+        <footer id="case-author" class="mt-3 text-sm font-semibold text-muted"></footer>
+        {SITE.demoMode ? <p class="mt-2 demo-badge w-fit">Демонстрационный отзыв</p> : null}
+      </blockquote>
+    </div>
+
+    <div class="flex shrink-0 flex-col gap-3 border-t border-line p-6 sm:flex-row">
+      <a href="#contacts" class="btn btn-primary flex-1">Обсудить похожий проект</a>
+      <button type="button" data-close-case class="btn btn-neutral">Закрыть</button>
+    </div>
+  </div>
+</dialog>
+
+<script type="application/json" id="cases-data" set:html={JSON.stringify(CASES)} />
+
+<script>
+  const modal = document.getElementById("case-modal") as HTMLDialogElement | null;
+  const data = JSON.parse(
+    (document.getElementById("cases-data") as HTMLElement | null)?.textContent ?? "[]"
+  ) as Array<Record<string, any>>;
+
+  if (modal) {
+    document.querySelectorAll<HTMLButtonElement>("[data-open-case]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const item = data[Number(btn.dataset.openCase)];
+        if (!item) return;
+        fill(item);
+        modal.showModal();
+      });
+    });
+
+    document.querySelectorAll<HTMLElement>("[data-close-case]").forEach((btn) => {
+      btn.addEventListener("click", () => modal.close());
+    });
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.close();
+    });
+
+    modal.querySelector("a[href='#contacts']")?.addEventListener("click", () => modal.close());
+  }
+
+  function fill(item: Record<string, any>) {
+    const set = (id: string, text: string) => {
+      const el = modal?.querySelector<HTMLElement>(`#${id}`);
+      if (el) el.textContent = text;
+    };
+    set("case-chip", item.type);
+    set("case-modal-title", item.title);
+    set("case-niche", item.niche);
+    set("case-type", item.type);
+    set("case-task", item.task);
+    set("case-result", item.result);
+    set("case-review", `«${item.review}»`);
+    set("case-author", `— ${item.author}`);
+
+    const works = modal?.querySelector<HTMLElement>("#case-works");
+    if (works) {
+      works.innerHTML = item.works
+        .map(
+          (w: string) =>
+            `<li class="flex items-start gap-2"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#a855f7" stroke-width="2" class="mt-1 shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12l5 5L20 7"/></svg>${w}</li>`
+        )
+        .join("");
+    }
+  }
+</script>

@@ -1,0 +1,31 @@
+---
+interface Props {
+  href?: string;
+  variant?: "primary" | "ghost" | "neutral";
+  size?: "md" | "sm";
+  type?: "button" | "submit";
+  ariaLabel?: string;
+}
+
+const { href, variant = "primary", size = "md", type = "button", ariaLabel } = Astro.props;
+
+const variantClass: Record<string, string> = {
+  primary: "btn-primary",
+  ghost: "btn-ghost",
+  neutral: "btn-neutral",
+};
+
+const classes = `btn ${variantClass[variant]} ${size === "sm" ? "btn-sm" : ""}`;
+---
+
+{
+  href ? (
+    <a href={href} class={classes} aria-label={ariaLabel}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={classes} aria-label={ariaLabel}>
+      <slot />
+    </button>
+  )
+}

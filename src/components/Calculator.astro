@@ -1,0 +1,234 @@
+<section id="calculator" class="section-spacing bg-section/50">
+  <div class="container-x">
+    <div class="mx-auto max-w-2xl pb-10 text-center">
+      <p class="eyebrow mb-4">Калькулятор стоимости</p>
+      <h2 class="text-3xl sm:text-4xl">Узнайте предварительную стоимость сайта за 1 минуту</h2>
+      <p class="mt-4 text-muted">Ответьте на несколько вопросов и получите ориентировочную стоимость проекта.</p>
+    </div>
+
+    <div id="calc-card" class="card mx-auto max-w-3xl p-6 sm:p-8">
+      <div class="mb-7 flex items-center gap-4">
+        <div class="h-2 flex-1 overflow-hidden rounded-full bg-white/10">
+          <div
+            id="calc-progress"
+            class="h-full rounded-full bg-accent transition-all duration-300"
+            style="width: 16.6%"
+          ></div>
+        </div>
+        <span id="calc-step-label" class="shrink-0 text-sm text-muted">1 из 6</span>
+      </div>
+
+      <div id="calc-step" class="min-h-[220px]"></div>
+
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <button id="calc-back" type="button" class="btn btn-neutral w-full sm:w-auto" hidden>Назад</button>
+        <button id="calc-next" type="button" class="btn btn-primary w-full sm:w-auto">Дальше</button>
+      </div>
+    </div>
+
+    <div id="calc-result" hidden class="card mx-auto mt-6 max-w-3xl p-6 sm:p-8" aria-live="polite">
+      <p class="eyebrow mb-4">Предварительный результат</p>
+      <h3 id="calc-result-type" class="text-2xl"></h3>
+      <p id="calc-result-price" class="mt-3 font-display text-3xl font-extrabold text-accent2"></p>
+      <ul id="calc-result-summary" class="mt-5 flex flex-wrap gap-2"></ul>
+      <p class="mt-4 text-sm text-muted">
+        Предварительная цена рассчитывается только по типу сайта. Остальные параметры из ваших ответов
+        (страницы, интеграции, сроки) уточняются вручную при расчете точной стоимости.
+      </p>
+      <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+        <a href="#contacts" class="btn btn-primary">Получить точный расчет</a>
+        <button id="calc-reset" type="button" class="btn btn-neutral">Рассчитать снова</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const steps = [
+    {
+      title: "Какой тип сайта нужен?",
+      options: [
+        { value: "landing", label: "Лендинг" },
+        { value: "multipage", label: "Многостраничный сайт" },
+        { value: "visitka", label: "Сайт-визитка" },
+        { value: "shop", label: "Интернет-магазин" },
+      ],
+    },
+    {
+      title: "Сколько страниц?",
+      options: [
+        { value: "few", label: "До 5 страниц" },
+        { value: "mid", label: "6–10 страниц" },
+        { value: "many", label: "Больше 10 страниц" },
+      ],
+    },
+    {
+      title: "Нужен ли каталог товаров?",
+      options: [
+        { value: "yes", label: "Да" },
+        { value: "no", label: "Нет" },
+        { value: "later", label: "Пока не знаю" },
+      ],
+    },
+    {
+      title: "Требуется ли онлайн-оплата?",
+      options: [
+        { value: "yes", label: "Да" },
+        { value: "no", label: "Нет" },
+      ],
+    },
+    {
+      title: "Нужны ли интеграции с CRM, мессенджерами и аналитикой?",
+      options: [
+        { value: "yes", label: "Да" },
+        { value: "some", label: "Частично" },
+        { value: "no", label: "Нет" },
+      ],
+    },
+    {
+      title: "Есть ли готовый фирменный стиль?",
+      options: [
+        { value: "yes", label: "Да" },
+        { value: "no", label: "Нет" },
+      ],
+    },
+  ];
+
+  const PRICES: Record<string, string> = {
+    landing: "от 15 000 ₽",
+    multipage: "от 25 000 ₽",
+    visitka: "Стоимость уточняется после консультации",
+    shop: "Стоимость уточняется после консультации",
+  };
+
+  const TYPES: Record<string, string> = {
+    landing: "Лендинг",
+    multipage: "Многостраничный сайт",
+    visitka: "Сайт-визитка",
+    shop: "Интернет-магазин",
+  };
+
+  const ANSWERS: Record<string, Record<string, string>> = {
+    landing: "Лендинг",
+    multipage: "Многостраничный сайт",
+    visitka: "Сайт-визитка",
+    shop: "Интернет-магазин",
+    few: "До 5 страниц",
+    mid: "6–10 страниц",
+    many: "Больше 10 страниц",
+    yes: "Да",
+    no: "Нет",
+    later: "Пока не знаю",
+    some: "Частично",
+  };
+
+  const stepBox = document.getElementById("calc-step") as HTMLElement | null;
+  const nextBtn = document.getElementById("calc-next") as HTMLButtonElement | null;
+  const backBtn = document.getElementById("calc-back") as HTMLButtonElement | null;
+  const progress = document.getElementById("calc-progress") as HTMLElement | null;
+  const stepLabel = document.getElementById("calc-step-label") as HTMLElement | null;
+  const card = document.getElementById("calc-card") as HTMLElement | null;
+  const result = document.getElementById("calc-result") as HTMLElement | null;
+  const resetBtn = document.getElementById("calc-reset") as HTMLButtonElement | null;
+
+  let current = 0;
+  const answers: Record<string, string> = {};
+
+  function renderStep() {
+    if (!stepBox || !stepLabel || !progress || !nextBtn || !backBtn) return;
+    const step = steps[current];
+    if (!step) return;
+
+    stepLabel.textContent = `${current + 1} из ${steps.length}`;
+    progress.style.width = `${((current + 1) / steps.length) * 100}%`;
+    backBtn.hidden = current === 0;
+    nextBtn.textContent = current === steps.length - 1 ? "Показать стоимость" : "Дальше";
+
+    stepBox.innerHTML = `
+      <h3 class="mb-6 text-xl sm:text-2xl">${step.title}</h3>
+      <div class="flex flex-col gap-3">
+        ${step.options
+          .map(
+            (o) => `
+              <button type="button" class="option" data-calc-value="${o.value}"
+                aria-pressed="${answers[String(current)] === o.value}">
+                ${o.label}
+              </button>
+            `
+          )
+          .join("")}
+      </div>
+    `;
+
+    stepBox.querySelectorAll<HTMLButtonElement>("[data-calc-value]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const value = btn.dataset.calcValue ?? "";
+        answers[String(current)] = value;
+        stepBox.querySelectorAll("[data-calc-value]").forEach((b) =>
+          b.setAttribute("aria-pressed", "false")
+        );
+        btn.setAttribute("aria-pressed", "true");
+      });
+    });
+  }
+
+  function showResult() {
+    const type = answers["0"] ?? "";
+    const price = PRICES[type] ?? "Стоимость уточняется после консультации";
+    const typeLabel = TYPES[type] ?? "Проект под ваш запрос";
+
+    const resultType = document.getElementById("calc-result-type") as HTMLElement | null;
+    const resultPrice = document.getElementById("calc-result-price") as HTMLElement | null;
+    const summary = document.getElementById("calc-result-summary") as HTMLElement | null;
+    if (resultType) resultType.textContent = `Вы выбрали: ${typeLabel}`;
+    if (resultPrice) resultPrice.textContent = price;
+    if (summary) {
+      summary.innerHTML = Object.entries(answers)
+        .map(([key, value]) => {
+          const label = ANSWERS[value] ?? value;
+          const question = steps[Number(key)]?.title.replace("?", "") ?? "";
+          return `<li class="chip">${question}: <strong>${label}</strong></li>`;
+        })
+        .join("");
+    }
+
+    if (card) card.hidden = true;
+    if (result) result.hidden = false;
+    result?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  nextBtn?.addEventListener("click", () => {
+    const selected = answers[String(current)];
+    if (!selected) {
+      stepBox?.querySelectorAll<HTMLButtonElement>(".option").forEach((btn) => {
+        btn.classList.add("field-error");
+        setTimeout(() => btn.classList.remove("field-error"), 800);
+      });
+      return;
+    }
+    if (current < steps.length - 1) {
+      current += 1;
+      renderStep();
+    } else {
+      showResult();
+    }
+  });
+
+  backBtn?.addEventListener("click", () => {
+    if (current > 0) {
+      current -= 1;
+      renderStep();
+    }
+  });
+
+  resetBtn?.addEventListener("click", () => {
+    for (const k of Object.keys(answers)) delete answers[k];
+    current = 0;
+    if (card) card.hidden = false;
+    if (result) result.hidden = true;
+    renderStep();
+    card?.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  renderStep();
+</script>

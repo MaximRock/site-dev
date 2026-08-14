@@ -1,0 +1,61 @@
+---
+import { REVIEWS, SITE } from "../data/site.js";
+import Icon from "./Icon.astro";
+
+const formats = [
+  { label: "Видео-отзывы", icon: "chat" },
+  { label: "Скриншоты переписок", icon: "chat" },
+  { label: "Отзывы клиентов", icon: "user" },
+];
+---
+
+<section id="reviews" class="section-spacing">
+  <div class="container-x">
+    <div class="max-w-2xl">
+      <p class="eyebrow mb-4">Отзывы</p>
+      <h2 class="text-3xl sm:text-4xl">Что говорят клиенты о работе с нами</h2>
+      <p class="mt-4 text-muted">
+        {
+          SITE.demoMode
+            ? "Пока это демонстрационные отзывы — они будут заменены реальными после появления материалов."
+            : "Реальные отзывы клиентов о работе с нами."
+        }
+      </p>
+    </div>
+
+    <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {
+        REVIEWS.map((review, index) => (
+          <figure class="card flex flex-col p-6 hover:bg-[#202025]">
+            <div class="flex gap-1 text-warning" aria-label="Пять звезд">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Icon name="star" size={16} />
+              ))}
+            </div>
+            <blockquote class="mt-4 flex-1 text-body">«{review.text}»</blockquote>
+            <figcaption class="mt-5 border-t border-line pt-4">
+              <p class="font-display font-bold text-heading">{review.author}</p>
+              <p class="text-sm text-muted">{review.meta}</p>
+              {SITE.demoMode ? <span class="demo-badge mt-3">Демонстрационный отзыв</span> : null}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+
+    <div class="mt-10 flex flex-wrap items-center gap-3">
+      <p class="text-sm text-muted">Форматы отзывов:</p>
+      {
+        formats.map((format) => (
+          <span class="chip">
+            <Icon name={format.icon} size={16} class="text-accent2" />
+            {format.label}
+          </span>
+        ))
+      }
+      {SITE.demoMode ? (
+        <span class="demo-badge">Материалы будут добавлены</span>
+      ) : null}
+    </div>
+  </div>
+</section>

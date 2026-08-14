@@ -1,0 +1,44 @@
+---
+import { FAQ } from "../data/site.js";
+import Icon from "./Icon.astro";
+---
+
+<section id="faq" class="section-spacing bg-section/50">
+  <div class="container-x">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="eyebrow mb-4">FAQ</p>
+      <h2 class="text-3xl sm:text-4xl">Ответы на частые вопросы</h2>
+      <p class="mt-4 text-muted">
+        Сроки, стоимость, поддержка, гарантии и продвижение — коротко о главном.
+      </p>
+    </div>
+
+    <div class="mx-auto mt-10 flex max-w-3xl flex-col gap-3">
+      {
+        FAQ.map((item) => (
+          <details class="faq-item card overflow-hidden hover:bg-[#202025]" name="faq">
+            <summary class="flex items-center justify-between gap-4 p-6">
+              <h3 class="text-base sm:text-lg">{item.q}</h3>
+              <span class="faq-icon flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-edge text-accent2">
+                <Icon name="chevron" size={18} />
+              </span>
+            </summary>
+            <p class="px-6 pb-6 text-muted">{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const items = Array.from(document.querySelectorAll<HTMLDetailsElement>(".faq-item"));
+  items.forEach((details) => {
+    details.addEventListener("toggle", () => {
+      if (!details.open) return;
+      items.forEach((other) => {
+        if (other !== details) other.open = false;
+      });
+    });
+  });
+</script>

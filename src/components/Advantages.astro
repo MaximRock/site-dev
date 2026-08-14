@@ -1,0 +1,29 @@
+---
+import { ADVANTAGES } from "../data/site.js";
+import Icon from "./Icon.astro";
+---
+
+<section id="advantages" class="section-spacing bg-section/50">
+  <div class="container-x">
+    <div class="max-w-2xl">
+      <p class="eyebrow mb-4">Преимущества</p>
+      <h2 class="text-3xl sm:text-4xl">Почему работают с нами</h2>
+    </div>
+
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        ADVANTAGES.map((item, index) => (
+          <article class="card p-6 hover:bg-[#202025]">
+            <div class="flex items-center justify-between">
+              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/15 text-accent2">
+                <Icon name={index % 2 === 0 ? "check" : "sparkles"} size={24} />
+              </div>
+            </div>
+            <h3 class="mt-5 text-lg">{item.title}</h3>
+            <p class="mt-1.5 text-sm text-muted">{item.text}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

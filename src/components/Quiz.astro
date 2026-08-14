@@ -1,0 +1,72 @@
+---
+const options = [
+  { value: "landing", label: "Лендинг" },
+  { value: "visitka", label: "Сайт-визитка" },
+  { value: "multipage", label: "Многостраничный сайт" },
+  { value: "shop", label: "Интернет-магазин" },
+  { value: "consult", label: "Не знаю — нужна консультация" },
+];
+---
+
+<section id="quiz" class="section-spacing">
+  <div class="container-x">
+    <div class="mx-auto max-w-2xl rounded-[24px] border border-edge bg-surface p-6 sm:p-10">
+      <p class="eyebrow mb-4">Подбор решения</p>
+      <h2 class="text-2xl sm:text-3xl">Какой сайт подойдет именно вашему бизнесу?</h2>
+      <p class="mt-3 text-muted">Выберите один вариант — покажем, что подходит лучше всего.</p>
+
+      <div class="mt-8 flex flex-col gap-3" role="group" aria-label="Тип сайта">
+        {
+          options.map((option) => (
+            <button
+              type="button"
+              class="option"
+              data-quiz-option={option.value}
+              aria-pressed="false"
+            >
+              {option.label}
+            </button>
+          ))
+        }
+      </div>
+
+      <div id="quiz-result" class="mt-6 hidden rounded-2xl border border-accent/40 bg-accent/10 p-5">
+        <p id="quiz-rec" class="font-medium text-heading"></p>
+      </div>
+
+      <a
+        id="quiz-next"
+        href="#calculator"
+        class="btn btn-primary mt-6 hidden w-full sm:w-auto"
+      >
+        Перейти к расчету стоимости
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const recommendations: Record<string, string> = {
+    landing: "«Подойдет для одного продукта, услуги или рекламной кампании»",
+    visitka: "«Подойдет для презентации специалиста или небольшой компании»",
+    multipage: "«Подойдет для компании с несколькими направлениями и услугами»",
+    shop: "«Подойдет для каталога товаров и онлайн-продаж»",
+    consult: "«Разберем задачи бизнеса и предложим подходящий формат»",
+  };
+
+  const buttons = document.querySelectorAll<HTMLButtonElement>("[data-quiz-option]");
+  const resultBox = document.getElementById("quiz-result") as HTMLElement | null;
+  const recText = document.getElementById("quiz-rec") as HTMLElement | null;
+  const nextBtn = document.getElementById("quiz-next") as HTMLAnchorElement | null;
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      buttons.forEach((b) => b.setAttribute("aria-pressed", "false"));
+      btn.setAttribute("aria-pressed", "true");
+      const value = btn.dataset.quizOption ?? "";
+      if (recText) recText.textContent = recommendations[value] ?? "";
+      if (resultBox) resultBox.classList.remove("hidden");
+      if (nextBtn) nextBtn.classList.remove("hidden");
+    });
+  });
+</script>

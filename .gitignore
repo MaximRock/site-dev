@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.env
+.direnv/
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+graft/
+
+prompt.md
+plan-site.docx
+data-for.md
