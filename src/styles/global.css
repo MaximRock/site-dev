@@ -28,9 +28,19 @@
     scroll-padding-top: 5.5rem;
   }
 
+  html,
+  body {
+    overflow-x: hidden;
+  }
+  @supports (overflow: clip) {
+    html,
+    body {
+      overflow-x: clip;
+    }
+  }
+
   body {
     @apply bg-deep font-sans text-body antialiased;
-    overflow-x: clip;
   }
 
   h1,
