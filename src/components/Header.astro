@@ -5,6 +5,8 @@ import Icon from "./Icon.astro";
 const phone = CONTACTS.phone;
 const phoneUrl = CONTACTS.phoneUrl;
 const telegram = CONTACTS.telegram;
+const whatsapp = CONTACTS.whatsapp;
+const max = CONTACTS.max;
 ---
 
 <header class="sticky top-0 z-40 border-b border-edge/70 bg-deep/85 backdrop-blur-md">
@@ -52,6 +54,24 @@ const telegram = CONTACTS.telegram;
       >
         <Icon name="telegram" size={22} />
       </a>
+      <a
+        href={whatsapp}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Написать в WhatsApp"
+        class="text-accent2 transition hover:text-accent4"
+      >
+        <Icon name="whatsapp" size={22} />
+      </a>
+      <a
+        href={max}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Написать в Макс"
+        class="text-accent2 transition hover:text-accent4"
+      >
+        <Icon name="max" size={22} />
+      </a>
       <a href="#contacts" class="btn btn-primary btn-sm">Получить консультацию</a>
     </div>
 
@@ -94,6 +114,24 @@ const telegram = CONTACTS.telegram;
         >
           <Icon name="telegram" size={20} class="text-accent2" />
           Написать в Telegram
+        </a>
+        <a
+          href={whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-3 px-2 py-1 text-body"
+        >
+          <Icon name="whatsapp" size={20} class="text-accent2" />
+          Написать в WhatsApp
+        </a>
+        <a
+          href={max}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-3 px-2 py-1 text-body"
+        >
+          <Icon name="max" size={20} class="text-accent2" />
+          Написать в Макс
         </a>
         <a href="#contacts" class="btn btn-primary mt-2 w-full">Получить консультацию</a>
       </div>

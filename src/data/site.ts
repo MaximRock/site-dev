@@ -4,6 +4,8 @@ export const CONTACTS = {
   telegram: "https://t.me/designpluscode1",
   email: "designpluscode1@yandex.ru",
   emailUrl: "mailto:designpluscode1@yandex.ru",
+  whatsapp: "https://wa.me/79298191993",
+  max: "#contacts",
 };
 
 export const SITE = {
