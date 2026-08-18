@@ -21,6 +21,12 @@ export const NAV = [
   { label: "Контакты", href: "#contacts" },
 ];
 
+export const NAV_DESKTOP = [
+  { label: "Кейсы", href: "#cases" },
+  { label: "Услуги", href: "#services" },
+  { label: "Отзывы", href: "#reviews" },
+];
+
 export const DIRECTIONS = [
   {
     title: "Лендинги",

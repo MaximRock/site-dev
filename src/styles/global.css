@@ -28,19 +28,20 @@
     scroll-padding-top: 5.5rem;
   }
 
-  html,
-  body {
-    overflow-x: hidden;
-  }
-  @supports (overflow: clip) {
-    html,
-    body {
-      overflow-x: clip;
-    }
+  html {
+    overflow-x: clip;
   }
 
   body {
     @apply bg-deep font-sans text-body antialiased;
+    overflow-wrap: break-word;
+  }
+
+  img,
+  svg,
+  video,
+  canvas {
+    max-width: 100%;
   }
 
   h1,
@@ -159,6 +160,51 @@
 
   .eyebrow {
     @apply font-display text-xs font-bold uppercase tracking-[0.2em] text-accent2;
+  }
+
+  /* Неоновое свечение для монохромных контурных иконок */
+  .neon {
+    filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.75));
+    transition:
+      filter 0.3s ease,
+      color 0.3s ease;
+  }
+  .neon:hover {
+    filter: drop-shadow(0 0 10px rgba(192, 132, 252, 0.95));
+  }
+
+  /* Зелёная пульсирующая точка-индикатор */
+  .status-dot {
+    position: relative;
+    display: inline-flex;
+    height: 0.5rem;
+    width: 0.5rem;
+  }
+  .status-dot::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: var(--color-success);
+    box-shadow: 0 0 8px 2px rgba(34, 197, 94, 0.7);
+    animation: dot-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  .status-dot::after {
+    content: "";
+    position: relative;
+    display: block;
+    height: 0.5rem;
+    width: 0.5rem;
+    border-radius: 9999px;
+    background: var(--color-success);
+    box-shadow: 0 0 8px 2px rgba(34, 197, 94, 0.7);
+  }
+  @keyframes dot-ping {
+    75%,
+    100% {
+      transform: scale(2.2);
+      opacity: 0;
+    }
   }
 
   .section-spacing {

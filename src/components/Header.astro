@@ -1,6 +1,7 @@
 ---
-import { CONTACTS, NAV } from "../data/site.js";
+import { CONTACTS, NAV, NAV_DESKTOP } from "../data/site.js";
 import Icon from "./Icon.astro";
+import { Icon as BrandIcon } from "astro-icon/components";
 
 const phone = CONTACTS.phone;
 const phoneUrl = CONTACTS.phoneUrl;
@@ -9,8 +10,8 @@ const whatsapp = CONTACTS.whatsapp;
 const max = CONTACTS.max;
 ---
 
-<header class="sticky top-0 z-40 border-b border-edge/70 bg-deep/85 backdrop-blur-md">
-  <div class="container-x flex h-16 items-center justify-between gap-4">
+<header class="sticky top-4 z-40 mt-4 mx-auto w-fit rounded-xl border border-edge/70 bg-deep/80 backdrop-blur-lg p-4">
+  <div class="flex items-center gap-4">
     <a href="#top" class="flex items-center gap-3" aria-label="Дизайн плюс Код — на главную">
       <img
         src="/logo.png"
@@ -27,10 +28,10 @@ const max = CONTACTS.max;
 
     <nav class="hidden items-center gap-1 xl:flex" aria-label="Основная навигация">
       {
-        NAV.map((item) => (
+        NAV_DESKTOP.map((item) => (
           <a
             href={item.href}
-            class="rounded-lg px-3 py-2 text-sm font-medium text-body transition hover:text-heading"
+            class="rounded-lg px-3 py-2 text-sm font-medium text-body transition hover:text-accent2"
           >
             {item.label}
           </a>
@@ -41,44 +42,47 @@ const max = CONTACTS.max;
     <div class="hidden items-center gap-4 xl:flex">
       <a
         href={phoneUrl}
-        class="hidden font-display text-sm font-bold text-heading transition hover:text-accent2 xl:block"
+        class="group flex items-center gap-2 font-display text-sm font-bold text-heading transition hover:text-accent2"
       >
+        <span class="status-dot" aria-hidden="true"></span>
         {phone}
       </a>
-      <a
-        href={telegram}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Написать в Telegram"
-        class="text-accent2 transition hover:text-accent4"
-      >
-        <Icon name="telegram" size={22} />
-      </a>
-      <a
-        href={whatsapp}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Написать в WhatsApp"
-        class="text-accent2 transition hover:text-accent4"
-      >
-        <Icon name="whatsapp" size={22} />
-      </a>
-      <a
-        href={max}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Написать в Макс"
-        class="text-accent2 transition hover:text-accent4"
-      >
-        <Icon name="max" size={22} />
-      </a>
+      <div class="flex items-center gap-3">
+        <a
+          href={max}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Написать в Макс"
+          class="transition hover:opacity-80"
+        >
+          <img src="/max.svg" alt="Макс" class="h-[28px] w-[28px] rounded-xl" />
+        </a>
+        <a
+          href={telegram}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Написать в Telegram"
+          class="text-[#229ED9] transition hover:opacity-80"
+        >
+          <BrandIcon name="simple-icons:telegram" size={28} />
+        </a>
+        <a
+          href={whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Написать в WhatsApp"
+          class="text-[#25D366] transition hover:opacity-80"
+        >
+          <BrandIcon name="simple-icons:whatsapp" size={28} />
+        </a>
+      </div>
       <a href="#contacts" class="btn btn-primary btn-sm">Получить консультацию</a>
     </div>
 
     <button
       id="menu-toggle"
       type="button"
-      class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-edge text-heading xl:hidden"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-edge text-heading transition hover:text-accent2"
       aria-expanded="false"
       aria-controls="mobile-menu"
       aria-label="Открыть меню"
@@ -86,76 +90,111 @@ const max = CONTACTS.max;
       <Icon name="menu" size={24} />
     </button>
   </div>
-
-  <div id="mobile-menu" hidden class="border-t border-edge bg-deep xl:hidden">
-    <div class="container-x flex flex-col gap-2 py-5">
-      <nav aria-label="Мобильная навигация" class="flex flex-col">
-        {
-          NAV.map((item) => (
-            <a
-              href={item.href}
-              class="rounded-lg px-2 py-3 text-base font-medium text-body transition hover:text-heading"
-            >
-              {item.label}
-            </a>
-          ))
-        }
-      </nav>
-      <div class="mt-3 flex flex-col gap-2 border-t border-line pt-4">
-        <a href={phoneUrl} class="flex items-center gap-3 px-2 py-1 font-display font-bold text-heading">
-          <Icon name="phone" size={20} class="text-accent2" />
-          {phone}
-        </a>
-        <a
-          href={telegram}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex items-center gap-3 px-2 py-1 text-body"
-        >
-          <Icon name="telegram" size={20} class="text-accent2" />
-          Написать в Telegram
-        </a>
-        <a
-          href={whatsapp}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex items-center gap-3 px-2 py-1 text-body"
-        >
-          <Icon name="whatsapp" size={20} class="text-accent2" />
-          Написать в WhatsApp
-        </a>
-        <a
-          href={max}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex items-center gap-3 px-2 py-1 text-body"
-        >
-          <Icon name="max" size={20} class="text-accent2" />
-          Написать в Макс
-        </a>
-        <a href="#contacts" class="btn btn-primary mt-2 w-full">Получить консультацию</a>
-      </div>
-    </div>
-  </div>
 </header>
+
+<div
+  id="mobile-menu"
+  hidden
+  class="relative z-50 border-t border-edge bg-deep xl:fixed xl:top-0 xl:right-0 xl:bottom-0 xl:w-[350px] xl:flex xl:flex-col xl:border-l xl:border-t-0 xl:overflow-y-auto xl:bg-deep/95 xl:backdrop-blur xl:shadow-2xl"
+>
+  <div class="hidden xl:flex xl:items-center xl:justify-between xl:border-b xl:border-edge xl:px-6 xl:py-5">
+    <a href="#top" class="flex items-center gap-3" aria-label="Дизайн плюс Код — на главную">
+      <img src="/logo.png" alt="Логотип веб-студии «Дизайн + Код»" width="36" height="36" loading="eager" class="h-9 w-9 rounded-xl object-contain" />
+      <span class="font-display text-lg font-extrabold leading-none text-heading">Дизайн <span class="text-accent2">+</span> Код</span>
+    </a>
+    <button id="menu-close" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-edge text-heading transition hover:text-accent2" aria-label="Закрыть меню">
+      <Icon name="close" size={22} />
+    </button>
+  </div>
+
+  <nav aria-label="Мобильная навигация" class="flex flex-col xl:flex-1 xl:justify-center">
+    {
+      NAV.map((item) => (
+        <a
+          href={item.href}
+          class="rounded-lg px-2 py-3 text-base font-medium text-body transition hover:text-heading xl:px-6 xl:text-xl"
+        >
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+
+  <div class="mt-3 flex flex-col gap-3 xl:gap-5 border-t border-line p-5 xl:mt-auto xl:border-edge xl:p-6">
+    <a href={phoneUrl} class="flex items-center gap-3 font-display text-sm font-bold text-heading xl:text-lg">
+      <span class="status-dot" aria-hidden="true"></span>
+      {phone}
+    </a>
+
+    <div class="flex flex-col gap-2 xl:hidden">
+      <a href={max} target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 px-2 py-1 text-body">
+        <img src="/max.svg" alt="Макс" class="h-5 w-5" />
+        Написать в Макс
+      </a>
+      <a href={telegram} target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 px-2 py-1 text-body">
+        <BrandIcon name="simple-icons:telegram" size={20} class="text-[#229ED9]" />
+        Написать в Telegram
+      </a>
+      <a href={whatsapp} target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 px-2 py-1 text-body">
+        <BrandIcon name="simple-icons:whatsapp" size={20} class="text-[#25D366]" />
+        Написать в WhatsApp
+      </a>
+    </div>
+
+    <div class="hidden xl:flex xl:items-center xl:gap-3">
+      <a href={max} target="_blank" rel="noopener noreferrer" aria-label="Написать в Макс" class="transition hover:opacity-80">
+        <img src="/max.svg" alt="Макс" class="h-[36px] w-[36px] rounded-xl" />
+      </a>
+      <a href={telegram} target="_blank" rel="noopener noreferrer" aria-label="Написать в Telegram" class="text-[#229ED9] transition hover:opacity-80">
+        <BrandIcon name="simple-icons:telegram" size={36} />
+      </a>
+      <a href={whatsapp} target="_blank" rel="noopener noreferrer" aria-label="Написать в WhatsApp" class="text-[#25D366] transition hover:opacity-80">
+        <BrandIcon name="simple-icons:whatsapp" size={36} />
+      </a>
+    </div>
+
+    <a href="#contacts" class="btn btn-primary mt-2 w-full xl:mt-0">Получить консультацию</a>
+  </div>
+</div>
+
+<div id="menu-backdrop" hidden class="fixed inset-0 z-[45] backdrop-blur-md bg-deep/30"></div>
 
 <script>
   const toggle = document.getElementById("menu-toggle") as HTMLButtonElement | null;
   const menu = document.getElementById("mobile-menu") as HTMLElement | null;
+  const backdrop = document.getElementById("menu-backdrop") as HTMLElement | null;
+  const isDesktop = () => window.matchMedia("(min-width: 1280px)").matches;
+
+  const closeMenu = () => {
+    if (!menu) return;
+    menu.hidden = true;
+    if (backdrop) backdrop.hidden = true;
+    toggle?.setAttribute("aria-expanded", "false");
+    toggle?.setAttribute("aria-label", "Открыть меню");
+  };
+
+  const openMenu = () => {
+    if (!menu) return;
+    menu.hidden = false;
+    if (backdrop) backdrop.hidden = false;
+    toggle?.setAttribute("aria-expanded", "true");
+    toggle?.setAttribute("aria-label", "Закрыть меню");
+  };
 
   toggle?.addEventListener("click", () => {
     if (!menu) return;
-    const opening = menu.hidden;
-    menu.hidden = !opening;
-    toggle.setAttribute("aria-expanded", String(opening));
-    toggle.setAttribute("aria-label", opening ? "Закрыть меню" : "Открыть меню");
+    menu.hidden ? openMenu() : closeMenu();
+  });
+
+  backdrop?.addEventListener("click", closeMenu);
+
+  document.getElementById("menu-close")?.addEventListener("click", closeMenu);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMenu();
   });
 
   menu?.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      menu.hidden = true;
-      toggle?.setAttribute("aria-expanded", "false");
-      toggle?.setAttribute("aria-label", "Открыть меню");
-    });
+    link.addEventListener("click", closeMenu);
   });
 </script>
