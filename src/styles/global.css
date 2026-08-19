@@ -207,6 +207,28 @@
     }
   }
 
+  @keyframes header-neon-shimmer {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  header.peeking::after {
+    content: "";
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: -1px;
+    height: 3px;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #a855f7, #c084fc, #22c55e, #c084fc, #a855f7);
+    background-size: 200% 100%;
+    box-shadow:
+      0 0 8px 2px rgba(168, 85, 247, 0.7),
+      0 0 16px 4px rgba(192, 132, 252, 0.5);
+    animation: header-neon-shimmer 3s linear infinite;
+    pointer-events: none;
+  }
+
   .section-spacing {
     @apply py-16 lg:py-24;
   }

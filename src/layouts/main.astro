@@ -2,7 +2,6 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import StickyCta from "../components/StickyCta.astro";
 
 const { title, description } = Astro.props;
 ---
@@ -37,10 +36,9 @@ const { title, description } = Astro.props;
   </head>
   <body>
     <Header />
-    <main id="main" class="pb-24 md:pb-0">
+    <main id="main">
       <slot />
     </main>
     <Footer />
-    <StickyCta />
   </body>
 </html>

@@ -10,8 +10,8 @@ const whatsapp = CONTACTS.whatsapp;
 const max = CONTACTS.max;
 ---
 
-<header class="sticky top-4 z-40 mt-4 mx-auto w-fit rounded-xl border border-edge/70 bg-deep/80 backdrop-blur-lg p-4">
-  <div class="flex items-center gap-4">
+<header class="absolute top-2.5 left-2.5 right-2.5 z-40 rounded-xl border border-edge/70 bg-deep/80 backdrop-blur-lg p-2 transition-transform duration-300 xl:sticky xl:top-4 xl:left-auto xl:right-auto xl:mt-4 xl:mx-auto xl:w-fit xl:max-w-none xl:p-4">
+  <div class="flex items-center justify-between gap-4">
     <a href="#top" class="flex items-center gap-3" aria-label="Дизайн плюс Код — на главную">
       <img
         src="/logo.png"
@@ -82,12 +82,12 @@ const max = CONTACTS.max;
     <button
       id="menu-toggle"
       type="button"
-      class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-edge text-heading transition hover:text-accent2"
+      class="inline-flex h-9 w-9 xl:h-11 xl:w-11 items-center justify-center rounded-xl border border-edge text-heading transition hover:text-accent2"
       aria-expanded="false"
       aria-controls="mobile-menu"
       aria-label="Открыть меню"
     >
-      <Icon name="menu" size={24} />
+      <Icon name="menu" class="h-5 w-5 xl:h-6 xl:w-6" />
     </button>
   </div>
 </header>
@@ -95,7 +95,7 @@ const max = CONTACTS.max;
 <div
   id="mobile-menu"
   hidden
-  class="relative z-50 border-t border-edge bg-deep xl:fixed xl:top-0 xl:right-0 xl:bottom-0 xl:w-[350px] xl:flex xl:flex-col xl:border-l xl:border-t-0 xl:overflow-y-auto xl:bg-deep/95 xl:backdrop-blur xl:shadow-2xl"
+  class="relative z-50 overflow-y-auto max-h-[100dvh] border-t border-edge bg-deep xl:fixed xl:top-0 xl:right-0 xl:bottom-0 xl:max-h-none xl:w-[350px] xl:flex xl:flex-col xl:border-l xl:border-t-0 xl:overflow-y-auto xl:bg-deep/95 xl:backdrop-blur xl:shadow-2xl"
 >
   <div class="hidden xl:flex xl:items-center xl:justify-between xl:border-b xl:border-edge xl:px-6 xl:py-5">
     <a href="#top" class="flex items-center gap-3" aria-label="Дизайн плюс Код — на главную">
@@ -163,12 +163,28 @@ const max = CONTACTS.max;
   const toggle = document.getElementById("menu-toggle") as HTMLButtonElement | null;
   const menu = document.getElementById("mobile-menu") as HTMLElement | null;
   const backdrop = document.getElementById("menu-backdrop") as HTMLElement | null;
+  const header = document.querySelector("header");
   const isDesktop = () => window.matchMedia("(min-width: 1280px)").matches;
+
+  let menuOpen = false;
+  const topOffset = header ? header.getBoundingClientRect().top : 0;
+  const peek = 18;
+
+  const showHeader = () => { if (!header) return; header.style.transform = ""; header.classList.remove("peeking"); };
+  const hideHeader = () => {
+    if (!header || !isDesktop()) return;
+    const hideY = header.offsetHeight + topOffset - peek;
+    header.style.transform = `translateY(${-hideY}px)`;
+    header.classList.add("peeking");
+  };
 
   const closeMenu = () => {
     if (!menu) return;
     menu.hidden = true;
     if (backdrop) backdrop.hidden = true;
+    if (isDesktop()) document.documentElement.style.overflow = "";
+    menuOpen = false;
+    if (window.scrollY > 0) hideHeader(); else showHeader();
     toggle?.setAttribute("aria-expanded", "false");
     toggle?.setAttribute("aria-label", "Открыть меню");
   };
@@ -177,6 +193,9 @@ const max = CONTACTS.max;
     if (!menu) return;
     menu.hidden = false;
     if (backdrop) backdrop.hidden = false;
+    if (isDesktop()) document.documentElement.style.overflow = "hidden";
+    menuOpen = true;
+    showHeader();
     toggle?.setAttribute("aria-expanded", "true");
     toggle?.setAttribute("aria-label", "Закрыть меню");
   };
@@ -197,4 +216,20 @@ const max = CONTACTS.max;
   menu?.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", closeMenu);
   });
+
+  let ticking = false;
+  window.addEventListener("scroll", () => {
+    if (menuOpen || !isDesktop() || !header) return;
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        if (window.scrollY <= 0) showHeader(); else hideHeader();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  header?.addEventListener("mouseenter", showHeader);
+  header?.addEventListener("mouseleave", () => { if (window.scrollY > 0 && isDesktop()) hideHeader(); });
+  header?.addEventListener("click", showHeader);
 </script>
