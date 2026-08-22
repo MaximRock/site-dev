@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#151a28"/>
+      <stop offset="50%" stop-color="#15151b"/>
+      <stop offset="100%" stop-color="#0a0a0d"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background -->
+  <rect width="800" height="500" fill="url(#bg)"/>
+
+  <!-- browser chrome -->
+  <rect width="800" height="42" fill="#1e1e24" rx="18" ry="18"/>
+  <rect y="18" width="800" height="24" fill="#1e1e24"/>
+  <circle cx="22" cy="21" r="5" fill="#ef4444"/>
+  <circle cx="42" cy="21" r="5" fill="#eab308"/>
+  <circle cx="62" cy="21" r="5" fill="#22c55e"/>
+  <rect x="280" y="10" width="240" height="22" rx="6" fill="#2a2a32"/>
+  <text x="400" y="25" text-anchor="middle" fill="#666" font-size="11" font-family="system-ui">service-tech.ru</text>
+
+  <!-- header -->
+  <rect y="42" width="800" height="60" fill="#1a1e28"/>
+  <rect x="60" y="58" width="140" height="10" rx="5" fill="#38bdf8" opacity="0.6"/>
+  <rect x="500" y="58" width="60" height="10" rx="5" fill="#ffffff" opacity="0.15"/>
+  <rect x="570" y="58" width="60" height="10" rx="5" fill="#ffffff" opacity="0.15"/>
+  <rect x="640" y="58" width="60" height="10" rx="5" fill="#ffffff" opacity="0.15"/>
+  <rect x="680" y="52" width="60" height="22" rx="6" fill="#38bdf8" opacity="0.4"/>
+
+  <!-- hero -->
+  <rect x="60" y="130" width="340" height="18" rx="4" fill="#ffffff" opacity="0.9"/>
+  <rect x="60" y="160" width="280" height="18" rx="4" fill="#ffffff" opacity="0.9"/>
+  <rect x="60" y="200" width="240" height="12" rx="4" fill="#ffffff" opacity="0.3"/>
+  <rect x="60" y="220" width="200" height="12" rx="4" fill="#ffffff" opacity="0.3"/>
+  <rect x="60" y="250" width="140" height="30" rx="8" fill="#38bdf8" opacity="0.7"/>
+
+  <!-- hero image placeholder -->
+  <rect x="460" y="120" width="280" height="170" rx="12" fill="#ffffff" opacity="0.06"/>
+
+  <!-- services section -->
+  <rect y="300" width="800" height="200" fill="#0f0f14"/>
+  <rect x="60" y="328" width="160" height="14" rx="4" fill="#38bdf8" opacity="0.5"/>
+  <rect x="60" y="356" width="100" height="8" rx="4" fill="#ffffff" opacity="0.7"/>
+
+  <!-- service cards -->
+  <rect x="60" y="380" width="200" height="80" rx="10" fill="#1a1e28"/>
+  <rect x="280" y="380" width="200" height="80" rx="10" fill="#1a1e28"/>
+  <rect x="500" y="380" width="200" height="80" rx="10" fill="#1a1e28"/>
+  <rect x="80" y="396" width="60" height="6" rx="3" fill="#ffffff" opacity="0.5"/>
+  <rect x="80" y="410" width="160" height="6" rx="3" fill="#ffffff" opacity="0.15"/>
+  <rect x="80" y="422" width="140" height="6" rx="3" fill="#ffffff" opacity="0.15"/>
+</svg>

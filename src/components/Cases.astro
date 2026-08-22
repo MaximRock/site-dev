@@ -22,11 +22,12 @@ import Icon from "./Icon.astro";
         CASES.map((item, index) => (
           <article class="card group flex flex-col overflow-hidden p-0">
             <div class="mockup relative flex h-44 items-end p-5">
+              <img src={item.image} alt={item.title} class="absolute inset-0 h-full w-full object-cover" loading="lazy" />
               {SITE.demoMode ? (
-                <span class="demo-badge absolute left-4 top-4">Демонстрационный материал</span>
+                <span class="demo-badge absolute left-4 top-4 z-10">Демонстрационный материал</span>
               ) : null}
-              <div class="flex items-center gap-3">
-                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/25 text-accent2">
+              <div class="relative z-10 flex items-center gap-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/25 text-accent2 backdrop-blur-sm">
                   <Icon name="window" size={22} />
                 </div>
                 <div>
@@ -82,11 +83,12 @@ import Icon from "./Icon.astro";
 
     <div class="min-h-0 flex-1 overflow-y-auto p-6">
       <div class="mockup relative flex h-40 items-end p-5">
+        <img id="case-image" src="" alt="" class="absolute inset-0 h-full w-full object-cover" />
         {SITE.demoMode ? (
-          <span class="demo-badge absolute left-4 top-4">Демонстрационный материал</span>
+          <span class="demo-badge absolute left-4 top-4 z-10">Демонстрационный материал</span>
         ) : null}
-        <div class="flex items-center gap-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/25 text-accent2">
+        <div class="relative z-10 flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/25 text-accent2 backdrop-blur-sm">
             <Icon name="window" size={22} />
           </div>
           <div>
@@ -167,6 +169,12 @@ import Icon from "./Icon.astro";
     set("case-result", item.result);
     set("case-review", `«${item.review}»`);
     set("case-author", `— ${item.author}`);
+
+    const img = modal?.querySelector<HTMLImageElement>("#case-image");
+    if (img) {
+      img.src = item.image ?? "";
+      img.alt = item.title ?? "";
+    }
 
     const works = modal?.querySelector<HTMLElement>("#case-works");
     if (works) {
