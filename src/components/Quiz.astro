@@ -57,6 +57,14 @@ const options = [
   const recText = document.getElementById("quiz-rec") as HTMLElement | null;
   const nextBtn = document.getElementById("quiz-next") as HTMLAnchorElement | null;
 
+  const PRESET_KEY = "calc-preset-type";
+  const CONSULT = "consult";
+
+  function presetCalculator(type: string) {
+    try { localStorage.setItem(PRESET_KEY, type); } catch {}
+    window.dispatchEvent(new CustomEvent("calc:preset", { detail: { type } }));
+  }
+
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
       buttons.forEach((b) => b.setAttribute("aria-pressed", "false"));
@@ -64,7 +72,18 @@ const options = [
       const value = btn.dataset.quizOption ?? "";
       if (recText) recText.textContent = recommendations[value] ?? "";
       if (resultBox) resultBox.classList.remove("hidden");
-      if (nextBtn) nextBtn.classList.remove("hidden");
+      if (nextBtn) {
+        nextBtn.classList.remove("hidden");
+        if (value === CONSULT) {
+          nextBtn.setAttribute("href", "#contacts");
+          nextBtn.textContent = "Оставить заявку";
+          try { localStorage.removeItem(PRESET_KEY); } catch {}
+        } else {
+          nextBtn.setAttribute("href", "#calculator");
+          nextBtn.textContent = "Перейти к расчету стоимости";
+          presetCalculator(value);
+        }
+      }
     });
   });
 </script>

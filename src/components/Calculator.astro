@@ -267,6 +267,15 @@ function formatPrice(n: number): string {
   return n.toLocaleString("ru-RU").replace(/ /g, "\u00a0") + "\u00a0₽";
 }
 
+function applyPreset(type: string) {
+  if (!type || !(type in TYPE_STEPS)) return;
+  answers.type = type;
+  steps = TYPE_STEPS[type];
+  pickingType = false;
+  current = 0;
+  renderStep();
+}
+
 const stepBox  = document.getElementById("calc-step") as HTMLElement | null;
 const nextBtn  = document.getElementById("calc-next") as HTMLButtonElement | null;
 const backBtn  = document.getElementById("calc-back") as HTMLButtonElement | null;
@@ -405,6 +414,7 @@ backBtn?.addEventListener("click", () => {
 });
 
 resetBtn?.addEventListener("click", () => {
+  try { localStorage.removeItem("calc-preset-type"); } catch {}
   for (const k of Object.keys(answers)) delete answers[k];
   pickingType = true;
   current = 0;
@@ -412,6 +422,17 @@ resetBtn?.addEventListener("click", () => {
   if (result) result.hidden = true;
   renderStep();
   card?.scrollIntoView({ behavior: "smooth", block: "center" });
+});
+
+try {
+  const preset = localStorage.getItem("calc-preset-type");
+  if (preset) { localStorage.removeItem("calc-preset-type"); applyPreset(preset); }
+} catch {}
+
+window.addEventListener("calc:preset", (e: Event) => {
+  const detail = (e as CustomEvent<{ type?: string }>).detail;
+  try { localStorage.removeItem("calc-preset-type"); } catch {}
+  if (detail?.type) applyPreset(detail.type);
 });
 
 renderStep();
