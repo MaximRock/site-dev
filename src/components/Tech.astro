@@ -1,6 +1,7 @@
 ---
 import { CONTACTS } from "../data/site.js";
 import Icon from "./Icon.astro";
+import { Icon as BrandIcon } from "astro-icon/components";
 
 const platforms = [
   {
@@ -71,7 +72,21 @@ const channels = [
                 rel={channel.href.startsWith("http") ? "noopener noreferrer" : undefined}
                 class="chip transition hover:border-accent hover:text-heading"
               >
-                <Icon name={channel.icon} size={16} class="text-accent2" />
+                {
+                  channel.icon === "max" ? (
+                    <svg viewBox="0 0 500 500" class="h-4 w-4 shrink-0 text-accent2" aria-hidden="true">
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M253.223 398.85c-29.441 0-43.123-4.298-66.905-21.49-15.043 19.341-62.679 34.456-64.756 8.596 0-19.412-4.298-35.816-9.17-53.725C106.59 310.168 100 285.598 100 249.997 100 164.968 169.771 101 252.435 101c82.736 0 147.564 67.12 147.564 149.784.278 81.386-65.391 147.632-146.776 148.066m1.218-224.355c-40.258-2.077-71.633 25.788-78.582 69.484-5.73 36.175 4.442 80.229 13.109 82.522 4.155 1.002 14.613-7.45 21.132-13.969a74.5 74.5 0 0 0 36.39 12.966c41.713 2.006 77.356-29.75 80.157-71.418 1.63-41.756-30.487-77.123-72.206-79.513z"
+                      />
+                    </svg>
+                  ) : channel.icon === "telegram" || channel.icon === "whatsapp" ? (
+                    <BrandIcon name={`simple-icons:${channel.icon}`} size={16} class="text-accent2" />
+                  ) : (
+                    <Icon name={channel.icon} size={16} class="text-accent2" />
+                  )
+                }
                 {channel.label}
               </a>
             </li>
