@@ -5,7 +5,7 @@ export const CONTACTS = {
   email: "designpluscode1@yandex.ru",
   emailUrl: "mailto:designpluscode1@yandex.ru",
   whatsapp: "https://wa.me/79298191993",
-  max: "#contacts",
+  max: "https://max.ru/join/fASMCoOMGHtI0WBZyUauHyVFumeeEil5998Vgtp0W0E",
 };
 
 export const SITE = {
