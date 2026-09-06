@@ -1,0 +1,28 @@
+---
+import { WHAT_YOU_GET } from "../data/site.js";
+import Icon from "./Icon.astro";
+---
+
+<section class="section-spacing">
+  <div class="container-x">
+    <div class="max-w-2xl">
+      <p class="eyebrow mb-4">Что вы получаете</p>
+      <h2 class="text-3xl sm:text-4xl">Что входит в разработку</h2>
+    </div>
+
+    <div class="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        WHAT_YOU_GET.map((item) => (
+          <div class="card flex items-center gap-3 p-4 hover:bg-card-hover">
+            <Icon name="check" size={20} class="shrink-0 text-accent" />
+            <span class="text-body">{item}</span>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="mt-6 max-w-3xl text-sm text-muted">
+      Точный состав работ зависит от выбранного формата проекта и фиксируется до начала работы.
+    </p>
+  </div>
+</section>

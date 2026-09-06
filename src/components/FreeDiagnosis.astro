@@ -1,0 +1,52 @@
+---
+import { DIAGNOSIS_POINTS } from "../data/site.js";
+import Icon from "./Icon.astro";
+---
+
+<section class="section-spacing relative overflow-hidden">
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0"
+    style="background: linear-gradient(160deg, #161126 0%, #09090f 60%)"
+  ></div>
+
+  <div class="container-x relative">
+    <div class="card p-7 sm:p-10">
+      <div class="max-w-2xl">
+        <p class="eyebrow mb-4">Бесплатная диагностика</p>
+        <h2 class="text-3xl sm:text-4xl">Не знаете, какой сайт вам нужен?</h2>
+        <p class="mt-4 text-muted">
+          Не обязательно сразу заказывать разработку. Начните с разговора.
+        </p>
+      </div>
+
+      <div class="mt-8">
+        <h3 class="font-display text-lg font-bold text-heading">За 30 минут разберём:</h3>
+        <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+          {
+            DIAGNOSIS_POINTS.map((point) => (
+              <li class="flex items-start gap-3">
+                <Icon name="check" size={20} class="mt-0.5 shrink-0 text-accent" />
+                <span class="text-body">{point}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="mt-8 rounded-2xl border border-accent/40 bg-accent/10 p-5">
+        <p class="flex items-start gap-3 font-display font-bold text-heading">
+          <Icon name="shield" size={22} class="mt-0.5 shrink-0 text-accent" />
+          Если увидим, что вам пока не нужен новый сайт — так и скажем.
+        </p>
+      </div>
+
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <a href="#lead-form" class="btn btn-primary">
+          Получить бесплатный разбор
+        </a>
+        <span class="text-sm text-muted">Без обязательства заказывать разработку.</span>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,61 +1,49 @@
 ---
-import { REVIEWS, SITE } from "../data/site.js";
+import { REVIEWS } from "../data/site.js";
 import Icon from "./Icon.astro";
-
-const formats = [
-  { label: "Видео-отзывы", icon: "chat" },
-  { label: "Скриншоты переписок", icon: "chat" },
-  { label: "Отзывы клиентов", icon: "user" },
-];
 ---
 
 <section id="reviews" class="section-spacing">
   <div class="container-x">
     <div class="max-w-2xl">
-      <p class="eyebrow mb-4">Отзывы</p>
-      <h2 class="text-3xl sm:text-4xl">Что говорят клиенты о работе с нами</h2>
-      <p class="mt-4 text-muted">
-        {
-          SITE.demoMode
-            ? "Пока это демонстрационные отзывы — они будут заменены реальными после появления материалов."
-            : "Реальные отзывы клиентов о работе с нами."
-        }
-      </p>
+      <p class="eyebrow mb-4">Отзыв</p>
+      <h2 class="text-3xl sm:text-4xl">Реальный отзыв клиента</h2>
     </div>
 
-    <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-10 max-w-3xl">
       {
-        REVIEWS.map((review, index) => (
-          <figure class="card flex flex-col p-6 hover:bg-[#202025]">
-            <div class="flex gap-1 text-warning" aria-label="Пять звезд">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Icon name="star" size={16} />
-              ))}
+        REVIEWS.map((review) => (
+          <figure class="card flex flex-col p-7 sm:p-8">
+            <div class="flex items-center gap-4">
+              <div
+                class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-accent to-accent-blue font-display text-xl font-extrabold text-white"
+                aria-hidden="true"
+              >
+                {review.author[0]}
+              </div>
+              <div>
+                <p class="font-display font-bold text-heading">{review.author}</p>
+                <p class="text-sm text-muted">{review.meta}</p>
+              </div>
+              <span class="chip ml-auto hidden sm:inline-flex">Школа маникюра</span>
             </div>
-            <blockquote class="mt-4 flex-1 text-body">«{review.text}»</blockquote>
-            <figcaption class="mt-5 border-t border-line pt-4">
-              <p class="font-display font-bold text-heading">{review.author}</p>
-              <p class="text-sm text-muted">{review.meta}</p>
-              {SITE.demoMode ? <span class="demo-badge mt-3">Демонстрационный отзыв</span> : null}
+
+            <blockquote class="mt-6 flex-1 text-lg leading-relaxed text-body">
+              «{review.text}»
+            </blockquote>
+
+            <figcaption class="mt-6 flex gap-1 text-warning" aria-label="Пять звёзд">
+              {Array.from({ length: 5 }).map(() => (
+                <Icon name="star" size={18} />
+              ))}
             </figcaption>
           </figure>
         ))
       }
     </div>
 
-    <div class="mt-10 flex flex-wrap items-center gap-3">
-      <p class="text-sm text-muted">Форматы отзывов:</p>
-      {
-        formats.map((format) => (
-          <span class="chip">
-            <Icon name={format.icon} size={16} class="text-accent2" />
-            {format.label}
-          </span>
-        ))
-      }
-      {SITE.demoMode ? (
-        <span class="demo-badge">Материалы будут добавлены</span>
-      ) : null}
-    </div>
+    <p class="mt-6 max-w-3xl text-sm text-muted">
+      Мы не придумываем отзывы ради красивой цифры. Показываем реальные проекты и реальные впечатления клиентов.
+    </p>
   </div>
 </section>

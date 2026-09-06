@@ -1,0 +1,54 @@
+---
+import { LEAD_MAGNET_ERRORS } from "../data/site.js";
+import Icon from "./Icon.astro";
+---
+
+<section class="section-spacing bg-section/50">
+  <div class="container-x grid gap-10 lg:grid-cols-2 lg:items-center">
+    <!-- Left: errors list -->
+    <div>
+      <p class="eyebrow mb-4">Чек-лист</p>
+      <h2 class="text-3xl sm:text-4xl">7 ошибок, из-за которых сайт теряет клиентов</h2>
+      <p class="mt-4 text-muted">
+        Иногда проблема не в рекламе. Клиент приходит на сайт — и уходит.
+      </p>
+
+      <ol class="mt-6 flex flex-col gap-3">
+        {
+          LEAD_MAGNET_ERRORS.map((error, index) => (
+            <li class="flex items-start gap-3">
+              <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent/15 font-display text-sm font-bold text-accent">
+                {index + 1}
+              </span>
+              <span class="text-body">{error}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <!-- Right: lead magnet card -->
+    <aside class="card relative overflow-hidden p-7 sm:p-9">
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent/25 blur-[70px]"
+      ></div>
+
+      <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/15 text-accent">
+        <Icon name="doc" size={28} />
+      </div>
+
+      <h3 class="mt-5 text-2xl">Полный чек-лист</h3>
+      <p class="mt-3 font-display text-xl font-extrabold text-heading">
+        «50 ошибок на сайте, которые убивают заявки»
+      </p>
+      <p class="mt-3 text-sm text-muted">
+        Проверьте свой сайт самостоятельно за 15 минут.
+      </p>
+
+      <a href="#lead-form" class="btn btn-primary mt-7 w-full">
+        Получить чек-лист бесплатно
+      </a>
+    </aside>
+  </div>
+</section>
