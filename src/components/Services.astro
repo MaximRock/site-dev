@@ -1,5 +1,5 @@
 ---
-import { DIRECTIONS } from "../data/site.js";
+import { SERVICES } from "../data/site.js";
 import Icon from "./Icon.astro";
 ---
 
@@ -7,21 +7,37 @@ import Icon from "./Icon.astro";
   <div class="container-x">
     <div class="max-w-2xl">
       <p class="eyebrow mb-4">Услуги</p>
-      <h2 class="text-3xl sm:text-4xl">Подбираем сайт под задачи вашего бизнеса</h2>
+      <h2 class="text-3xl sm:text-4xl">Подбираем формат сайта под вашу задачу</h2>
       <p class="mt-4 text-muted">
-        Определяем тип сайта, структуру и функционал после анализа целей, аудитории и конкурентов.
+        Не «продаем сайт», а подбираем решение — иногда лучший вариант дешевле и проще,
+        чем кажется.
       </p>
     </div>
 
     <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {
-        DIRECTIONS.map((d) => (
-          <article class="card group p-6 hover:bg-[#202025]">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/15 text-accent2 transition group-hover:text-accent4">
-              <Icon name={d.icon} size={24} />
+        SERVICES.map((service) => (
+          <article
+            class={`card flex flex-col p-6 ${
+              service.popular ? "border-accent/60 ring-1 ring-accent/40" : ""
+            } hover:bg-card-hover`}
+          >
+            <div class="flex items-center justify-between">
+              <h3 class="text-xl">{service.title}</h3>
+              {service.popular && (
+                <span class="rounded-full bg-accent/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-accent">
+                  Популярен
+                </span>
+              )}
             </div>
-            <h3 class="mt-5 text-xl">{d.title}</h3>
-            <p class="mt-2 text-sm text-muted">{d.text}</p>
+            <p class="mt-2 flex-1 text-sm text-muted">{service.text}</p>
+            <p class="mt-4 font-display text-lg font-extrabold text-heading">{service.price}</p>
+            <a
+              href="#lead-form"
+              class={`mt-4 btn ${service.popular ? "btn-primary" : "btn-ghost"} btn-sm w-full`}
+            >
+              {service.cta}
+            </a>
           </article>
         ))
       }
