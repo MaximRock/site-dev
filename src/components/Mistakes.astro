@@ -1,15 +1,16 @@
 ---
 import { MISTAKES_CARDS } from "../data/site.js";
+import Icon from "./Icon.astro";
 ---
 
-<section class="section-spacing">
+<section class="section-spacing bg-section">
   <div class="container-x">
     <div class="max-w-2xl">
       <p class="eyebrow mb-4">Частые ошибки</p>
-      <h2 class="text-3xl sm:text-4xl">Из-за этого сайт не приносит клиентов</h2>
+      <h2 class="text-3xl sm:text-4xl">Возможно, вам не нужен новый сайт</h2>
       <p class="mt-4 text-muted">
-        6 ошибок, которые мы чаще всего видим в сайтах заказчиков — и которые реально мешают
-        получать заявки.
+        Иногда проблема не в том, что у бизнеса плохой сайт. Проблема в том, что посетитель
+        не понимает, что вы предлагаете, почему ему стоит выбрать вас и что делать дальше.
       </p>
     </div>
 
@@ -26,9 +27,12 @@ import { MISTAKES_CARDS } from "../data/site.js";
       }
     </div>
 
-    <p class="mt-8 max-w-3xl text-sm text-muted">
-      Мы не просто «делаем сайт» — мы заранее убираем эти ошибки из проекта, чтобы
-      сайт был эффективным с первого дня.
-    </p>
+    <aside class="card mt-10 flex flex-col gap-5 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-7">
+      <p class="flex items-start gap-3 font-display font-semibold text-heading">
+        <Icon name="search" size={22} class="mt-0.5 shrink-0 text-accent" />
+        <span>Прежде чем создавать новый сайт, нужно понять, почему существующий не работает.</span>
+      </p>
+      <a href="#lead-form" class="btn btn-primary shrink-0">Разобрать мой сайт</a>
+    </aside>
   </div>
 </section>

@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import MobileFixedCta from "../components/MobileFixedCta.astro";
 
 const { title, description } = Astro.props;
 ---
@@ -40,5 +41,6 @@ const { title, description } = Astro.props;
       <slot />
     </main>
     <Footer />
+    <MobileFixedCta />
   </body>
 </html>
