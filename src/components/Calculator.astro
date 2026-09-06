@@ -30,7 +30,7 @@
         Это предварительный расчёт. Точная стоимость и состав работ определяются на бесплатном разборе.
       </p>
       <div class="mt-6 flex flex-col gap-3 sm:flex-row">
-        <a href="#lead-form" class="btn btn-primary">Получить точный расчёт</a>
+        <a href="#lead-form" class="btn btn-primary" data-goal="click_consultation">Получить точный расчёт</a>
         <button id="calc-reset" type="button" class="btn btn-neutral">Рассчитать снова</button>
       </div>
     </div>
@@ -191,6 +191,8 @@ function showResult() {
   if (resultType) resultType.textContent = TYPE_LABELS[type] ?? "Проект";
   if (resultPrice) resultPrice.textContent = `${formatPrice(min)} – ${formatPrice(max)}`;
 
+  ;(window as any).__track?.("calculator_complete");
+
   if (card) card.hidden = true;
   if (result) result.hidden = false;
   result?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -204,6 +206,7 @@ nextBtn?.addEventListener("click", () => {
     });
     return;
   }
+  if (current === 0) (window as any).__track?.("calculator_start");
   if (current < total - 1) {
     current += 1;
     renderStep();

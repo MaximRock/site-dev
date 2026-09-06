@@ -85,8 +85,10 @@ import Icon from "./Icon.astro";
           aria-describedby="f-consent-error"
         />
         <label for="f-consent" class="text-sm text-muted">
-          Я согласен на обработку персональных данных. Полный текст политики будет опубликован после
-          подготовки юридических документов.
+          Я согласен на обработку персональных данных. Подробнее в
+          <a href="/privacy" target="_blank" rel="noopener" class="text-accent underline underline-offset-2 hover:text-accent2">
+            политике конфиденциальности
+          </a>.
         </label>
       </div>
       <p id="f-consent-error" class="mt-1.5 hidden text-sm text-error" data-field-error="consent"></p>
@@ -185,6 +187,7 @@ import Icon from "./Icon.astro";
     setStatus("", "success");
 
     setTimeout(() => {
+      ;(window as any).__track?.("form_submit");
       form.hidden = true;
       if (success) success.hidden = false;
       success?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -197,6 +200,7 @@ import Icon from "./Icon.astro";
   });
 
   form?.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>("input, textarea, select").forEach((el) => {
+    el.addEventListener("focus", () => (window as any).__track?.("form_start"), { once: true });
     el.addEventListener("input", () => {
       el.classList.remove("field-error");
       el.removeAttribute("aria-invalid");

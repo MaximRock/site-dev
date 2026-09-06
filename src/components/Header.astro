@@ -47,6 +47,7 @@ const whatsapp = CONTACTS.whatsapp;
       <a
         href={phoneUrl}
         class="flex items-center gap-2 font-display text-sm font-bold text-heading transition-colors hover:text-accent"
+        data-goal="phone_click"
       >
         <span class="status-dot" aria-hidden="true"></span>
         {phone}
@@ -57,6 +58,7 @@ const whatsapp = CONTACTS.whatsapp;
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Telegram"
+          data-goal="telegram_click"
           class="text-[#229ED9] transition-opacity hover:opacity-80"
         >
           <BrandIcon name="simple-icons:telegram" size={22} />
@@ -66,12 +68,13 @@ const whatsapp = CONTACTS.whatsapp;
           target="_blank"
           rel="noopener noreferrer"
           aria-label="WhatsApp"
+          data-goal="whatsapp_click"
           class="text-[#25D366] transition-opacity hover:opacity-80"
         >
           <BrandIcon name="simple-icons:whatsapp" size={22} />
         </a>
       </div>
-      <a href="#lead-form" class="btn btn-primary btn-sm">Получить бесплатный разбор</a>
+      <a href="#lead-form" class="btn btn-primary btn-sm" data-goal="click_consultation">Получить бесплатный разбор</a>
     </div>
 
     <!-- Mobile toggle -->
@@ -123,14 +126,14 @@ const whatsapp = CONTACTS.whatsapp;
       {phone}
     </a>
     <div class="flex items-center gap-3">
-      <a href={telegram} target="_blank" rel="noopener noreferrer" aria-label="Telegram" class="text-[#229ED9] transition-opacity hover:opacity-80">
+      <a href={telegram} target="_blank" rel="noopener noreferrer" aria-label="Telegram" data-goal="telegram_click" class="text-[#229ED9] transition-opacity hover:opacity-80">
         <BrandIcon name="simple-icons:telegram" size={24} />
       </a>
-      <a href={whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="text-[#25D366] transition-opacity hover:opacity-80">
+      <a href={whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" data-goal="whatsapp_click" class="text-[#25D366] transition-opacity hover:opacity-80">
         <BrandIcon name="simple-icons:whatsapp" size={24} />
       </a>
     </div>
-    <a href="#lead-form" class="btn btn-primary w-full">Получить бесплатный разбор</a>
+    <a href="#lead-form" class="btn btn-primary w-full" data-goal="click_consultation">Получить бесплатный разбор</a>
   </div>
 </div>
 
