@@ -236,6 +236,36 @@
     pointer-events: none;
   }
 
+  .hero-image-wrapper {
+    position: relative;
+  }
+
+  .hero-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 24px;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    box-shadow:
+      0 0 40px rgba(124, 58, 237, 0.25),
+      0 0 80px rgba(168, 85, 247, 0.12);
+    mask-image: linear-gradient(to right, transparent 0%, black 26%, black 88%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 26%, black 88%, transparent 100%);
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .hero-image-glow {
+    position: absolute;
+    inset: -20%;
+    left: -30%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.2) 0%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: -1;
+  }
+
   .section-spacing {
     @apply py-16 lg:py-24;
   }

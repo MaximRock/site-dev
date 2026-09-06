@@ -14,44 +14,61 @@ import Icon from "./Icon.astro";
   </div>
 
   <div class="container-x relative">
-    <div class="max-w-3xl">
-      <p class="eyebrow mb-6">Веб-студия «Дизайн + Код»</p>
-      <h1 class="text-4xl leading-[1.1] sm:text-5xl lg:text-6xl text-3d">
-        Создаем сайты, которые <span class="text-accent2">приносят заявки</span>, а не просто
-        красиво выглядят
-      </h1>
-      <p class="mt-6 max-w-2xl text-lg text-muted">
-        Разрабатываем сайты на Tilda и индивидуальном коде. Подбираем решение под задачи вашего
-        бизнеса, чтобы сайт окупался и помогал увеличивать продажи.
-      </p>
+    <div class="flex flex-col items-start gap-10 lg:flex-row lg:items-center lg:gap-0">
+      <!-- Текстовый блок -->
+      <div class="relative z-10 max-w-3xl lg:w-[55%] lg:pr-8">
+        <p class="eyebrow mb-6">Веб-студия «Дизайн + Код»</p>
+        <h1 class="text-4xl leading-[1.1] sm:text-5xl lg:text-6xl text-3d">
+          Создаем сайты, которые <span class="text-accent2">приносят заявки</span>, а не просто
+          красиво выглядят
+        </h1>
+        <p class="mt-6 max-w-2xl text-lg text-muted">
+          Разрабатываем сайты на Tilda и индивидуальном коде. Подбираем решение под задачи вашего
+          бизнеса, чтобы сайт окупался и помогал увеличивать продажи.
+        </p>
 
-      <ul class="mt-6 flex flex-wrap gap-2" aria-label="Направления работы">
-        {
-          DIRECTIONS.map((d) => (
-            <li class="chip">
-              <Icon name={d.icon} size={16} class="text-accent2" />
-              {d.title}
-            </li>
-          ))
-        }
-      </ul>
+        <ul class="mt-6 flex flex-wrap gap-2" aria-label="Направления работы">
+          {
+            DIRECTIONS.map((d) => (
+              <li class="chip">
+                <Icon name={d.icon} size={16} class="text-accent2" />
+                {d.title}
+              </li>
+            ))
+          }
+        </ul>
 
-      <div class="mt-9 flex flex-col gap-3 sm:flex-row">
-        <a href="#quiz" class="btn btn-primary">Рассчитать стоимость</a>
-        <a href="#cases" class="btn btn-ghost">Смотреть кейсы</a>
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+          <a href="#quiz" class="btn btn-primary">Рассчитать стоимость</a>
+          <a href="#cases" class="btn btn-ghost">Смотреть кейсы</a>
+        </div>
+
+        <div class="card mt-9 flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:p-6">
+          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent/15 text-accent2">
+            <Icon name="gift" size={26} />
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="font-display font-bold text-heading">Подарок при заказе сайта</p>
+            <p class="mt-1 text-sm text-muted">
+              Чек-лист «50 ошибок на сайте, которые убивают заявки»
+            </p>
+          </div>
+          <span class="demo-badge shrink-0 self-start sm:self-center">Материал готовится</span>
+        </div>
       </div>
 
-      <div class="card mt-9 flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:p-6">
-        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent/15 text-accent2">
-          <Icon name="gift" size={26} />
-        </div>
-        <div class="min-w-0 flex-1">
-          <p class="font-display font-bold text-heading">Подарок при заказе сайта</p>
-          <p class="mt-1 text-sm text-muted">
-            Чек-лист «50 ошибок на сайте, которые убивают заявки»
-          </p>
-        </div>
-        <span class="demo-badge shrink-0 self-start sm:self-center">Материал готовится</span>
+      <!-- Изображение -->
+      <div class="hero-image-wrapper pointer-events-none lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[58%] lg:-ml-28">
+        <div class="hero-image-glow"></div>
+        <img
+          src="/team_hero_services_00002_.webp"
+          alt="Команда Дизайн + Код"
+          class="hero-image"
+          width="800"
+          height="600"
+          loading="eager"
+          decoding="async"
+        />
       </div>
     </div>
   </div>
