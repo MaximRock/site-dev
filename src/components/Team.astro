@@ -1,99 +1,61 @@
 ---
-import { LC_TABLE_ROWS } from "../data/site.js";
+import { TEAM } from "../data/site.js";
 import Icon from "./Icon.astro";
-
-const team = [
-  {
-    name: "Ирина",
-    role: "UX/UI-дизайнер",
-    text: "Отвечает за структуру, дизайн и удобство сайта.",
-    initials: "И",
-  },
-  {
-    name: "Максим",
-    role: "Frontend-разработчик",
-    text: "Реализует проект на Tilda или индивидуальном коде.",
-    initials: "М",
-  },
-];
-
-const status: Record<string, string> = {
-  yes: "check",
-  no: "cross",
-  partial: "dash",
-};
 ---
 
-<section class="section-spacing">
+<section id="about" class="section-spacing">
   <div class="container-x">
     <div class="max-w-2xl">
       <p class="eyebrow mb-4">Команда</p>
       <h2 class="text-3xl sm:text-4xl">Вместе ведем проект от идеи до запуска</h2>
       <p class="mt-4 text-muted">
-        Над проектом работают только два специалиста, поэтому вы всегда общаетесь с исполнителями.
+        Над проектом работают только два специалиста, поэтому вы всегда общаетесь
+        напрямую с исполнителями.
       </p>
     </div>
 
     <div class="mt-10 grid gap-5 sm:grid-cols-2">
       {
-        team.map((person) => (
-          <article class="card flex items-start gap-5 p-6 hover:bg-[#202025] sm:items-center">
+        TEAM.map((person, index) => (
+          <article class="card flex items-start gap-5 p-6 hover:bg-card-hover sm:items-center">
             <div
-              class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-accent to-accent3 font-display text-2xl font-extrabold text-white"
+              class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-accent to-accent-blue font-display text-2xl font-extrabold text-white"
               aria-hidden="true"
             >
-              {person.initials}
+              {person.name[0]}
             </div>
             <div class="min-w-0">
               <p class="text-xs font-semibold uppercase tracking-wider text-muted">
                 {person.role}
               </p>
               <h3 class="mt-1 text-xl">{person.name}</h3>
-              <p class="mt-1.5 text-sm text-muted">{person.text}</p>
+              <ul class="mt-2 flex flex-wrap gap-1.5">
+                {
+                  person.focus.slice(0, index % 2 === 0 ? 3 : 3).map((f) => (
+                    <li class="chip !px-2 !py-0.5 text-xs">{f}</li>
+                  ))
+                }
+              </ul>
             </div>
           </article>
         ))
       }
     </div>
 
-    <div class="card mt-10 overflow-x-auto p-4 sm:p-6">
-      <h3 class="px-2 text-xl sm:text-2xl">Мы против агентств и фрилансеров</h3>
-      <table class="compare-table mt-4 min-w-0">
-        <caption class="sr-only">Сравнение работы студии с агентством и фрилансером</caption>
-        <thead>
-          <tr>
-            <th scope="col">Критерий</th>
-            <th scope="col">Мы</th>
-            <th scope="col">Агентство</th>
-            <th scope="col">Фрилансер</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            LC_TABLE_ROWS.map((row) => (
-              <tr>
-                <th scope="row">{row.label}</th>
-                <td class={row.we === "yes" ? "text-success" : row.we === "no" ? "text-error" : "text-warning"}>
-                  <Icon name={status[row.we]} size={20} class="mx-auto" />
-                  <span class="sr-only">{row.we}</span>
-                </td>
-                <td class={row.agency === "yes" ? "text-success" : row.agency === "no" ? "text-error" : "text-warning"}>
-                  <Icon name={status[row.agency]} size={20} class="mx-auto" />
-                  <span class="sr-only">{row.agency}</span>
-                </td>
-                <td class={row.freelance === "yes" ? "text-success" : row.freelance === "no" ? "text-error" : "text-warning"}>
-                  <Icon name={status[row.freelance]} size={20} class="mx-auto" />
-                  <span class="sr-only">{row.freelance}</span>
-                </td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-      <p class="mt-4 px-2 text-sm text-muted">
-        «Не всегда» отмечено желтым значком. Фрилансеры и агентства тоже бывают отличными
-        специалистами — проверяйте условия договора и состав работ.
-      </p>
-    </div>
+    <aside class="card mt-8 flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
+      <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent/15 text-accent">
+        <Icon name="shield" size={24} />
+      </div>
+      <div class="min-w-0 flex-1">
+        <h3 class="text-lg">Прозрачная работа</h3>
+        <p class="mt-1 text-sm text-muted">
+          Понимаете, что происходит на каждом этапе. Никаких тайных слоев и неожиданных
+          затрат — всё обсуждаем заранее.
+        </p>
+      </div>
+      <a href="#lead-form" class="btn btn-ghost btn-sm shrink-0">
+        Познакомиться
+      </a>
+    </aside>
   </div>
 </section>

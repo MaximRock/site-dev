@@ -8,18 +8,18 @@ import Icon from "./Icon.astro";
       <p class="eyebrow mb-4">О стоимости</p>
       <h2 class="text-3xl sm:text-4xl">Почему вам не нужен дорогой сайт</h2>
       <p class="mt-4 text-muted">
-        Вы платите за результат, а не за содержание офиса. Многие студии закладывают в цену аренду,
-        зарплаты менеджеров и рекламу компании.
+        Многие студии закладывают в цену аренду офиса, зарплаты менеджеров и рекламу компании.
+        Мы работаем напрямую — поэтому платите только за результат.
       </p>
       <ul class="mt-6 flex flex-col gap-3">
         {
           [
-            "Работаем напрямую с заказчиком — без посредников",
-            "Над проектом работают только дизайнер и разработчик",
+            "Вы общаетесь напрямую с исполнителями проекта",
+            "Над сайтом работают только дизайнер и разработчик",
             "Платите за качественный сайт и его эффективность",
           ].map((item) => (
             <li class="flex items-start gap-3">
-              <Icon name="check" size={20} class="mt-0.5 text-accent2" />
+              <Icon name="check" size={20} class="mt-0.5 text-accent" />
               <span class="text-body">{item}</span>
             </li>
           ))
@@ -32,22 +32,21 @@ import Icon from "./Icon.astro";
         aria-hidden="true"
         class="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent/20 blur-[70px]"
       ></div>
-      <span class="demo-badge">Временная акция</span>
-      <h3 class="mt-4 text-2xl">Бесплатная консультация</h3>
+      <h3 class="text-2xl">Бесплатный разбор вашего сайта</h3>
       <p class="mt-3 text-muted">
-        За 30 минут разберем вашу ситуацию, поможем выбрать оптимальный тип сайта и подскажем, как
-        избежать лишних расходов.
+        За 30 минут разберем вашу задачу, подскажем оптимальный тип сайта и сориентируем по
+        бюджету — без обязательств.
       </p>
       <div class="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <span class="text-lg text-muted line-through">3500 ₽</span>
+        <span class="text-lg text-muted line-through">3000 ₽</span>
         <span class="font-display text-4xl font-extrabold text-success">Бесплатно</span>
       </div>
       <ul class="mt-5 flex flex-col gap-2 text-sm text-body">
-        <li class="flex items-start gap-2"><Icon name="check" size={18} class="mt-0.5 text-accent2" />Разбор вашей ситуации</li>
-        <li class="flex items-start gap-2"><Icon name="check" size={18} class="mt-0.5 text-accent2" />Выбор оптимального типа сайта</li>
-        <li class="flex items-start gap-2"><Icon name="check" size={18} class="mt-0.5 text-accent2" />Рекомендации по снижению лишних расходов</li>
+        <li class="flex items-start gap-2"><Icon name="check" size={18} class="mt-0.5 text-accent" />Разбор вашей ситуации</li>
+        <li class="flex items-start gap-2"><Icon name="check" size={18} class="mt-0.5 text-accent" />Выбор оптимального формата сайта</li>
+        <li class="flex items-start gap-2"><Icon name="check" size={18} class="mt-0.5 text-accent" />Ориентир по бюджету</li>
       </ul>
-      <a href="#contacts" class="btn btn-primary mt-7 w-full">Получить консультацию</a>
+      <a href="#lead-form" class="btn btn-primary mt-7 w-full">Получить бесплатный разбор</a>
     </aside>
   </div>
 </section>
