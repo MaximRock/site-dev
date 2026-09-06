@@ -2,23 +2,19 @@
   <div class="container-x">
     <div class="mx-auto max-w-2xl pb-10 text-center">
       <p class="eyebrow mb-4">Калькулятор стоимости</p>
-      <h2 class="text-3xl sm:text-4xl">Узнайте предварительную стоимость сайта за 1 минуту</h2>
-      <p class="mt-4 text-muted">Ответьте на несколько вопросов и получите ориентировочную стоимость проекта.</p>
+      <h2 class="text-3xl sm:text-4xl">Ориентировочная стоимость за 1 минуту</h2>
+      <p class="mt-4 text-muted">4 вопроса — и вы увидите примерный диапазон бюджета на ваш проект.</p>
     </div>
 
-    <div id="calc-card" class="card mx-auto max-w-3xl p-6 sm:p-8">
+    <div id="calc-card" class="card mx-auto max-w-2xl p-6 sm:p-8">
       <div class="mb-7 flex items-center gap-4">
         <div class="h-2 flex-1 overflow-hidden rounded-full bg-white/10">
-          <div
-            id="calc-progress"
-            class="h-full rounded-full bg-accent transition-all duration-300"
-            style="width: 50%"
-          ></div>
+          <div id="calc-progress" class="h-full rounded-full bg-accent transition-all duration-300" style="width: 10%"></div>
         </div>
-        <span id="calc-step-label" class="shrink-0 text-sm text-muted">1 из 2</span>
+        <span id="calc-step-label" class="shrink-0 text-sm text-muted">1 из 4</span>
       </div>
 
-      <div id="calc-step" class="min-h-[220px]"></div>
+      <div id="calc-step" class="min-h-[180px]"></div>
 
       <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <button id="calc-back" type="button" class="btn btn-neutral w-full sm:w-auto" hidden>Назад</button>
@@ -26,16 +22,15 @@
       </div>
     </div>
 
-    <div id="calc-result" hidden class="card mx-auto mt-6 max-w-3xl p-6 sm:p-8" aria-live="polite">
-      <p class="eyebrow mb-4">Предварительный результат</p>
+    <div id="calc-result" hidden class="card mx-auto mt-6 max-w-2xl p-6 sm:p-8" aria-live="polite">
+      <p class="eyebrow mb-4">Ориентировочная стоимость</p>
       <h3 id="calc-result-type" class="text-2xl"></h3>
-      <p id="calc-result-price" class="mt-3 font-display text-3xl font-extrabold text-accent2"></p>
-      <ul id="calc-result-summary" class="mt-5 flex flex-wrap gap-2"></ul>
+      <p id="calc-result-price" class="mt-3 font-display text-3xl font-extrabold text-accent"></p>
       <p class="mt-4 text-sm text-muted">
-        Расчёт по вашим ответам; точная сумма подтверждается на консультации.
+        Это предварительный расчёт. Точная стоимость и состав работ определяются на бесплатном разборе.
       </p>
       <div class="mt-6 flex flex-col gap-3 sm:flex-row">
-        <a href="#contacts" class="btn btn-primary">Получить точный расчет</a>
+        <a href="#lead-form" class="btn btn-primary">Получить точный расчёт</a>
         <button id="calc-reset" type="button" class="btn btn-neutral">Рассчитать снова</button>
       </div>
     </div>
@@ -44,282 +39,120 @@
 
 <script>
 type StepOption = { value: string; label: string };
-type Step = { id: string; title: string; options: StepOption[] };
+type Step = { title: string; options: StepOption[] };
 
-const stepPlatform: Step = {
-  id: "platform",
-  title: "Как реализуем сайт?",
-  options: [
-    { value: "platform_tilda", label: "На конструкторе Tilda — быстрее и бюджетнее" },
-    { value: "platform_code",  label: "Кодом с нуля — полная свобода по дизайну и функциям" },
-  ],
-};
-
-const stepDesign: Step = {
-  id: "design",
-  title: "Что с дизайном?",
-  options: [
-    { value: "design_ready",  label: "Фирстиль есть (логотип, цвета)" },
-    { value: "design_custom", label: "Нужен дизайн под ключ" },
-  ],
-};
-
-const stepContent: Step = {
-  id: "content",
-  title: "Кто готовит тексты и фотографии?",
-  options: [
-    { value: "content_full",    label: "Всё есть" },
-    { value: "content_partial", label: "Частично — тексты наши, фото подбираем мы" },
-    { value: "content_none",    label: "Под ключ — копирайтинг + подбор фото" },
-  ],
-};
-
-const stepIntegrations: Step = {
-  id: "integrations",
-  title: "Нужны ли интеграции?",
-  options: [
-    { value: "integrations_no",    label: "Не нужны" },
-    { value: "integrations_basic", label: "Аналитика (Метрика) + кнопки мессенджеров" },
-    { value: "integrations_crm",   label: "Плюс автоподача заявок в CRM" },
-  ],
-};
-
-const stepDomain: Step = {
-  id: "domain",
-  title: "Домен и хостинг есть?",
-  options: [
-    { value: "domain_yes", label: "Есть, свой" },
-    { value: "domain_no",  label: "Нужно подобрать и подключить за нас" },
-  ],
-};
-
-const stepTerms: Step = {
-  id: "terms",
-  title: "Какие сроки?",
-  options: [
-    { value: "terms_urgent",   label: "Срочно (1–2 недели)" },
-    { value: "terms_standard", label: "Стандартно" },
-    { value: "terms_flexible", label: "Не горит" },
-  ],
-};
-
-const stepBlocks: Step = {
-  id: "blocks",
-  title: "Сколько экранов (блоков) будет на странице?",
-  options: [
-    { value: "blocks_few",  label: "До 6 — базовый набор" },
-    { value: "blocks_mid",  label: "7–10 — + отзывы, кейсы, FAQ" },
-    { value: "blocks_many", label: "Больше 10 — большой продающий лендинг" },
-  ],
-};
-
-const stepLeads: Step = {
-  id: "leads",
-  title: "Как собираете заявки?",
-  options: [
-    { value: "form", label: "Обычная форма (имя + телефон)" },
-    { value: "quiz", label: "Форма + квиз-опрос" },
-    { value: "calc", label: "Интерактивный калькулятор цены на странице" },
-  ],
-};
-
-const stepPagesVisitka: Step = {
-  id: "pages",
-  title: "Сколько страниц будет на сайте?",
-  options: [
-    { value: "pages_few", label: "1–2 — главная + контакты" },
-    { value: "pages_mid", label: "3–5 — + страницы услуг, о нас" },
-  ],
-};
-
-const stepLeadsVisitka: Step = {
-  id: "leads",
-  title: "Как собираете заявки?",
-  options: [
-    { value: "form",             label: "Обычная форма (имя + телефон)" },
-    { value: "form_messengers",  label: "Форма + кнопки мессенджеров" },
-    { value: "quiz",             label: "Квиз-опрос вместо формы" },
-  ],
-};
-
-const stepPagesMp: Step = {
-  id: "pages",
-  title: "Сколько страниц будет на сайте?",
-  options: [
-    { value: "pages_6_10",    label: "6–10" },
-    { value: "pages_11_20",   label: "11–20" },
-    { value: "pages_20_plus", label: "Больше 20" },
-  ],
-};
-
-const stepStructure: Step = {
-  id: "structure",
-  title: "Есть ли структура сайта (прототип)?",
-  options: [
-    { value: "structure_ready",  label: "Своя структура и прототип есть" },
-    { value: "structure_custom", label: "Нужна проработка — карта сайта, прототипы" },
-  ],
-};
-
-const stepFunc: Step = {
-  id: "func",
-  title: "Какой функционал нужен помимо страниц?",
-  options: [
-    { value: "func_basic", label: "Информационные страницы + формы заявок" },
-    { value: "func_blog",  label: "+ блог / статьи" },
-  ],
-};
-
-const TYPE_STEPS: Record<string, Step[]> = {
-  landing:   [stepBlocks, stepPlatform, stepLeads, stepDesign, stepContent, stepIntegrations, stepDomain, stepTerms],
-  visitka:   [stepPagesVisitka, stepPlatform, stepLeadsVisitka, stepDesign, stepContent, stepIntegrations, stepDomain, stepTerms],
-  multipage: [stepPagesMp, stepPlatform, stepStructure, stepFunc, stepDesign, stepContent, stepIntegrations, stepDomain, stepTerms],
-};
-
-const TYPE_PICKER: Step = {
-  id: "type",
-  title: "Какой тип сайта нужен?",
-  options: [
-    { value: "landing",   label: "Лендинг" },
-    { value: "multipage", label: "Многостраничный сайт" },
-    { value: "visitka",   label: "Сайт-визитка" },
-  ],
-};
-
-const TYPES: Record<string, string> = {
-  landing:   "Лендинг",
-  multipage: "Многостраничный сайт",
-  visitka:   "Сайт-визитка",
-};
-
-const VALUE_LABELS: Record<string, string> = {
-  platform_tilda: "На конструкторе Tilda",
-  platform_code:  "Кодом с нуля",
-  blocks_few:     "До 6 блоков",
-  blocks_mid:     "7–10 блоков",
-  blocks_many:    "Больше 10 блоков",
-  form:           "Обычная форма",
-  quiz:           "Квиз-опрос",
-  calc:           "Калькулятор на странице",
-  form_messengers: "Форма + мессенджеры",
-  design_ready:   "Фирстиль есть",
-  design_custom:  "Дизайн под ключ",
-  content_full:   "Всё есть",
-  content_partial: "Частично",
-  content_none:   "Под ключ",
-  integrations_no:    "Не нужны",
-  integrations_basic: "Аналитика + мессенджеры",
-  integrations_crm:   "+ CRM",
-  domain_yes: "Есть",
-  domain_no:  "Нужно подобрать",
-  terms_urgent:   "Срочно",
-  terms_standard: "Стандартно",
-  terms_flexible: "Не горит",
-  pages_few:       "1–2 страницы",
-  pages_mid:       "3–5 страниц",
-  pages_6_10:      "6–10 страниц",
-  pages_11_20:     "11–20 страниц",
-  pages_20_plus:   "Больше 20 страниц",
-  structure_ready: "Структура есть",
-  structure_custom: "Нужна проработка",
-  func_basic: "Страницы + формы",
-  func_blog:  "+ блог / статьи",
-};
+const steps: Step[] = [
+  {
+    title: "Какой тип сайта вам нужен?",
+    options: [
+      { value: "landing", label: "Лендинг" },
+      { value: "visitka", label: "Сайт-визитка" },
+      { value: "multipage", label: "Многостраничный" },
+      { value: "shop", label: "Интернет-магазин" },
+      { value: "custom", label: "Индивидуальный проект" },
+      { value: "unknown", label: "Ещё не знаю" },
+    ],
+  },
+  {
+    title: "Сколько страниц планируется?",
+    options: [
+      { value: "1", label: "1" },
+      { value: "2-5", label: "2–5" },
+      { value: "6-10", label: "6–10" },
+      { value: "10+", label: "10+" },
+    ],
+  },
+  {
+    title: "Какой дизайн вам нужен?",
+    options: [
+      { value: "ready", label: "По готовой структуре / шаблону" },
+      { value: "custom", label: "Индивидуальный дизайн" },
+    ],
+  },
+  {
+    title: "Какой функционал нужен?",
+    options: [
+      { value: "forms", label: "Формы заявок" },
+      { value: "messengers", label: "Кнопки мессенджеров" },
+      { value: "crm", label: "Интеграция с CRM" },
+      { value: "analytics", label: "Аналитика" },
+      { value: "catalog", label: "Каталог" },
+      { value: "other", label: "Другое" },
+    ],
+  },
+];
 
 const BASE: Record<string, number> = {
-  landing:   15000,
+  landing: 15000,
+  visitka: 20000,
   multipage: 25000,
-  visitka:   10000,
+  shop: 35000,
+  custom: 30000,
+  unknown: 15000,
 };
 
-const PLATFORM_COEF: Record<string, number> = {
-  platform_code:  1,
-  platform_tilda: 0.8,
+const FEATURE_ADD: Record<string, number> = {
+  crm: 5000,
+  catalog: 8000,
+  analytics: 2000,
+  custom: 15000,
 };
 
-function computePrice(answers: Record<string, string>): number {
-  const type     = answers.type ?? "";
-  const platform = answers.platform ?? "platform_code";
-  const base     = BASE[type] ?? 15000;
-  const coef     = PLATFORM_COEF[platform] ?? 1;
-  let price      = base * coef;
-  const isTilda  = platform === "platform_tilda";
+function computeRange(answers: Record<number, string>): [number, number] {
+  const type = answers[0] ?? "unknown";
+  const base = BASE[type] ?? 15000;
+  let min = base;
+  let max = base;
 
-  if (answers.design === "design_custom")      price += isTilda ? 10000 : 7000;
-  if (answers.content === "content_partial")    price += 3000;
-  if (answers.content === "content_none")       price += 6000;
-  if (answers.integrations === "integrations_basic") price += 1500;
-  if (answers.integrations === "integrations_crm")   price += 4000;
-  if (answers.domain === "domain_no")           price += 1000;
-  if (answers.structure === "structure_custom") price += 3000;
-  if (answers.func === "func_blog")             price += 3000;
-  if (answers.blocks === "blocks_mid")          price += 3000;
-  if (answers.blocks === "blocks_many")         price += 7000;
-  if (answers.pages === "pages_mid")            price += 3000;
-  if (answers.pages === "pages_11_20")          price += 3000;
-  if (answers.pages === "pages_20_plus")        price += 7000;
-  if (answers.terms === "terms_urgent")         price *= 1.3;
+  const pages = answers[1] ?? "1";
+  if (pages === "2-5") { min += 2000; max += 5000; }
+  if (pages === "6-10") { min += 8000; max += 15000; }
+  if (pages === "10+") { min += 12000; max += 25000; }
 
-  return Math.round(price / 1000) * 1000;
+  const design = answers[2] ?? "custom";
+  if (design === "custom") { min += 8000; max += 20000; }
+
+  const feat = answers[3] ?? "forms";
+  const add = FEATURE_ADD[feat] ?? 0;
+  max += add;
+
+  return [Math.round(min / 1000) * 1000, Math.round(max / 1000) * 1000];
 }
+
+const TYPE_LABELS: Record<string, string> = {
+  landing: "Лендинг",
+  visitka: "Сайт-визитка",
+  multipage: "Многостраничный",
+  shop: "Интернет-магазин",
+  custom: "Индивидуальный проект",
+  unknown: "Подбираем решение",
+};
 
 function formatPrice(n: number): string {
   return n.toLocaleString("ru-RU").replace(/ /g, "\u00a0") + "\u00a0₽";
 }
 
-function applyPreset(type: string) {
-  if (!type || !(type in TYPE_STEPS)) return;
-  answers.type = type;
-  steps = TYPE_STEPS[type];
-  pickingType = false;
-  current = 0;
-  renderStep();
-}
-
-const stepBox  = document.getElementById("calc-step") as HTMLElement | null;
-const nextBtn  = document.getElementById("calc-next") as HTMLButtonElement | null;
-const backBtn  = document.getElementById("calc-back") as HTMLButtonElement | null;
+const stepBox = document.getElementById("calc-step") as HTMLElement | null;
+const nextBtn = document.getElementById("calc-next") as HTMLButtonElement | null;
+const backBtn = document.getElementById("calc-back") as HTMLButtonElement | null;
 const progress = document.getElementById("calc-progress") as HTMLElement | null;
 const stepLabel = document.getElementById("calc-step-label") as HTMLElement | null;
-const card     = document.getElementById("calc-card") as HTMLElement | null;
-const result   = document.getElementById("calc-result") as HTMLElement | null;
+const card = document.getElementById("calc-card") as HTMLElement | null;
+const result = document.getElementById("calc-result") as HTMLElement | null;
 const resetBtn = document.getElementById("calc-reset") as HTMLButtonElement | null;
 
-const answers: Record<string, string> = {};
+const answers: Record<number, string> = {};
 let current = 0;
-let steps: Step[] = [];
-let pickingType = true;
+const total = steps.length;
 
 function renderStep() {
   if (!stepBox || !stepLabel || !progress || !nextBtn || !backBtn) return;
-
-  if (pickingType) {
-    renderTypePicker();
-    return;
-  }
-
   const step = steps[current];
-  if (!step) return;
 
-  const total = steps.length;
   stepLabel.textContent = `${current + 1} из ${total}`;
-  progress.style.width  = `${((current + 1) / total) * 100}%`;
+  progress.style.width = `${((current + 1) / total) * 100}%`;
   backBtn.hidden = false;
   nextBtn.textContent = current === total - 1 ? "Показать стоимость" : "Дальше";
-
-  renderOptions(step);
-}
-
-function renderTypePicker() {
-  stepLabel.textContent = "1 из 2";
-  progress.style.width  = "50%";
-  backBtn.hidden = true;
-  nextBtn.textContent = "Дальше";
-  renderOptions(TYPE_PICKER);
-}
-
-function renderOptions(step: Step) {
-  if (!stepBox) return;
 
   stepBox.innerHTML = `
     <h3 class="mb-6 text-xl sm:text-2xl">${step.title}</h3>
@@ -328,7 +161,7 @@ function renderOptions(step: Step) {
         .map(
           (o) => `
             <button type="button" class="option" data-calc-value="${o.value}"
-              aria-pressed="${answers[step.id] === o.value}">
+              aria-pressed="${answers[current] === o.value}">
               ${o.label}
             </button>
           `
@@ -339,7 +172,7 @@ function renderOptions(step: Step) {
 
   stepBox.querySelectorAll<HTMLButtonElement>("[data-calc-value]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      answers[step.id] = btn.dataset.calcValue ?? "";
+      answers[current] = btn.dataset.calcValue ?? "";
       stepBox.querySelectorAll("[data-calc-value]").forEach((b) =>
         b.setAttribute("aria-pressed", "false")
       );
@@ -349,26 +182,14 @@ function renderOptions(step: Step) {
 }
 
 function showResult() {
-  const type      = answers.type ?? "";
-  const price     = computePrice(answers);
-  const typeLabel = TYPES[type] ?? "Проект под ваш запрос";
+  const [min, max] = computeRange(answers);
+  const type = answers[0] ?? "unknown";
 
-  const resultType  = document.getElementById("calc-result-type") as HTMLElement | null;
+  const resultType = document.getElementById("calc-result-type") as HTMLElement | null;
   const resultPrice = document.getElementById("calc-result-price") as HTMLElement | null;
-  const summary     = document.getElementById("calc-result-summary") as HTMLElement | null;
 
-  if (resultType)  resultType.textContent  = `Вы выбрали: ${typeLabel}`;
-  if (resultPrice) resultPrice.textContent = `от ${formatPrice(price)}`;
-
-  if (summary) {
-    summary.innerHTML = steps
-      .filter((s) => s.id in answers)
-      .map((s) => {
-        const label = VALUE_LABELS[answers[s.id]] ?? answers[s.id];
-        return `<li class="chip">${s.title.replace("?", "")}: <strong>${label}</strong></li>`;
-      })
-      .join("");
-  }
+  if (resultType) resultType.textContent = TYPE_LABELS[type] ?? "Проект";
+  if (resultPrice) resultPrice.textContent = `${formatPrice(min)} – ${formatPrice(max)}`;
 
   if (card) card.hidden = true;
   if (result) result.hidden = false;
@@ -376,25 +197,14 @@ function showResult() {
 }
 
 nextBtn?.addEventListener("click", () => {
-  const step = pickingType ? TYPE_PICKER : steps[current];
-  const selected = answers[step.id];
-  if (!selected) {
+  if (!answers[current]) {
     stepBox?.querySelectorAll<HTMLButtonElement>(".option").forEach((btn) => {
       btn.classList.add("field-error");
       setTimeout(() => btn.classList.remove("field-error"), 800);
     });
     return;
   }
-
-  if (pickingType) {
-    steps = TYPE_STEPS[selected] ?? [];
-    pickingType = false;
-    current = 0;
-    renderStep();
-    return;
-  }
-
-  if (current < steps.length - 1) {
+  if (current < total - 1) {
     current += 1;
     renderStep();
   } else {
@@ -403,36 +213,19 @@ nextBtn?.addEventListener("click", () => {
 });
 
 backBtn?.addEventListener("click", () => {
-  if (pickingType) return;
   if (current > 0) {
     current -= 1;
-    renderStep();
-  } else {
-    pickingType = true;
     renderStep();
   }
 });
 
 resetBtn?.addEventListener("click", () => {
-  try { localStorage.removeItem("calc-preset-type"); } catch {}
-  for (const k of Object.keys(answers)) delete answers[k];
-  pickingType = true;
+  for (const k of Object.keys(answers)) delete answers[Number(k)];
   current = 0;
   if (card) card.hidden = false;
   if (result) result.hidden = true;
   renderStep();
   card?.scrollIntoView({ behavior: "smooth", block: "center" });
-});
-
-try {
-  const preset = localStorage.getItem("calc-preset-type");
-  if (preset) { localStorage.removeItem("calc-preset-type"); applyPreset(preset); }
-} catch {}
-
-window.addEventListener("calc:preset", (e: Event) => {
-  const detail = (e as CustomEvent<{ type?: string }>).detail;
-  try { localStorage.removeItem("calc-preset-type"); } catch {}
-  if (detail?.type) applyPreset(detail.type);
 });
 
 renderStep();
