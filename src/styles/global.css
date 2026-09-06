@@ -143,10 +143,17 @@
     border: 1px solid var(--color-edge);
     border-radius: 24px;
     transition:
-      transform 0.3s ease,
-      border-color 0.3s ease,
-      background-color 0.3s ease,
-      box-shadow 0.3s ease;
+      transform 0.25s ease,
+      border-color 0.25s ease,
+      background-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(139, 92, 246, 0.4);
+    box-shadow:
+      0 0 0 1px rgba(139, 92, 246, 0.15),
+      0 12px 40px -12px rgba(139, 92, 246, 0.25);
   }
 
   .chip {
@@ -344,6 +351,69 @@ dialog::backdrop {
 }
 .faq-item[open] .faq-icon {
   transform: rotate(180deg);
+}
+
+/* ---------- Hero load animation ---------- */
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hero-anim {
+  opacity: 0;
+  animation: hero-fade-up 0.6s ease forwards;
+}
+.hero-anim-image {
+  opacity: 0;
+  animation: hero-zoom 0.8s ease forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-anim,
+  .hero-anim-image {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+/* ---------- Scroll reveal ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* ---------- Reduced motion ---------- */

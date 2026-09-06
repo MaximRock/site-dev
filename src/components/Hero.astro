@@ -14,19 +14,35 @@ import Icon from "./Icon.astro";
   </div>
 
   <div class="container-x relative">
-    <div class="max-w-3xl">
+    <div class="hero-image-wrapper pointer-events-none hidden lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[56%] lg:-ml-28 lg:block"
+      aria-hidden="true">
+      <div class="hero-image-glow"></div>
+      <img
+        id="hero-img"
+        src="/team_hero_services_00002_.webp"
+        alt=""
+        class="hero-image hero-anim-image"
+        width="800"
+        height="600"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+    </div>
+
+    <div class="relative max-w-3xl">
       <!-- Eyebrow -->
-      <p class="eyebrow mb-6">Веб-студия «Дизайн + Код»</p>
+      <p class="eyebrow mb-6 hero-anim" style="animation-delay: 0s">Веб-студия «Дизайн + Код»</p>
 
       <!-- H1 -->
-      <h1 class="mb-6">
+      <h1 class="mb-6 hero-anim">
         Создаем сайты, которые<br />
         <span class="text-accent">приносят заявки</span>,<br />
         а не просто красиво выглядят
       </h1>
 
       <!-- Subtitle -->
-      <p class="mb-8 max-w-xl text-lg text-body lg:text-xl">
+      <p class="mb-8 max-w-xl text-lg text-body lg:text-xl hero-anim" style="animation-delay: 0.1s">
         Разрабатываем на <span class="font-semibold text-heading">Tilda</span> и
         <span class="font-semibold text-heading">индивидуальном коде</span>.
         Подбираем решение под задачи вашего бизнеса, чтобы сайт
@@ -34,7 +50,7 @@ import Icon from "./Icon.astro";
       </p>
 
       <!-- CTA buttons -->
-      <div class="flex flex-col gap-3 sm:flex-row">
+      <div class="flex flex-col gap-3 sm:flex-row hero-anim" style="animation-delay: 0.2s">
         <a href="#lead-form" class="btn btn-primary">
           <Icon name="gift" size={18} />
           Получить бесплатный разбор
@@ -77,3 +93,30 @@ import Icon from "./Icon.astro";
     </div>
   </div>
 </section>
+
+<script>
+  const heroWrap = document.querySelector(".hero-image-wrapper") as HTMLElement | null;
+  if (heroWrap) {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isDesktop = () => window.matchMedia("(min-width: 1024px)").matches;
+
+    if (!reduceMotion && isDesktop()) {
+      let ticking = false;
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (!isDesktop()) return;
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              const offset = Math.min(Math.max(window.scrollY * 0.04, 0), 16);
+              heroWrap.style.transform = `translateY(calc(-50% - ${offset}px))`;
+              ticking = false;
+            });
+            ticking = true;
+          }
+        },
+        { passive: true }
+      );
+    }
+  }
+</script>
