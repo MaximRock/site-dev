@@ -10,7 +10,7 @@ export const CONTACTS = {
 
 export const SITE = {
   demoMode: false,
-  metrikaId: 0,
+  metrikaId: 44147844,
 };
 
 export const NAV = [
