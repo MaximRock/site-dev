@@ -1,208 +1,33 @@
 ---
 import Icon from "./Icon.astro";
-
-const fields = [
-  { id: "name", label: "Имя", type: "text", placeholder: "Как к вам обращаться", required: true, autocomplete: "name" },
-  { id: "contact", label: "Контакт", type: "tel", placeholder: "Телефон или мессенджер", required: true, autocomplete: "tel" },
-  { id: "email", label: "Email", type: "email", placeholder: "you@example.ru", required: true, autocomplete: "email" },
-  { id: "comment", label: "Комментарий", type: "textarea", placeholder: "Несколько слов о задаче", required: false, autocomplete: "off" },
-];
 ---
 
-<section id="contacts" class="section-spacing relative overflow-hidden">
+<section class="section-spacing relative overflow-hidden">
   <div
     aria-hidden="true"
     class="pointer-events-none absolute -bottom-24 left-1/2 h-[360px] w-[560px] -translate-x-1/2 rounded-full bg-accent/20 blur-[140px]"
   ></div>
 
-  <div class="container-x relative">
-    <div class="mx-auto max-w-2xl text-center">
-      <p class="eyebrow mb-4">Заявка</p>
+  <div class="container-x relative text-center">
+    <div class="mx-auto max-w-2xl">
+      <p class="eyebrow mb-4">Следующий шаг</p>
       <h2 class="text-3xl sm:text-4xl">
-        Готовы получить сайт, который действительно приносит клиентов?
+        Давайте сначала разберёмся, какой сайт действительно нужен вашему бизнесу
       </h2>
       <p class="mt-4 text-muted">
-        Оставьте заявку. Мы бесплатно подберем оптимальное решение именно для вашего бизнеса.
+        Расскажите, чем вы занимаетесь и какую задачу хотите решить. Мы посмотрим на ситуацию
+        и предложим оптимальный вариант.
       </p>
     </div>
 
-    <form
-      id="lead-form"
-      class="card mx-auto mt-10 max-w-2xl p-6 sm:p-9"
-      novalidate
-      aria-describedby="form-status"
-    >
-      {
-        fields.map((field) => (
-          <div class="mb-5">
-            <label for={`f-${field.id}`} class="field-label">
-              {field.label}
-              {field.required ? <span class="text-accent2" aria-hidden="true"> *</span> : null}
-            </label>
-            {
-              field.type === "textarea" ? (
-                <textarea
-                  id={`f-${field.id}`}
-                  name={field.id}
-                  rows={3}
-                  placeholder={field.placeholder}
-                  class="field"
-                  aria-required={field.required}
-                  autocomplete={field.autocomplete}
-                  aria-describedby={`f-${field.id}-error`}
-                ></textarea>
-              ) : (
-                <input
-                  id={`f-${field.id}`}
-                  name={field.id}
-                  type={field.type}
-                  placeholder={field.placeholder}
-                  class="field"
-                  aria-required={field.required}
-                  autocomplete={field.autocomplete}
-                  aria-describedby={`f-${field.id}-error`}
-                />
-              )
-            }
-            <p id={`f-${field.id}-error`} class="mt-1.5 hidden text-sm text-error" data-field-error={field.id}></p>
-          </div>
-        ))
-      }
+    <ul class="mx-auto mt-8 flex max-w-xl flex-wrap items-center justify-center gap-2">
+      <li class="chip">Без сложных терминов</li>
+      <li class="chip">Без навязывания</li>
+      <li class="chip">Без обязательства заказывать сайт</li>
+    </ul>
 
-      <div class="mb-2 flex items-start gap-3">
-        <input
-          id="f-consent"
-          name="consent"
-          type="checkbox"
-          class="mt-1 h-5 w-5 shrink-0 accent-[#7c3aed]"
-          aria-required="true"
-          aria-describedby="f-consent-error"
-        />
-        <label for="f-consent" class="text-sm text-muted">
-          Я согласен на обработку персональных данных. Полный текст политики будет опубликован после
-          подготовки юридических документов.
-        </label>
-      </div>
-      <p id="f-consent-error" class="mb-6 mt-1.5 hidden text-sm text-error" data-field-error="consent"></p>
-
-      <button id="submit-btn" type="submit" class="btn btn-primary w-full">
-        Получить консультацию бесплатно
-      </button>
-
-      <p
-        id="form-status"
-        role="status"
-        aria-live="polite"
-        class="mt-4 hidden rounded-xl px-4 py-3 text-center text-sm font-medium"
-      ></p>
-
-      <p class="mt-4 text-center text-xs text-muted">
-        Форма сейчас не отправляет данные. Отправка заявок на почту будет подключена позже.
-      </p>
-    </form>
+    <a href="#lead-form" class="btn btn-primary mt-8">
+      Получить бесплатный разбор
+    </a>
   </div>
 </section>
-
-<script>
-  import confetti from "canvas-confetti";
-
-  const form = document.getElementById("lead-form") as HTMLFormElement | null;
-  const status = document.getElementById("form-status") as HTMLElement | null;
-  const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement | null;
-
-  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-  function setStatus(message: string, kind: "success" | "error") {
-    if (!status) return;
-    status.classList.remove("hidden", "bg-success/15", "text-success", "bg-error/15", "text-error");
-    status.classList.add(kind === "success" ? "bg-success/15 text-success" : "bg-error/15 text-error");
-    status.textContent = message;
-  }
-
-  form?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    if (!form || !status) return;
-    const data = new FormData(form);
-
-    const name = String(data.get("name") ?? "").trim();
-    const contact = String(data.get("contact") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim();
-    const consent = data.get("consent") === "on";
-
-    let firstError: HTMLElement | null = null;
-    const errors: Record<string, string> = {};
-
-    form.querySelectorAll<HTMLElement>(".field-error").forEach((el) => el.classList.remove("field-error"));
-    form.querySelectorAll<HTMLElement>("[data-field-error]").forEach((el) => {
-      el.textContent = "";
-      el.classList.add("hidden");
-    });
-    form.querySelectorAll<HTMLElement>("[aria-invalid]").forEach((el) => el.removeAttribute("aria-invalid"));
-
-    if (!name) errors.name = "Введите имя";
-    if (!contact) errors.contact = "Укажите телефон или мессенджер";
-    else if (contact.length < 6) errors.contact = "Контакт слишком короткий";
-    if (!email) errors.email = "Введите email";
-    else if (!EMAIL_RE.test(email)) errors.email = "Проверьте формат email";
-    if (!consent) errors.consent = "Нужно согласие на обработку данных";
-
-    Object.keys(errors).forEach((id) => {
-      const input = form.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${id}"]`);
-      const errEl = form.querySelector<HTMLElement>(`[data-field-error="${id}"]`);
-      if (input && errEl) {
-        input.classList.add("field-error");
-        input.setAttribute("aria-invalid", "true");
-        errEl.textContent = errors[id];
-        errEl.classList.remove("hidden");
-        if (!firstError) firstError = input;
-      }
-    });
-
-    if (Object.keys(errors).length > 0) {
-      firstError?.focus();
-      setStatus("Проверьте выделенные поля", "error");
-      return;
-    }
-
-    submitBtn!.disabled = true;
-    submitBtn.textContent = "Отправляем...";
-    setStatus("", "success");
-
-    setTimeout(() => {
-      submitBtn!.disabled = false;
-      submitBtn.textContent = "Получить консультацию бесплатно";
-      setStatus("Форма заполнена. Отправка заявок будет подключена позже.", "success");
-      form.reset();
-
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (!reduceMotion) {
-        confetti({ particleCount: 80, spread: 70, origin: { y: 0.7 }, colors: ["#7c3aed", "#a855f7", "#ffffff"] });
-      }
-      status.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    }, 700);
-  });
-
-  // Clear error state on input
-  form?.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea").forEach((el) => {
-    el.addEventListener("input", () => {
-      el.classList.remove("field-error");
-      el.removeAttribute("aria-invalid");
-      const errEl = form.querySelector<HTMLElement>(`[data-field-error="${el.name}"]`);
-      if (errEl) {
-        errEl.textContent = "";
-        errEl.classList.add("hidden");
-      }
-    });
-  });
-
-  const consentEl = document.getElementById("f-consent") as HTMLInputElement | null;
-  consentEl?.addEventListener("change", () => {
-    consentEl.classList.remove("field-error");
-    consentEl.removeAttribute("aria-invalid");
-    const errEl = form?.querySelector<HTMLElement>(`[data-field-error="${consentEl.name}"]`);
-    if (errEl) {
-      errEl.textContent = "";
-      errEl.classList.add("hidden");
-    }
-  });
-</script>

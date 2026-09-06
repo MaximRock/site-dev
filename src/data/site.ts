@@ -18,6 +18,7 @@ export const NAV = [
   { label: "Как работаем", href: "#process" },
   { label: "О нас", href: "#about" },
   { label: "FAQ", href: "#faq" },
+  { label: "Контакты", href: "#contacts" },
 ];
 
 export const NAV_DESKTOP = [

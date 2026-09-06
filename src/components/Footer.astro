@@ -4,9 +4,10 @@ import Icon from "./Icon.astro";
 ---
 
 <footer class="border-t border-line bg-footer pt-16 pb-28 md:pb-10">
-  <div class="container-x grid gap-12 md:grid-cols-[1.4fr_1fr] lg:grid-cols-[1.4fr_1fr_1fr]">
+  <div class="container-x grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.2fr]">
+    <!-- Left: brand + CTA -->
     <div>
-      <a href="#top" class="flex items-center gap-3" aria-label="Дизайн плюс Код — на главную">
+      <a href="#top" class="flex items-center gap-3" aria-label="Дизайн + Код — на главную">
         <img
           src="/logo.png"
           alt="Логотип веб-студии «Дизайн + Код»"
@@ -16,22 +17,23 @@ import Icon from "./Icon.astro";
           class="h-11 w-11 rounded-xl object-contain"
         />
         <span class="font-display text-xl font-extrabold text-heading">
-          Дизайн <span class="text-accent2">+</span> Код
+          Дизайн <span class="text-accent">+</span> Код
         </span>
       </a>
       <p class="mt-5 max-w-sm text-muted">
-        Создаем сайты, которые помогают бизнесу продавать. Работаем напрямую: над проектом только
-        дизайнер и разработчик.
+        Сайты, которые работают на бизнес.
       </p>
+      <a href="#lead-form" class="btn btn-primary btn-sm mt-6">Получить бесплатный разбор</a>
     </div>
 
+    <!-- Nav -->
     <nav aria-label="Навигация в подвале">
-      <h3 class="font-display text-sm font-bold uppercase tracking-wider text-heading">Меню</h3>
+      <h3 class="font-display text-sm font-bold uppercase tracking-wider text-heading">Навигация</h3>
       <ul class="mt-4 space-y-2">
         {
           NAV.map((item) => (
             <li>
-              <a href={item.href} class="text-body transition hover:text-accent2">
+              <a href={item.href} class="text-body transition hover:text-accent">
                 {item.label}
               </a>
             </li>
@@ -40,54 +42,31 @@ import Icon from "./Icon.astro";
       </ul>
     </nav>
 
+    <!-- Contacts -->
     <div>
       <h3 class="font-display text-sm font-bold uppercase tracking-wider text-heading">Контакты</h3>
       <ul class="mt-4 space-y-3">
         <li>
-          <a href={CONTACTS.phoneUrl} class="flex items-center gap-3 font-display font-bold text-heading transition hover:text-accent2">
-            <Icon name="phone" size={20} class="text-accent2" />
+          <a href={CONTACTS.phoneUrl} class="flex items-center gap-3 font-display font-bold text-heading transition hover:text-accent">
+            <Icon name="phone" size={20} class="text-accent" />
             {CONTACTS.phone}
           </a>
         </li>
         <li>
-          <a
-            href={CONTACTS.telegram}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center gap-3 text-body transition hover:text-accent2"
-          >
-            <Icon name="telegram" size={20} class="text-accent2" />
+          <a href={CONTACTS.telegram} target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-body transition hover:text-accent">
+            <Icon name="telegram" size={20} class="text-accent" />
             Telegram
           </a>
         </li>
         <li>
-          <a
-            href={CONTACTS.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center gap-3 text-body transition hover:text-accent2"
-          >
-            <Icon name="whatsapp" size={20} class="text-accent2" />
+          <a href={CONTACTS.whatsapp} target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-body transition hover:text-accent">
+            <Icon name="whatsapp" size={20} class="text-accent" />
             WhatsApp
           </a>
         </li>
         <li>
-          <a
-            href={CONTACTS.max}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center gap-3 text-body transition hover:text-accent2"
-          >
-            <Icon name="max" size={20} class="text-accent2" />
-            Макс
-          </a>
-        </li>
-        <li>
-          <a
-            href={CONTACTS.emailUrl}
-            class="flex items-center gap-3 text-body transition hover:text-accent2"
-          >
-            <Icon name="mail" size={20} class="text-accent2" />
+          <a href={CONTACTS.emailUrl} class="flex items-center gap-3 text-body transition hover:text-accent">
+            <Icon name="mail" size={20} class="text-accent" />
             {CONTACTS.email}
           </a>
         </li>
