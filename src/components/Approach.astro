@@ -43,13 +43,14 @@ import Icon from "./Icon.astro";
     </div>
 
     <!-- Mobile: compact list -->
-    <ol class="mt-10 flex flex-col items-center gap-2 lg:hidden" aria-label="Путь клиента">
+    <ol class="mt-10 flex flex-wrap items-center justify-center gap-2 lg:hidden" aria-label="Путь клиента">
       {
-        ["ЦА", "ОФФЕР", "СТРУКТУРА", "ДИЗАЙН", "КОД", "ЗАЯВКА"].map((step) => (
+        ["ЦА", "ОФФЕР", "СТРУКТУРА", "ДИЗАЙН", "КОД", "ЗАЯВКА"].map((step, i) => (
           <li class="flex items-center gap-2">
             <span class="rounded-xl border border-line bg-card px-4 py-2.5 font-display text-xs font-bold uppercase tracking-wider text-body">
               {step}
             </span>
+            {i < 5 && <Icon name="arrowRight" size={18} class="text-accent/70" />}
           </li>
         ))
       }
