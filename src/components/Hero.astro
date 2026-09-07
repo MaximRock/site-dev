@@ -2,9 +2,10 @@
 import Icon from "./Icon.astro";
 ---
 
-<section id="top" class="relative overflow-hidden pt-24 pb-16 lg:pt-32 lg:pb-24">
+<section id="top" class="relative overflow-hidden mt-0 pt-[110px] pb-20 xl:mt-[-94px] xl:pt-[206px] xl:pb-32">
   <!-- Background -->
   <div aria-hidden="true" class="pointer-events-none absolute inset-0">
+    <div class="hero-bg"></div>
     <div class="absolute -top-32 right-[-12%] h-[540px] w-[540px] rounded-full bg-accent/25 blur-[130px]"></div>
     <div class="absolute bottom-[-22%] left-[-12%] h-[440px] w-[440px] rounded-full bg-accent-blue/15 blur-[130px]"></div>
     <div
@@ -14,22 +15,6 @@ import Icon from "./Icon.astro";
   </div>
 
   <div class="container-x relative">
-    <div class="hero-image-wrapper pointer-events-none hidden lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[56%] lg:-ml-28 lg:block"
-      aria-hidden="true">
-      <div class="hero-image-glow"></div>
-      <img
-        id="hero-img"
-        src="/team_hero_services_00002_.webp"
-        alt=""
-        class="hero-image hero-anim-image"
-        width="800"
-        height="600"
-        loading="eager"
-        decoding="async"
-        fetchpriority="high"
-      />
-    </div>
-
     <div class="relative max-w-3xl">
       <!-- Label -->
       <p class="eyebrow mb-6 hero-anim" style="animation-delay: 0s">Дизайн + Код / Веб-разработка</p>
@@ -78,8 +63,7 @@ import Icon from "./Icon.astro";
       </div>
     </div>
 
-    <!-- Floating gift card -->
-    <div class="card mt-10 flex items-center gap-4 p-4 lg:mt-0 lg:absolute lg:right-0 lg:bottom-8 lg:max-w-sm">
+    {/* <div class="card mt-10 flex items-center gap-4 p-4 lg:mt-0 lg:absolute lg:right-0 lg:bottom-8 lg:max-w-sm">
       <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent/15 text-accent">
         <Icon name="gift" size={24} />
       </div>
@@ -90,33 +74,6 @@ import Icon from "./Icon.astro";
         </p>
       </div>
       <span class="demo-badge shrink-0 self-start sm:self-center">Материал готовится</span>
-    </div>
+    </div> */}
   </div>
 </section>
-
-<script>
-  const heroWrap = document.querySelector(".hero-image-wrapper") as HTMLElement | null;
-  if (heroWrap) {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isDesktop = () => window.matchMedia("(min-width: 1024px)").matches;
-
-    if (!reduceMotion && isDesktop()) {
-      let ticking = false;
-      window.addEventListener(
-        "scroll",
-        () => {
-          if (!isDesktop()) return;
-          if (!ticking) {
-            window.requestAnimationFrame(() => {
-              const offset = Math.min(Math.max(window.scrollY * 0.04, 0), 16);
-              heroWrap.style.transform = `translateY(calc(-50% - ${offset}px))`;
-              ticking = false;
-            });
-            ticking = true;
-          }
-        },
-        { passive: true }
-      );
-    }
-  }
-</script>

@@ -7,34 +7,31 @@ const phone = CONTACTS.phone;
 const phoneUrl = CONTACTS.phoneUrl;
 const telegram = CONTACTS.telegram;
 const whatsapp = CONTACTS.whatsapp;
+const max = CONTACTS.max;
 ---
 
-<header
-  class="sticky top-0 z-40 border-b border-line/60 bg-deep/70 backdrop-blur-xl transition-all duration-300"
->
-  <div class="container-x flex items-center justify-between h-16 lg:h-18">
-    <!-- Logo -->
-    <a href="#top" class="flex items-center gap-2.5 shrink-0" aria-label="Дизайн + Код — на главную">
+<header class="absolute top-2.5 left-2.5 right-2.5 z-40 rounded-xl border border-edge/70 bg-deep/80 backdrop-blur-lg p-2 transition-transform duration-300 xl:sticky xl:top-4 xl:left-auto xl:right-auto xl:mt-4 xl:mx-auto xl:w-fit xl:max-w-none xl:p-4">
+  <div class="flex items-center justify-between gap-4">
+    <a href="#top" class="flex items-center gap-3" aria-label="Дизайн плюс Код — на главную">
       <img
         src="/logo.png"
         alt="Логотип веб-студии «Дизайн + Код»"
-        width="36"
-        height="36"
+        width="40"
+        height="40"
         loading="eager"
-        class="h-9 w-9 rounded-lg object-contain"
+        class="h-10 w-10 rounded-xl object-contain"
       />
-      <span class="font-display text-base font-extrabold leading-none text-heading hidden sm:block">
-        Дизайн <span class="text-accent">+</span> Код
+      <span class="font-display text-lg font-extrabold leading-none text-heading">
+        Дизайн <span class="text-accent2">+</span> Код
       </span>
     </a>
 
-    <!-- Desktop nav -->
-    <nav class="hidden lg:flex items-center gap-1" aria-label="Основная навигация">
+    <nav class="hidden items-center gap-1 xl:flex" aria-label="Основная навигация">
       {
         NAV_DESKTOP.map((item) => (
           <a
             href={item.href}
-            class="rounded-lg px-3 py-2 text-sm font-medium text-body transition-colors hover:text-heading"
+            class="rounded-lg px-3 py-2 text-sm font-medium text-body transition hover:text-accent2"
           >
             {item.label}
           </a>
@@ -42,77 +39,83 @@ const whatsapp = CONTACTS.whatsapp;
       }
     </nav>
 
-    <!-- Desktop right -->
-    <div class="hidden lg:flex items-center gap-3">
+    <div class="hidden items-center gap-4 xl:flex">
       <a
         href={phoneUrl}
-        class="flex items-center gap-2 font-display text-sm font-bold text-heading transition-colors hover:text-accent"
+        class="group flex items-center gap-2 font-display text-sm font-bold text-heading transition hover:text-accent2"
         data-goal="phone_click"
       >
         <span class="status-dot" aria-hidden="true"></span>
         {phone}
       </a>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-3">
+        <a
+          href={max}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Написать в Макс"
+          class="transition hover:opacity-80"
+        >
+          <img src="/max.svg" alt="Макс" class="h-[28px] w-[28px] rounded-xl" />
+        </a>
         <a
           href={telegram}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Telegram"
+          aria-label="Написать в Telegram"
+          class="text-[#229ED9] transition hover:opacity-80"
           data-goal="telegram_click"
-          class="text-[#229ED9] transition-opacity hover:opacity-80"
         >
-          <BrandIcon name="simple-icons:telegram" size={22} />
+          <BrandIcon name="simple-icons:telegram" size={28} />
         </a>
         <a
           href={whatsapp}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="WhatsApp"
+          aria-label="Написать в WhatsApp"
+          class="text-[#25D366] transition hover:opacity-80"
           data-goal="whatsapp_click"
-          class="text-[#25D366] transition-opacity hover:opacity-80"
         >
-          <BrandIcon name="simple-icons:whatsapp" size={22} />
+          <BrandIcon name="simple-icons:whatsapp" size={28} />
         </a>
       </div>
       <a href="#lead-form" class="btn btn-primary btn-sm" data-goal="click_consultation">Получить бесплатный разбор</a>
     </div>
 
-    <!-- Mobile toggle -->
     <button
       id="menu-toggle"
       type="button"
-      class="inline-flex lg:hidden h-10 w-10 items-center justify-center rounded-lg border border-edge text-heading transition-colors hover:text-accent"
+      class="inline-flex h-9 w-9 xl:h-11 xl:w-11 items-center justify-center rounded-xl border border-edge text-heading transition hover:text-accent2"
       aria-expanded="false"
       aria-controls="mobile-menu"
       aria-label="Открыть меню"
     >
-      <Icon name="menu" class="h-5 w-5" />
+      <Icon name="menu" class="h-5 w-5 xl:h-6 xl:w-6" />
     </button>
   </div>
 </header>
 
-<!-- Mobile menu -->
 <div
   id="mobile-menu"
   hidden
-  class="fixed inset-0 z-50 flex flex-col bg-deep"
+  class="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-deep xl:left-auto xl:top-0 xl:right-0 xl:bottom-0 xl:w-[350px] xl:bg-deep/95 xl:backdrop-blur xl:border-l xl:border-t-0 xl:shadow-2xl"
 >
-  <div class="flex items-center justify-between border-b border-edge px-5 h-16">
-    <a href="#top" class="flex items-center gap-2.5" aria-label="Дизайн + Код — на главную">
-      <img src="/logo.png" alt="Логотип" width="32" height="32" loading="eager" class="h-8 w-8 rounded-lg object-contain" />
-      <span class="font-display text-base font-extrabold text-heading">Дизайн <span class="text-accent">+</span> Код</span>
+  <div class="flex items-center justify-between border-b border-edge px-5 py-4 xl:px-6 xl:py-5">
+    <a href="#top" class="flex items-center gap-3" aria-label="Дизайн плюс Код — на главную">
+      <img src="/logo.png" alt="Логотип веб-студии «Дизайн + Код»" width="36" height="36" loading="eager" class="h-9 w-9 rounded-xl object-contain" />
+      <span class="font-display text-lg font-extrabold leading-none text-heading">Дизайн <span class="text-accent2">+</span> Код</span>
     </a>
-    <button id="menu-close" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-edge text-heading transition-colors hover:text-accent" aria-label="Закрыть меню">
-      <Icon name="close" size={20} />
+    <button id="menu-close" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-edge text-heading transition hover:text-accent2" aria-label="Закрыть меню">
+      <Icon name="close" size={22} />
     </button>
   </div>
 
-  <nav aria-label="Мобильная навигация" class="flex flex-col justify-center px-5 py-4 flex-1">
+  <nav aria-label="Мобильная навигация" class="flex flex-1 flex-col justify-center px-5 py-4">
     {
       NAV.map((item) => (
         <a
           href={item.href}
-          class="rounded-lg px-3 py-3.5 text-base font-medium text-body transition-colors hover:text-heading"
+          class="rounded-lg px-2 py-3 text-base font-medium text-body transition hover:text-heading xl:px-6 xl:text-xl"
         >
           {item.label}
         </a>
@@ -120,35 +123,54 @@ const whatsapp = CONTACTS.whatsapp;
     }
   </nav>
 
-  <div class="flex flex-col gap-3 border-t border-edge p-5">
-    <a href={phoneUrl} class="flex items-center gap-2 font-display text-sm font-bold text-heading">
+  <div class="mt-auto flex flex-col gap-3 border-t border-edge p-5 xl:gap-5 xl:p-6">
+    <a href={phoneUrl} class="flex items-center gap-2 font-display text-sm font-bold text-heading xl:text-lg">
       <span class="status-dot" aria-hidden="true"></span>
       {phone}
     </a>
     <div class="flex items-center gap-3">
-      <a href={telegram} target="_blank" rel="noopener noreferrer" aria-label="Telegram" data-goal="telegram_click" class="text-[#229ED9] transition-opacity hover:opacity-80">
-        <BrandIcon name="simple-icons:telegram" size={24} />
+      <a href={max} target="_blank" rel="noopener noreferrer" aria-label="Написать в Макс" class="transition hover:opacity-80">
+        <img src="/max.svg" alt="Макс" class="h-7 w-7 rounded-xl" />
       </a>
-      <a href={whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" data-goal="whatsapp_click" class="text-[#25D366] transition-opacity hover:opacity-80">
-        <BrandIcon name="simple-icons:whatsapp" size={24} />
+      <a href={telegram} target="_blank" rel="noopener noreferrer" aria-label="Написать в Telegram" class="text-[#229ED9] transition hover:opacity-80" data-goal="telegram_click">
+        <BrandIcon name="simple-icons:telegram" size={28} />
+      </a>
+      <a href={whatsapp} target="_blank" rel="noopener noreferrer" aria-label="Написать в WhatsApp" class="text-[#25D366] transition hover:opacity-80" data-goal="whatsapp_click">
+        <BrandIcon name="simple-icons:whatsapp" size={28} />
       </a>
     </div>
     <a href="#lead-form" class="btn btn-primary w-full" data-goal="click_consultation">Получить бесплатный разбор</a>
   </div>
 </div>
 
-<div id="menu-backdrop" hidden class="fixed inset-0 z-[45] bg-deep/40 backdrop-blur-sm"></div>
+<div id="menu-backdrop" hidden class="fixed inset-0 z-[45] backdrop-blur-md bg-deep/30"></div>
 
 <script>
   const toggle = document.getElementById("menu-toggle") as HTMLButtonElement | null;
   const menu = document.getElementById("mobile-menu") as HTMLElement | null;
   const backdrop = document.getElementById("menu-backdrop") as HTMLElement | null;
+  const header = document.querySelector("header");
+  const isDesktop = () => window.matchMedia("(min-width: 1280px)").matches;
+
+  let menuOpen = false;
+  const topOffset = header ? header.getBoundingClientRect().top : 0;
+  const peek = 18;
+
+  const showHeader = () => { if (!header) return; header.style.transform = ""; header.classList.remove("peeking"); };
+  const hideHeader = () => {
+    if (!header || !isDesktop()) return;
+    const hideY = header.offsetHeight + topOffset - peek;
+    header.style.transform = `translateY(${-hideY}px)`;
+    header.classList.add("peeking");
+  };
 
   const closeMenu = () => {
     if (!menu) return;
     menu.hidden = true;
     if (backdrop) backdrop.hidden = true;
     document.documentElement.style.overflow = "";
+    menuOpen = false;
+    if (window.scrollY > 0) hideHeader(); else showHeader();
     toggle?.setAttribute("aria-expanded", "false");
     toggle?.setAttribute("aria-label", "Открыть меню");
   };
@@ -158,16 +180,42 @@ const whatsapp = CONTACTS.whatsapp;
     menu.hidden = false;
     if (backdrop) backdrop.hidden = false;
     document.documentElement.style.overflow = "hidden";
+    menuOpen = true;
+    showHeader();
     toggle?.setAttribute("aria-expanded", "true");
     toggle?.setAttribute("aria-label", "Закрыть меню");
   };
 
   toggle?.addEventListener("click", () => {
-    menu?.hidden ? openMenu() : closeMenu();
+    if (!menu) return;
+    menu.hidden ? openMenu() : closeMenu();
   });
 
   backdrop?.addEventListener("click", closeMenu);
+
   document.getElementById("menu-close")?.addEventListener("click", closeMenu);
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(); });
-  menu?.querySelectorAll("a").forEach((link) => { link.addEventListener("click", closeMenu); });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMenu();
+  });
+
+  menu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  let ticking = false;
+  window.addEventListener("scroll", () => {
+    if (menuOpen || !isDesktop() || !header) return;
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        if (window.scrollY <= topOffset + peek) showHeader(); else hideHeader();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  header?.addEventListener("mouseenter", showHeader);
+  header?.addEventListener("mouseleave", () => { if (window.scrollY > 0 && isDesktop()) hideHeader(); });
+  header?.addEventListener("click", showHeader);
 </script>
