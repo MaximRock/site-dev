@@ -1,5 +1,5 @@
 ---
-import { FORM_OPTIONS } from "../data/site.js";
+import { FORM_OPTIONS, TELEGRAM } from "../data/site.js";
 import Icon from "./Icon.astro";
 ---
 
@@ -16,6 +16,8 @@ import Icon from "./Icon.astro";
       class="card mx-auto mt-10 max-w-2xl p-6 sm:p-9"
       novalidate
       aria-describedby="form-status"
+      data-bot-token={TELEGRAM.botToken}
+      data-chat-id={TELEGRAM.chatId}
     >
       <div class="grid gap-5 sm:grid-cols-2">
         <div>
@@ -132,12 +134,26 @@ import Icon from "./Icon.astro";
   const status = document.getElementById("form-status") as HTMLElement | null;
   const success = document.getElementById("form-success") as HTMLElement | null;
   const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement | null;
+  const botToken = form?.dataset.botToken ?? "";
+  const chatId = form?.dataset.chatId ?? "";
 
   function setStatus(message: string, kind: "success" | "error") {
     if (!status) return;
     status.classList.remove("hidden", "bg-success/15", "text-success", "bg-error/15", "text-error");
     status.classList.add(kind === "success" ? "bg-success/15 text-success" : "bg-error/15 text-error");
     status.textContent = message;
+  }
+
+  function showSuccess() {
+    ;(window as any).__track?.("form_submit");
+    form.hidden = true;
+    if (success) success.hidden = false;
+    success?.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduceMotion) {
+      confetti({ particleCount: 80, spread: 70, origin: { y: 0.7 }, colors: ["#8b5cf6", "#a855f7", "#ffffff"] });
+    }
   }
 
   form?.addEventListener("submit", (e) => {
@@ -182,21 +198,43 @@ import Icon from "./Icon.astro";
       return;
     }
 
+    const subject = form.querySelector<HTMLSelectElement>('select[name="subject"]')?.selectedOptions[0]?.textContent?.trim() ?? "";
+    const comment = String(data.get("comment") ?? "").trim();
+    const message =
+      "📩 Новая заявка\n\n" +
+      `Имя: ${name}\n` +
+      `Контакт: ${contact}\n` +
+      `Тема: ${subject}\n` +
+      `Комментарий: ${comment || "—"}\n` +
+      (consent ? "Согласие: ✅" : "Согласие: ❌");
+
     submitBtn!.disabled = true;
     submitBtn.textContent = "Отправляем...";
     setStatus("", "success");
 
-    setTimeout(() => {
-      ;(window as any).__track?.("form_submit");
-      form.hidden = true;
-      if (success) success.hidden = false;
-      success?.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (!botToken || !chatId) {
+      showSuccess();
+      return;
+    }
 
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (!reduceMotion) {
-        confetti({ particleCount: 80, spread: 70, origin: { y: 0.7 }, colors: ["#8b5cf6", "#a855f7", "#ffffff"] });
-      }
-    }, 700);
+    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: Number(chatId), text: message }),
+    })
+      .then((res) => res.json())
+      .then((result: { ok?: boolean }) => {
+        if (result.ok) {
+          showSuccess();
+        } else {
+          throw new Error("telegram api rejected");
+        }
+      })
+      .catch(() => {
+        setStatus("Не удалось отправить заявку, попробуйте ещё раз", "error");
+        submitBtn!.disabled = false;
+        submitBtn.textContent = "Получить бесплатный разбор";
+      });
   });
 
   form?.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>("input, textarea, select").forEach((el) => {
