@@ -13,11 +13,6 @@ export const SITE = {
   metrikaId: 44147844,
 };
 
-export const TELEGRAM = {
-  botToken: import.meta.env.TELEGRAM_BOT_TOKEN ?? "",
-  chatId: import.meta.env.TELEGRAM_CHAT_ID ?? "",
-};
-
 export const NAV = [
   { label: "Услуги", href: "#services" },
   { label: "Кейсы", href: "#cases" },

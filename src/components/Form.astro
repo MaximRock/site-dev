@@ -1,5 +1,5 @@
 ---
-import { FORM_OPTIONS, TELEGRAM } from "../data/site.js";
+import { FORM_OPTIONS } from "../data/site.js";
 import Icon from "./Icon.astro";
 ---
 
@@ -16,8 +16,6 @@ import Icon from "./Icon.astro";
       class="card mx-auto mt-10 max-w-2xl p-6 sm:p-9"
       novalidate
       aria-describedby="form-status"
-      data-bot-token={TELEGRAM.botToken}
-      data-chat-id={TELEGRAM.chatId}
     >
       <div class="grid gap-5 sm:grid-cols-2">
         <div>
@@ -134,8 +132,6 @@ import Icon from "./Icon.astro";
   const status = document.getElementById("form-status") as HTMLElement | null;
   const success = document.getElementById("form-success") as HTMLElement | null;
   const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement | null;
-  const botToken = form?.dataset.botToken ?? "";
-  const chatId = form?.dataset.chatId ?? "";
 
   function setStatus(message: string, kind: "success" | "error") {
     if (!status) return;
@@ -200,38 +196,34 @@ import Icon from "./Icon.astro";
 
     const subject = form.querySelector<HTMLSelectElement>('select[name="subject"]')?.selectedOptions[0]?.textContent?.trim() ?? "";
     const comment = String(data.get("comment") ?? "").trim();
-    const message =
-      "📩 Новая заявка\n\n" +
-      `Имя: ${name}\n` +
-      `Контакт: ${contact}\n` +
-      `Тема: ${subject}\n` +
-      `Комментарий: ${comment || "—"}\n` +
-      (consent ? "Согласие: ✅" : "Согласие: ❌");
 
     submitBtn!.disabled = true;
     submitBtn.textContent = "Отправляем...";
     setStatus("", "success");
 
-    if (!botToken || !chatId) {
-      showSuccess();
-      return;
-    }
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
 
-    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+    fetch("/api/send-lead", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: Number(chatId), text: message }),
+      body: JSON.stringify({ name, contact, subject, comment, consent }),
+      signal: controller.signal,
     })
       .then((res) => res.json())
-      .then((result: { ok?: boolean }) => {
+      .then((result: { ok?: boolean; message?: string }) => {
         if (result.ok) {
           showSuccess();
         } else {
-          throw new Error("telegram api rejected");
+          throw new Error(result.message || "telegram rejected");
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error("[lead-form]", err);
         setStatus("Не удалось отправить заявку, попробуйте ещё раз", "error");
+      })
+      .finally(() => {
+        clearTimeout(timeout);
         submitBtn!.disabled = false;
         submitBtn.textContent = "Получить бесплатный разбор";
       });
