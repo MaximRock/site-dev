@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@iconify-json/simple-icons": "^1.2.93",
-    "@nanonets/graft": "^0.10.1"
+    "@nanonets/graft": "^0.10.1",
+    "vercel": "^59.16.0"
   }
 }

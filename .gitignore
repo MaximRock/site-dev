@@ -10,3 +10,5 @@ graft/
 prompt.md
 plan-site.docx
 data-for.md
+.vercel
+.env*
