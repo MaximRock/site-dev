@@ -135,8 +135,9 @@ import Icon from "./Icon.astro";
 
   function setStatus(message: string, kind: "success" | "error") {
     if (!status) return;
-    status.classList.remove("hidden", "bg-success/15", "text-success", "bg-error/15", "text-error");
-    status.classList.add(kind === "success" ? "bg-success/15 text-success" : "bg-error/15 text-error");
+    const statusClasses = kind === "success" ? ["bg-success/15", "text-success"] : ["bg-error/15", "text-error"];
+    status.classList.remove("hidden", ...statusClasses);
+    status.classList.add(...statusClasses);
     status.textContent = message;
   }
 
@@ -155,78 +156,85 @@ import Icon from "./Icon.astro";
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
     if (!form || !status) return;
-    const data = new FormData(form);
+    try {
+      const data = new FormData(form);
 
-    const name = String(data.get("name") ?? "").trim();
-    const contact = String(data.get("contact") ?? "").trim();
-    const consent = data.get("consent") === "on";
+      const name = String(data.get("name") ?? "").trim();
+      const contact = String(data.get("contact") ?? "").trim();
+      const consent = data.get("consent") === "on";
 
-    let firstError: HTMLElement | null = null;
-    const errors: Record<string, string> = {};
+      let firstError: HTMLElement | null = null;
+      const errors: Record<string, string> = {};
 
-    form.querySelectorAll<HTMLElement>(".field-error").forEach((el) => el.classList.remove("field-error"));
-    form.querySelectorAll<HTMLElement>("[data-field-error]").forEach((el) => {
-      el.textContent = "";
-      el.classList.add("hidden");
-    });
-    form.querySelectorAll<HTMLElement>("[aria-invalid]").forEach((el) => el.removeAttribute("aria-invalid"));
-
-    if (!name) errors.name = "Введите имя";
-    if (!contact) errors.contact = "Укажите телефон или Telegram";
-    else if (contact.length < 6) errors.contact = "Контакт слишком короткий";
-    if (!consent) errors.consent = "Нужно согласие на обработку данных";
-
-    Object.keys(errors).forEach((id) => {
-      const input = form.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${id}"]`);
-      const errEl = form.querySelector<HTMLElement>(`[data-field-error="${id}"]`);
-      if (input && errEl) {
-        input.classList.add("field-error");
-        input.setAttribute("aria-invalid", "true");
-        errEl.textContent = errors[id];
-        errEl.classList.remove("hidden");
-        if (!firstError) firstError = input;
-      }
-    });
-
-    if (Object.keys(errors).length > 0) {
-      firstError?.focus();
-      setStatus("Проверьте выделенные поля", "error");
-      return;
-    }
-
-    const subject = form.querySelector<HTMLSelectElement>('select[name="subject"]')?.selectedOptions[0]?.textContent?.trim() ?? "";
-    const comment = String(data.get("comment") ?? "").trim();
-
-    submitBtn!.disabled = true;
-    submitBtn.textContent = "Отправляем...";
-    setStatus("", "success");
-
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
-
-    fetch("/api/send-lead", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, contact, subject, comment, consent }),
-      signal: controller.signal,
-    })
-      .then((res) => res.json())
-      .then((result: { ok?: boolean; message?: string }) => {
-        if (result.ok) {
-          showSuccess();
-        } else {
-          throw new Error(result.message || "telegram rejected");
-        }
-      })
-      .catch((err) => {
-        console.error("[lead-form]", err);
-        setStatus("Не удалось отправить заявку, попробуйте ещё раз", "error");
-      })
-      .finally(() => {
-        clearTimeout(timeout);
-        submitBtn!.disabled = false;
-        submitBtn.textContent = "Получить бесплатный разбор";
+      form.querySelectorAll<HTMLElement>(".field-error").forEach((el) => el.classList.remove("field-error"));
+      form.querySelectorAll<HTMLElement>("[data-field-error]").forEach((el) => {
+        el.textContent = "";
+        el.classList.add("hidden");
       });
+      form.querySelectorAll<HTMLElement>("[aria-invalid]").forEach((el) => el.removeAttribute("aria-invalid"));
+
+      if (!name) errors.name = "Введите имя";
+      if (!contact) errors.contact = "Укажите телефон или Telegram";
+      else if (contact.length < 6) errors.contact = "Контакт слишком короткий";
+      if (!consent) errors.consent = "Нужно согласие на обработку данных";
+
+      Object.keys(errors).forEach((id) => {
+        const input = form.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${id}"]`);
+        const errEl = form.querySelector<HTMLElement>(`[data-field-error="${id}"]`);
+        if (input && errEl) {
+          input.classList.add("field-error");
+          input.setAttribute("aria-invalid", "true");
+          errEl.textContent = errors[id];
+          errEl.classList.remove("hidden");
+          if (!firstError) firstError = input;
+        }
+      });
+
+      if (Object.keys(errors).length > 0) {
+        firstError?.focus();
+        setStatus("Проверьте выделенные поля", "error");
+        return;
+      }
+
+      const subject = form.querySelector<HTMLSelectElement>('select[name="subject"]')?.selectedOptions[0]?.textContent?.trim() ?? "";
+      const comment = String(data.get("comment") ?? "").trim();
+
+      submitBtn!.disabled = true;
+      submitBtn.textContent = "Отправляем...";
+      setStatus("", "success");
+
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+
+      fetch("/api/send-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, contact, subject, comment, consent }),
+        signal: controller.signal,
+      })
+        .then((res) => res.json())
+        .then((result: { ok?: boolean; message?: string }) => {
+          if (result.ok) {
+            showSuccess();
+          } else {
+            throw new Error(result.message || "telegram rejected");
+          }
+        })
+        .catch((err) => {
+          console.error("[lead-form]", err);
+          setStatus("Не удалось отправить заявку, попробуйте ещё раз", "error");
+        })
+        .finally(() => {
+          clearTimeout(timeout);
+          submitBtn!.disabled = false;
+          submitBtn.textContent = "Получить бесплатный разбор";
+        });
+    } catch (err) {
+      console.error("[lead-form]", err);
+      setStatus("Не удалось отправить заявку, попробуйте ещё раз", "error");
+      submitBtn!.disabled = false;
+      submitBtn.textContent = "Получить бесплатный разбор";
+    }
   });
 
   form?.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>("input, textarea, select").forEach((el) => {
