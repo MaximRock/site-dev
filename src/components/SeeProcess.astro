@@ -1,0 +1,42 @@
+---
+import { CHANNELS } from "../data/site.js";
+import { Icon as BrandIcon } from "astro-icon/components";
+---
+
+<section class="section-spacing bg-section/50">
+  <div class="container-x">
+    <div class="max-w-2xl">
+      <p class="eyebrow mb-4">За кулисами</p>
+      <h2 class="text-3xl sm:text-4xl">Хотите видеть новые проекты и процесс их создания?</h2>
+      <p class="mt-4 text-muted">
+        Каждый проект — от брифа до запуска — показываем в наших каналах: этапы, решения,
+        ошибки и результаты. Подписывайтесь, чтобы следить за свежими работами.
+      </p>
+    </div>
+
+    <div class="mt-10 flex flex-wrap items-center gap-3">
+      <a
+        href={CHANNELS.telegram}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="chip transition hover:border-accent hover:text-heading"
+        data-goal="process_telegram"
+      >
+        <BrandIcon name="simple-icons:telegram" size={16} class="text-accent" />
+        Смотреть процесс в Telegram
+      </a>
+      <a
+        href={CHANNELS.max}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="chip transition hover:border-accent hover:text-heading"
+        data-goal="process_max"
+      >
+        <svg viewBox="0 0 500 500" class="h-6 w-6 shrink-0 text-accent" aria-hidden="true">
+          <path fill="currentColor" fill-rule="evenodd" d="M253.223 398.85c-29.441 0-43.123-4.298-66.905-21.49-15.043 19.341-62.679 34.456-64.756 8.596 0-19.412-4.298-35.816-9.17-53.725C106.59 310.168 100 285.598 100 249.997 100 164.968 169.771 101 252.435 101c82.736 0 147.564 67.12 147.564 149.784.278 81.386-65.391 147.632-146.776 148.066m1.218-224.355c-40.258-2.077-71.633 25.788-78.582 69.484-5.73 36.175 4.442 80.229 13.109 82.522 4.155 1.002 14.613-7.45 21.132-13.969a74.5 74.5 0 0 0 36.39 12.966c41.713 2.006 77.356-29.75 80.157-71.418 1.63-41.756-30.487-77.123-72.206-79.513z" />
+        </svg>
+        Смотреть процесс в Макс
+      </a>
+    </div>
+  </div>
+</section>
