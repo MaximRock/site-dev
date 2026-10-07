@@ -1,10 +1,15 @@
 export const CONTACTS = {
   phone: "+7 (929) 819-19-93",
   phoneUrl: "tel:+79298191993",
-  telegram: "https://t.me/designpluscode1",
+  telegram: "https://t.me/irinagerasimenkorrrr",
   email: "designpluscode1@yandex.ru",
   emailUrl: "mailto:designpluscode1@yandex.ru",
   whatsapp: "https://wa.me/79298191993",
+  max: "https://max.ru/u/f9LHodD0cOIIBL1KQ1CBJGryu0p0sDA_Pt5v3vGcgfXaceNmPhSoPjt8lQ8",
+};
+
+export const CHANNELS = {
+  telegram: "https://t.me/designpluscode1",
   max: "https://max.ru/join/fASMCoOMGHtI0WBZyUauHyVFumeeEil5998Vgtp0W0E",
 };
 
