@@ -12,17 +12,22 @@ const max = CONTACTS.max;
 
 <header class="absolute top-2.5 left-2.5 right-2.5 z-40 rounded-xl border border-edge/70 bg-deep/80 backdrop-blur-lg p-2 transition-transform duration-300 xl:sticky xl:top-4 xl:left-auto xl:right-auto xl:mt-4 xl:mx-auto xl:w-fit xl:max-w-none xl:p-4">
   <div class="flex items-center justify-between gap-4">
-    <a href="#top" class="flex items-center gap-3" aria-label="Дизайн плюс Код — на главную">
+    <a href="#top" class="flex items-center gap-3" aria-label="S|L — на главную">
       <img
         src="/logo.png"
-        alt="Логотип веб-студии «Дизайн + Код»"
-        width="40"
-        height="40"
+        alt="Логотип S|L"
+        width="600"
+        height="400"
         loading="eager"
-        class="h-10 w-10 rounded-xl object-contain"
+        class="h-10 w-10 rounded-2xl object-contain"
       />
-      <span class="font-display text-lg font-extrabold leading-none text-heading">
-        Дизайн <span class="text-accent2">+</span> Код
+      <span class="flex items-baseline gap-3 leading-none text-heading whitespace-nowrap">
+        <span class="text-xl">
+          <span class="font-serif">S</span><span class="font-display font-extrabold"><span class="text-brand font-normal mx-[0.15em]">|</span>L</span>
+        </span>
+        <span class="font-display text-xl font-bold uppercase tracking-[0.08em] text-muted">
+          Style <span class="text-brand font-normal">|</span> Logic
+        </span>
       </span>
     </a>
 
@@ -101,9 +106,16 @@ const max = CONTACTS.max;
   class="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-deep xl:left-auto xl:top-0 xl:right-0 xl:bottom-0 xl:w-[350px] xl:bg-deep/95 xl:backdrop-blur xl:border-l xl:border-t-0 xl:shadow-2xl"
 >
   <div class="flex items-center justify-between border-b border-edge px-5 py-4 xl:px-6 xl:py-5">
-    <a href="#top" class="flex items-center gap-3" aria-label="Дизайн плюс Код — на главную">
-      <img src="/logo.png" alt="Логотип веб-студии «Дизайн + Код»" width="36" height="36" loading="eager" class="h-9 w-9 rounded-xl object-contain" />
-      <span class="font-display text-lg font-extrabold leading-none text-heading">Дизайн <span class="text-accent2">+</span> Код</span>
+    <a href="#top" class="flex items-center gap-3" aria-label="S|L — на главную">
+      <img src="/logo.png" alt="Логотип S|L" width="600" height="400" loading="eager" class="h-9 w-9 rounded-2xl object-contain" />
+      <span class="flex items-baseline gap-2.5 leading-none text-heading whitespace-nowrap">
+        <span class="text-lg">
+          <span class="font-serif">S</span><span class="font-display font-extrabold"><span class="text-brand font-normal mx-[0.15em]">|</span>L</span>
+        </span>
+        <span class="font-display text-lg font-bold uppercase tracking-[0.08em] text-muted">
+          Style <span class="text-brand font-normal">|</span> Logic
+        </span>
+      </span>
     </a>
     <button id="menu-close" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-edge text-heading transition hover:text-accent2" aria-label="Закрыть меню">
       <Icon name="close" size={22} />

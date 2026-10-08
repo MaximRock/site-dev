@@ -12,6 +12,7 @@
   --color-muted: #707080;
   --color-accent: #8b5cf6;
   --color-accent2: #a855f7;
+  --color-brand: #fc480d;
   --color-accent-blue: #6366f1;
   --color-line: #292936;
   --color-edge: #292936;
@@ -21,6 +22,7 @@
 
   --font-sans: "Inter", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
   --font-display: "Manrope", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "DM Serif Display", Georgia, "Times New Roman", serif;
 }
 
 @layer base {
