@@ -193,6 +193,10 @@
     @apply font-display text-xs font-bold uppercase tracking-[0.2em] text-accent2;
   }
 
+  main > section:not(#top) .eyebrow {
+    color: var(--color-brand);
+  }
+
   .neon {
     filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.75));
     transition:

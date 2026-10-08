@@ -19,18 +19,18 @@ export const SITE = {
 };
 
 export const NAV = [
-  { label: "Услуги", href: "#services" },
-  { label: "Кейсы", href: "#cases" },
-  { label: "Как работаем", href: "#process" },
-  { label: "О нас", href: "#about" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Контакты", href: "#contacts" },
+  { label: "Услуги", href: "/#services" },
+  { label: "Кейсы", href: "/#cases" },
+  { label: "Как работаем", href: "/#process" },
+  { label: "О нас", href: "/#about" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Контакты", href: "/#contacts" },
 ];
 
 export const NAV_DESKTOP = [
-  { label: "Услуги", href: "#services" },
-  { label: "Кейсы", href: "#cases" },
-  { label: "Как работаем", href: "#process" },
+  { label: "Услуги", href: "/#services" },
+  { label: "Кейсы", href: "/#cases" },
+  { label: "Как работаем", href: "/#process" },
 ];
 
 export const SERVICES = [
