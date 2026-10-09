@@ -1,0 +1,9 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<span class={`whitespace-nowrap leading-none ${className}`}><span class="font-serif">S</span><span class="relative mx-[0.14em] inline-block align-baseline"><span class="absolute left-1/2 bottom-0 h-[1.3em] w-[0.09em] -translate-x-1/2 translate-y-[0.3em] rounded-full bg-brand" aria-hidden="true"></span></span><span class="font-display font-extrabold">L</span></span>

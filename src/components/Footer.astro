@@ -1,6 +1,7 @@
 ---
 import { CONTACTS, NAV } from "../data/site.js";
 import Icon from "./Icon.astro";
+import BrandMark from "./BrandMark.astro";
 import { Icon as BrandIcon } from "astro-icon/components";
 ---
 
@@ -17,9 +18,7 @@ import { Icon as BrandIcon } from "astro-icon/components";
           loading="lazy"
           class="h-11 w-11 rounded-2xl object-contain"
         />
-        <span class="whitespace-nowrap text-heading text-3xl">
-          <span class="font-serif">S</span><span class="font-display font-extrabold"><span class="text-brand font-normal mx-[0.15em]">|</span>L</span>
-        </span>
+        <BrandMark class="text-heading text-3xl" />
       </a>
       <p class="mt-5 max-w-sm text-muted">
         Сайты, которые работают на бизнес.

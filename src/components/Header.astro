@@ -1,6 +1,7 @@
 ---
 import { CONTACTS, NAV, NAV_DESKTOP } from "../data/site.js";
 import Icon from "./Icon.astro";
+import BrandMark from "./BrandMark.astro";
 import { Icon as BrandIcon } from "astro-icon/components";
 
 const phone = CONTACTS.phone;
@@ -22,9 +23,7 @@ const max = CONTACTS.max;
         class="h-10 w-10 rounded-2xl object-contain"
       />
       <span class="flex items-baseline gap-3 leading-none text-heading whitespace-nowrap">
-        <span class="text-xl">
-          <span class="font-serif">S</span><span class="font-display font-extrabold"><span class="text-brand font-normal mx-[0.15em]">|</span>L</span>
-        </span>
+        <BrandMark class="text-xl" />
         <span class="font-display text-xl font-bold uppercase tracking-[0.08em] text-muted">
           Style <span class="text-brand font-normal">|</span> Logic
         </span>
@@ -109,9 +108,7 @@ const max = CONTACTS.max;
     <a href="/#top" class="flex items-center gap-3" aria-label="S|L — на главную">
       <img src="/logo.png" alt="Логотип S|L" width="600" height="400" loading="eager" class="h-9 w-9 rounded-2xl object-contain" />
       <span class="flex items-baseline gap-2.5 leading-none text-heading whitespace-nowrap">
-        <span class="text-lg">
-          <span class="font-serif">S</span><span class="font-display font-extrabold"><span class="text-brand font-normal mx-[0.15em]">|</span>L</span>
-        </span>
+        <BrandMark class="text-lg" />
         <span class="font-display text-lg font-bold uppercase tracking-[0.08em] text-muted">
           Style <span class="text-brand font-normal">|</span> Logic
         </span>
