@@ -1,0 +1,72 @@
+---
+import { COOKIE_CONSENT } from "../data/site.js";
+
+const c = COOKIE_CONSENT;
+---
+
+{
+  c.enabled && (
+    <div
+      id="cookie-consent"
+      hidden
+      data-storage-key={c.storageKey}
+      role="dialog"
+      aria-label="Согласие на использование cookie"
+      class="fixed inset-x-0 bottom-[calc(5rem_+_env(safe-area-inset-bottom))] z-[60] px-3 lg:bottom-6 lg:px-4"
+    >
+      <div class="container-x">
+        <div class="mx-auto flex max-w-3xl flex-col gap-4 rounded-2xl border border-edge bg-deep/95 p-4 shadow-2xl backdrop-blur-lg sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+          <p class="text-sm text-body">
+            {c.text}{" "}
+            <a
+              href={c.policyHref}
+              class="text-accent underline underline-offset-2 transition hover:text-accent2"
+            >
+              {c.policyLabel}
+            </a>.
+          </p>
+          <div class="flex shrink-0 gap-2">
+            <button type="button" data-cookie-action="reject" class="btn btn-neutral btn-sm">
+              {c.rejectLabel}
+            </button>
+            <button type="button" data-cookie-action="accept" class="btn btn-primary btn-sm">
+              {c.acceptLabel}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+<script>
+  const root = document.getElementById("cookie-consent");
+  if (root) {
+    const key = root.dataset.storageKey || "sl-cookie-consent";
+
+    const readChoice = (): string | null => {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? (JSON.parse(raw).choice ?? null) : null;
+      } catch {
+        return null;
+      }
+    };
+
+    const saveChoice = (choice: string) => {
+      try {
+        localStorage.setItem(key, JSON.stringify({ choice, date: new Date().toISOString() }));
+      } catch {}
+      root.hidden = true;
+      if (choice === "accepted") {
+        window.dispatchEvent(new CustomEvent("cookie-consent-accepted"));
+      }
+    };
+
+    if (!readChoice()) root.hidden = false;
+
+    root.querySelectorAll<HTMLElement>("[data-cookie-action]").forEach((btn) => {
+      btn.addEventListener("click", () => saveChoice(btn.dataset.cookieAction || ""));
+    });
+  }
+</script>

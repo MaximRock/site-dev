@@ -19,6 +19,16 @@ export const SITE = {
   metrikaId: 44147844,
 };
 
+export const COOKIE_CONSENT = {
+  enabled: true,
+  storageKey: "sl-cookie-consent",
+  text: "Мы используем cookie и Яндекс.Метрику, чтобы анализировать посещаемость и улучшать сайт. Подробнее — в",
+  policyLabel: "политике конфиденциальности",
+  policyHref: "/privacy",
+  acceptLabel: "Принять",
+  rejectLabel: "Только необходимые",
+};
+
 export const NAV = [
   { label: "Услуги", href: "/#services" },
   { label: "Кейсы", href: "/#cases" },

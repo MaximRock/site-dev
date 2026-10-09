@@ -4,10 +4,12 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import MobileFixedCta from "../components/MobileFixedCta.astro";
 import BackToTop from "../components/BackToTop.astro";
-import { SITE } from "../data/site.js";
+import CookieConsent from "../components/CookieConsent.astro";
+import { SITE, COOKIE_CONSENT } from "../data/site.js";
 
 const { title, description } = Astro.props;
 const metrikaId = SITE.metrikaId;
+const cookieKey = COOKIE_CONSENT.storageKey;
 ---
 
 <!doctype html>
@@ -49,23 +51,9 @@ const metrikaId = SITE.metrikaId;
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    {
-      metrikaId > 0 && (
-        <script
-          is:inline
-          dangerouslySetInnerHTML={`
-            (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-            m[i].l=1*new Date();
-            for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
-            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-            ym(${metrikaId}, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: true });
-          `}
-        />
-      )
-    }
+    {/* Яндекс.Метрика грузится из клиентского скрипта только после согласия на cookie (см. ниже). */}
   </head>
-  <body>
+  <body data-metrika-id={metrikaId} data-cookie-key={cookieKey}>
     <Header />
     <main id="main">
       <slot />
@@ -73,12 +61,52 @@ const metrikaId = SITE.metrikaId;
     <Footer />
     <MobileFixedCta />
     <BackToTop />
+    <CookieConsent />
   </body>
 </html>
 
 <script>
-  window.__METRIKA_ID__ = {metrikaId};
-  const metrikaId = window.__METRIKA_ID__;
+  const metrikaId = Number(document.body.dataset.metrikaId || 0);
+  const COOKIE_KEY = document.body.dataset.cookieKey || "sl-cookie-consent";
+
+  const consentAccepted = () => {
+    try {
+      const raw = localStorage.getItem(COOKIE_KEY);
+      return raw ? JSON.parse(raw).choice === "accepted" : false;
+    } catch {
+      return false;
+    }
+  };
+
+  let metrikaLoaded = false;
+  const loadMetrika = () => {
+    if (metrikaLoaded || metrikaId <= 0) return;
+    metrikaLoaded = true;
+    (function (m: any, e: any, t: any, r: any, i: any, k: any, a: any) {
+      m[i] = m[i] || function () {
+        (m[i].a = m[i].a || []).push(arguments);
+      };
+      m[i].l = 1 * Date.now();
+      for (let j = 0; j < e.scripts.length; j++) {
+        if (e.scripts[j].src === r) return;
+      }
+      k = e.createElement(t);
+      a = e.getElementsByTagName(t)[0];
+      k.async = 1;
+      k.src = r;
+      a.parentNode.insertBefore(k, a);
+    })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym", null, null);
+    (window as any).ym(metrikaId, "init", {
+      clickmap: true,
+      trackLinks: true,
+      accurateTrackBounce: true,
+      webvisor: true,
+    });
+  };
+
+  if (consentAccepted()) loadMetrika();
+  window.addEventListener("cookie-consent-accepted", loadMetrika);
+
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const sections = Array.from(document.querySelectorAll<HTMLElement>("main > section"));
 
