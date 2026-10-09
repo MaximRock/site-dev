@@ -2,6 +2,7 @@ export const CONTACTS = {
   phone: "+7 (929) 819-19-93",
   phoneUrl: "tel:+79298191993",
   telegram: "https://t.me/irinagerasimenkorrrr",
+  telegramBot: "https://t.me/style_logic_studio_bot",
   email: "designpluscode1@yandex.ru",
   emailUrl: "mailto:designpluscode1@yandex.ru",
   whatsapp: "https://wa.me/79298191993",
