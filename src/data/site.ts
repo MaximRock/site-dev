@@ -15,7 +15,7 @@ export const CHANNELS = {
 };
 
 export const CHECKLIST = {
-  url: "https://disk.yandex.ru/i/6RcVp_2gitPgKw",
+  url: "/checklist.docx",
 };
 
 export const SITE = {
