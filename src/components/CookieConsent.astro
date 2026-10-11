@@ -11,27 +11,60 @@ const c = COOKIE_CONSENT;
       hidden
       data-storage-key={c.storageKey}
       role="dialog"
+      aria-modal="false"
       aria-label="Согласие на использование cookie"
       class="fixed inset-x-0 bottom-[calc(5rem_+_env(safe-area-inset-bottom))] z-[60] px-3 lg:bottom-6 lg:px-4"
     >
       <div class="container-x">
-        <div class="mx-auto flex max-w-3xl flex-col gap-4 rounded-2xl border border-edge bg-deep/95 p-4 shadow-2xl backdrop-blur-lg sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-          <p class="text-sm text-body">
-            {c.text}{" "}
-            <a
-              href={c.policyHref}
-              class="text-accent underline underline-offset-2 transition hover:text-accent2"
-            >
-              {c.policyLabel}
-            </a>.
-          </p>
-          <div class="flex shrink-0 gap-2">
-            <button type="button" data-cookie-action="reject" class="btn btn-neutral btn-sm">
-              {c.rejectLabel}
-            </button>
-            <button type="button" data-cookie-action="accept" class="btn btn-primary btn-sm">
-              {c.acceptLabel}
-            </button>
+        <div class="mx-auto max-w-3xl rounded-2xl border border-edge bg-deep/95 p-4 shadow-2xl backdrop-blur-lg">
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+            <p class="text-sm text-body">
+              {c.text}{" "}
+              <a
+                href={c.policyHref}
+                class="text-accent underline underline-offset-2 transition hover:text-accent2"
+              >
+                {c.policyLabel}
+              </a>.
+            </p>
+            <div class="flex shrink-0 flex-wrap gap-2">
+              <button type="button" data-cookie-action="reject" class="btn btn-neutral btn-sm">
+                {c.rejectAllLabel}
+              </button>
+              <button type="button" data-cookie-action="customize" class="btn btn-neutral btn-sm">
+                {c.customizeLabel}
+              </button>
+              <button type="button" data-cookie-action="accept" class="btn btn-primary btn-sm">
+                {c.acceptAllLabel}
+              </button>
+            </div>
+          </div>
+
+          <div data-cookie-panel hidden class="mt-4 border-t border-edge pt-4">
+            <ul class="flex flex-col gap-4">
+              {c.categories.map((cat) => (
+                <li class="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id={`cookie-cat-${cat.id}`}
+                    data-cookie-cat={cat.id}
+                    checked={cat.required}
+                    disabled={cat.required}
+                    style="accent-color: var(--color-accent)"
+                    class="mt-1 h-4 w-4 shrink-0 disabled:opacity-60"
+                  />
+                  <label for={`cookie-cat-${cat.id}`} class="cursor-pointer select-none">
+                    <span class="font-display text-sm font-semibold text-heading">{cat.title}</span>
+                    <span class="block text-sm text-body">{cat.text}</span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+            <div class="mt-4 flex justify-end">
+              <button type="button" data-cookie-action="save" class="btn btn-primary btn-sm">
+                {c.saveLabel}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -41,32 +74,76 @@ const c = COOKIE_CONSENT;
 
 <script>
   const root = document.getElementById("cookie-consent");
+
   if (root) {
     const key = root.dataset.storageKey || "sl-cookie-consent";
+    const panel = root.querySelector<HTMLElement>("[data-cookie-panel]");
+    const inputs = Array.from(root.querySelectorAll<HTMLInputElement>("[data-cookie-cat]"));
+    const input = (id: string) => inputs.find((el) => el.dataset.cookieCat === id);
+    const analyticsInput = input("analytics");
+    const webvisorInput = input("webvisor");
 
-    const readChoice = (): string | null => {
+    const normalize = (prefs: any) => {
+      const analytics = !!prefs?.analytics;
+      return { necessary: true as const, analytics, webvisor: analytics && !!prefs?.webvisor };
+    };
+
+    const read = () => {
       try {
         const raw = localStorage.getItem(key);
-        return raw ? (JSON.parse(raw).choice ?? null) : null;
+        return raw ? normalize(JSON.parse(raw)) : null;
       } catch {
         return null;
       }
     };
 
-    const saveChoice = (choice: string) => {
+    const write = (prefs: any) => {
+      const value = normalize(prefs);
       try {
-        localStorage.setItem(key, JSON.stringify({ choice, date: new Date().toISOString() }));
+        localStorage.setItem(key, JSON.stringify({ ...value, date: new Date().toISOString() }));
       } catch {}
       root.hidden = true;
-      if (choice === "accepted") {
-        window.dispatchEvent(new CustomEvent("cookie-consent-accepted"));
-      }
+      window.dispatchEvent(new CustomEvent("cookie-consent-changed", { detail: value }));
     };
 
-    if (!readChoice()) root.hidden = false;
+    const fillPanel = (prefs: { analytics: boolean; webvisor: boolean }) => {
+      if (analyticsInput) analyticsInput.checked = prefs.analytics;
+      if (webvisorInput) webvisorInput.checked = prefs.webvisor;
+    };
+
+    const readPanel = () => ({
+      analytics: analyticsInput?.checked ?? false,
+      webvisor: webvisorInput?.checked ?? false,
+    });
+
+    webvisorInput?.addEventListener("change", () => {
+      if (webvisorInput.checked && analyticsInput) analyticsInput.checked = true;
+    });
+    analyticsInput?.addEventListener("change", () => {
+      if (!analyticsInput.checked && webvisorInput) webvisorInput.checked = false;
+    });
 
     root.querySelectorAll<HTMLElement>("[data-cookie-action]").forEach((btn) => {
-      btn.addEventListener("click", () => saveChoice(btn.dataset.cookieAction || ""));
+      btn.addEventListener("click", () => {
+        switch (btn.dataset.cookieAction) {
+          case "accept":
+            write({ analytics: true, webvisor: true });
+            break;
+          case "reject":
+            write({ analytics: false, webvisor: false });
+            break;
+          case "customize": {
+            fillPanel(read() || { analytics: false, webvisor: false });
+            if (panel) panel.hidden = !panel.hidden;
+            break;
+          }
+          case "save":
+            write(readPanel());
+            break;
+        }
+      });
     });
+
+    if (!read()) root.hidden = false;
   }
 </script>

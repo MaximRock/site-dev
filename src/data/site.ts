@@ -3,8 +3,8 @@ export const CONTACTS = {
   phoneUrl: "tel:+79298191993",
   telegram: "https://t.me/irinagerasimenkorrrr",
   telegramBot: "https://t.me/style_logic_studio_bot",
-  email: "designpluscode1@yandex.ru",
-  emailUrl: "mailto:designpluscode1@yandex.ru",
+  email: "styleandlogic@yandex.ru",
+  emailUrl: "mailto:styleandlogic@yandex.ru",
   whatsapp: "https://wa.me/79298191993",
   max: "https://max.ru/u/f9LHodD0cOIIBL1KQ1CBJGryu0p0sDA_Pt5v3vGcgfXaceNmPhSoPjt8lQ8",
 };
@@ -25,8 +25,30 @@ export const COOKIE_CONSENT = {
   text: "Мы используем cookie и Яндекс.Метрику, чтобы анализировать посещаемость и улучшать сайт. Подробнее — в",
   policyLabel: "политике конфиденциальности",
   policyHref: "/privacy",
-  acceptLabel: "Принять",
-  rejectLabel: "Только необходимые",
+  acceptAllLabel: "Принять все",
+  rejectAllLabel: "Только необходимые",
+  customizeLabel: "Настроить",
+  saveLabel: "Сохранить выбор",
+  categories: [
+    {
+      id: "necessary",
+      title: "Необходимые",
+      text: "Нужны для работы сайта: запоминают ваш выбор. Их нельзя отключить.",
+      required: true,
+    },
+    {
+      id: "analytics",
+      title: "Аналитика",
+      text: "Яндекс.Метрика: считает посещения, источники и клики, помогает улучшать сайт.",
+      required: false,
+    },
+    {
+      id: "webvisor",
+      title: "Вебвизор",
+      text: "Записывает сессию: движения и клики по странице. Помогает находить неудобные места.",
+      required: false,
+    },
+  ],
 };
 
 export const NAV = [
@@ -131,8 +153,8 @@ export const CASES = [
 export const REVIEWS = [
   {
     text: "Сайт стал удобнее, ученики сразу видят все курсы и могут записаться.",
-    author: "[РЕАЛЬНОЕ ИМЯ]",
-    meta: "[РЕАЛЬНАЯ ДОЛЖНОСТЬ], школа маникюра",
+    author: "Александра Михайленко",
+    meta: "Клиент школы маникюра",
   },
 ];
 
