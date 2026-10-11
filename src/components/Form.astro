@@ -85,7 +85,7 @@ import Icon from "./Icon.astro";
           aria-describedby="f-consent-error"
         />
         <label for="f-consent" class="text-sm text-muted">
-          Я согласен на обработку персональных данных. Подробнее в
+          Я согласен на обработку персональных данных. Подробнее в{" "}
           <a href="/privacy" target="_blank" rel="noopener" class="text-accent underline underline-offset-2 hover:text-accent2">
             политике конфиденциальности
           </a>.
@@ -98,7 +98,7 @@ import Icon from "./Icon.astro";
       </button>
 
       <p class="mt-4 text-center text-sm text-muted">
-        Или напишите нам напрямую в
+        Или напишите нам напрямую в{" "}
         <a
           href={CONTACTS.telegramBot}
           target="_blank"
@@ -180,10 +180,11 @@ import Icon from "./Icon.astro";
     if (success) success.hidden = false;
 
     const checklist = document.getElementById("form-checklist");
-    let wantsChecklist = false;
+    const subjectValue = (document.getElementById("f-subject") as HTMLSelectElement | null)?.value;
+    let wantsChecklist = subjectValue === "checklist";
     try {
-      wantsChecklist = sessionStorage.getItem("sl-checklist-intent") === "1";
-      if (wantsChecklist) sessionStorage.removeItem("sl-checklist-intent");
+      if (sessionStorage.getItem("sl-checklist-intent") === "1") wantsChecklist = true;
+      sessionStorage.removeItem("sl-checklist-intent");
     } catch {}
     if (checklist) checklist.hidden = !wantsChecklist;
 

@@ -324,6 +324,7 @@ export const FORM_OPTIONS = [
   { value: "landing", label: "Лендинг" },
   { value: "multipage", label: "Многостраничный сайт" },
   { value: "custom", label: "Индивидуальная разработка" },
+  { value: "checklist", label: "Скачать чек-лист" },
   { value: "unknown", label: "Пока не знаю" },
 ];
 
