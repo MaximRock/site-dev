@@ -342,17 +342,52 @@
     border-color: var(--color-error);
   }
 
-  select.field {
-    appearance: none;
-    -webkit-appearance: none;
-    padding-right: 2.75rem;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a7a7b5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
+  .subject-select {
+    position: relative;
   }
-  select.field option {
+  .subject-select__button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    text-align: left;
+    cursor: pointer;
+  }
+  .subject-select__chevron {
+    color: var(--color-muted);
+    transition: transform 0.2s ease;
+  }
+  .subject-select__button[aria-expanded="true"] .subject-select__chevron {
+    transform: rotate(180deg);
+  }
+  .subject-select__list {
+    position: absolute;
+    z-index: 30;
+    inset-inline: 0;
+    top: calc(100% + 0.4rem);
+    max-height: 17rem;
+    overflow: auto;
+    padding: 0.25rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-edge);
     background-color: var(--color-card);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
+  }
+  .subject-select__option {
+    padding: 0.6rem 0.85rem;
+    border-radius: 0.6rem;
+    color: var(--color-body);
+    cursor: pointer;
+    list-style: none;
+  }
+  .subject-select__option:hover,
+  .subject-select__option.is-active {
+    background-color: rgba(255, 255, 255, 0.06);
     color: var(--color-heading);
+  }
+  .subject-select__option[aria-selected="true"] {
+    color: var(--color-heading);
+    background-color: rgba(139, 92, 246, 0.15);
   }
 
   .option {
