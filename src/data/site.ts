@@ -14,6 +14,10 @@ export const CHANNELS = {
   max: "https://max.ru/join/fASMCoOMGHtI0WBZyUauHyVFumeeEil5998Vgtp0W0E",
 };
 
+export const CHECKLIST = {
+  url: "https://disk.yandex.ru/i/6RcVp_2gitPgKw",
+};
+
 export const SITE = {
   demoMode: false,
   metrikaId: 44147844,

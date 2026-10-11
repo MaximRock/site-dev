@@ -1,5 +1,5 @@
 ---
-import { CONTACTS, FORM_OPTIONS } from "../data/site.js";
+import { CONTACTS, FORM_OPTIONS, CHECKLIST } from "../data/site.js";
 import Icon from "./Icon.astro";
 ---
 
@@ -135,6 +135,20 @@ import Icon from "./Icon.astro";
         Спасибо! Мы получили вашу заявку. Свяжемся с вами в течение рабочего дня и договоримся о
         времени бесплатного разбора.
       </p>
+
+      <div id="form-checklist" hidden class="mt-6 rounded-2xl border border-edge bg-white/5 p-6">
+        <p class="font-display text-lg font-bold text-heading">Ваш чек-лист готов</p>
+        <p class="mt-1 text-sm text-muted">«50 ошибок на сайте, которые убивают заявки»</p>
+        <a
+          href={CHECKLIST.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-primary mt-4 w-full sm:w-auto"
+          data-goal="checklist_download"
+        >
+          Скачать чек-лист
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -165,6 +179,15 @@ import Icon from "./Icon.astro";
     ;(window as any).__track?.("form_submit");
     form.hidden = true;
     if (success) success.hidden = false;
+
+    const checklist = document.getElementById("form-checklist");
+    let wantsChecklist = false;
+    try {
+      wantsChecklist = sessionStorage.getItem("sl-checklist-intent") === "1";
+      if (wantsChecklist) sessionStorage.removeItem("sl-checklist-intent");
+    } catch {}
+    if (checklist) checklist.hidden = !wantsChecklist;
+
     success?.scrollIntoView({ behavior: "smooth", block: "center" });
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
