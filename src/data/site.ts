@@ -138,18 +138,47 @@ export const PLATFORMS = {
 
 export const CASES = [
   {
+    slug: "shkola-manikyura",
     title: "Сайт для школы маникюра",
     niche: "Школа маникюра",
     type: "Лендинг",
-    images: ["/cases/manikyr.png", "/cases/manikyr2.png", "/cases/manikyr3.png"],
-    works: [
-      { title: "Структура", text: "Выстроили информацию в понятной последовательности." },
-      { title: "Каталог курсов", text: "Сделали программы обучения понятными для посетителя." },
-      { title: "Адаптив", text: "Сайт адаптирован под смартфоны и планшеты." },
-      { title: "Конверсионные элементы", text: "Добавили понятные точки перехода к обращению." },
+    siteUrl: "",
+    desktop: [
+      "/cases/shkola-manikyura/desktop-1.webp",
+      "/cases/shkola-manikyura/desktop-2.webp",
+      "/cases/shkola-manikyura/desktop-3.webp",
+      "/cases/shkola-manikyura/desktop-4.webp",
     ],
-    task: "Создать понятный сайт школы, который помогает потенциальному ученику познакомиться с программами обучения и сделать следующий шаг — обратиться или записаться.",
-    result: "Получился понятный путь от знакомства со школой до выбора программы и обращения.",
+    mobile: [
+      "/cases/shkola-manikyura/mobile-1.webp",
+      "/cases/shkola-manikyura/mobile-2.webp",
+      "/cases/shkola-manikyura/mobile-3.webp",
+      "/cases/shkola-manikyura/mobile-4.webp",
+    ],
+    description:
+      "Дизайн построен на контрасте светлого и тёмного: тёплый кремовый фон, белые карточки, глубокий чёрный текст — и главный акцент, благородное золото в кнопках, иконках и тонких линиях с мягким свечением. Заголовки набраны элегантным шрифтом с засечками Playfair Display, основной текст — лёгким Inter. На сайте предусмотрена тёмная тема: глубокий чёрный фон с тем же золотым акцентом. В целом язык дизайна — дорогой, спокойный, «ювелирный», как и подобает beauty-школе.",
+    cta: "Хочу такой же подход для своего бизнеса",
+  },
+  {
+    slug: "kofeynya",
+    title: "Сайт для кофейни",
+    niche: "Кофейня",
+    type: "Сайт с онлайн-меню",
+    siteUrl: "",
+    desktop: [
+      "/cases/kofeynya/desktop-1.webp",
+      "/cases/kofeynya/desktop-2.webp",
+      "/cases/kofeynya/desktop-3.webp",
+      "/cases/kofeynya/desktop-4.webp",
+    ],
+    mobile: [
+      "/cases/kofeynya/mobile-1.webp",
+      "/cases/kofeynya/mobile-2.webp",
+      "/cases/kofeynya/mobile-3.webp",
+      "/cases/kofeynya/mobile-4.webp",
+    ],
+    description:
+      "Дизайн в духе бумажного постера: светлый фон цвета бумаги, почти чёрные «чернила» текста, хвойно-зелёный и сочный бруснично-красный в кнопках и акцентах. Заголовки набраны широким характерным шрифтом Unbounded, основной текст — аккуратным Golos Text, а цены и пометки в меню — моноширинным, как в печатном бланке. Блюда в меню разделены пунктирными линиями, а фирменные штампы добавляют живости. В целом — тёплая «афиша» с характером, которая сразу отличает кофейню от шаблонных сайтов.",
     cta: "Хочу такой же подход для своего бизнеса",
   },
 ];
