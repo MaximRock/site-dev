@@ -222,7 +222,8 @@ import { CASES } from "../data/site.js";
   }
 
   /*
-   * Медиа-высота: десктопная лента и телефонная колонка одной высоты.
+   * Медиа-высота: только телефонная колонка. Десктопная лента
+   * подстраивается под пропорции скриншота (aspect-ratio).
    */
   .case-body {
     --case-media-h: clamp(230px, 42vw, 300px);
@@ -243,6 +244,21 @@ import { CASES } from "../data/site.js";
       padding: 1.25rem;
     }
 
+    .case-strip {
+      align-self: start;
+    }
+
+    /* Десктоп: фиксированная высота колонки телефона, впишем как раньше */
+    .case-phones {
+      height: var(--case-media-h);
+      aspect-ratio: auto;
+    }
+
+    :global(.case-phone) {
+      object-fit: cover;
+      object-position: top center;
+    }
+
     .case-info {
       order: -1;
     }
@@ -253,7 +269,6 @@ import { CASES } from "../data/site.js";
   .case-strip,
   .case-phones {
     position: relative;
-    height: var(--case-media-h);
     border: 1px solid var(--color-edge);
     border-radius: 18px;
     overflow: hidden;
@@ -263,11 +278,35 @@ import { CASES } from "../data/site.js";
       linear-gradient(160deg, #151520, #09090f);
   }
 
+  /* Телефонная колонка: на мобильном — пропорции скриншота телефона */
+  .case-phones {
+    height: auto;
+    aspect-ratio: 364 / 748;
+  }
+
+  /* На планшетах блок телефона по центру и не во всю ширину.
+     width задаём явно: в flex-колонке margin-inline auto отключает
+     stretch, и от auto-ширины aspect-ratio не отработает */
+  @media (min-width: 768px) and (max-width: 1023.98px) {
+    .case-phones {
+      width: 22.5rem;
+      max-width: 100%;
+      margin-inline: auto;
+    }
+  }
+
+  /* Десктопная лента — высота по пропорциям скриншота */
+  .case-strip {
+    height: auto;
+    aspect-ratio: 1835 / 950;
+  }
+
   /* ---------- Десктопная лента ---------- */
 
   .case-track {
+    position: absolute;
+    inset: 0;
     display: flex;
-    height: 100%;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
@@ -288,8 +327,8 @@ import { CASES } from "../data/site.js";
   .case-slide img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: top;
+    object-fit: contain;
+    object-position: center;
     display: block;
   }
 
@@ -300,8 +339,8 @@ import { CASES } from "../data/site.js";
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: top center;
+    object-fit: contain;
+    object-position: center;
     opacity: 0;
     transition: opacity 0.6s ease;
   }
@@ -539,14 +578,22 @@ import { CASES } from "../data/site.js";
     const cards = Array.from(rail.querySelectorAll<HTMLElement>(".case-card"));
     if (!cards.length || !prevBtn || !nextBtn) return;
 
-    /* Текущая карточка по позиции скролла */
+    /* Текущая карточка: ближайшая к левому краю скролла.
+       Работает при любом числе карточек и боковых паддингах ленты:
+       последняя карточка упирается в конец скролла, пороговая
+       проверка «левая грань <= scrollLeft + запас» её не видит. */
     const currentIndex = () => {
       const left = rail.scrollLeft;
-      let i = 0;
+      let best = 0;
+      let bestDist = Infinity;
       cards.forEach((card, k) => {
-        if (card.offsetLeft - rail.offsetLeft <= left + 4) i = k;
+        const dist = Math.abs(card.offsetLeft - rail.offsetLeft - left);
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = k;
+        }
       });
-      return i;
+      return best;
     };
 
     const goCard = (dir: 1 | -1) => {
