@@ -21,6 +21,50 @@ Consult these guides before working on related tasks:
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
 
+## Design doctrine (ux-ui-agent-skills)
+
+The design rules live in the UX/UI kit at `~/projects/ux-ui-agent-skills`
+(cloned OUTSIDE this repo, branch `nixos`). Its full brief is
+`~/projects/ux-ui-agent-skills/AGENTS.md`; the rules that apply here:
+
+### Running gates
+
+Gates read this repo's files from the kit's dev shell (built pages live in
+`dist/client/`):
+
+```
+cd ~/projects/ux-ui-agent-skills && DS_REQUIRE_BROWSER=1 nix develop -c \
+  node scripts/verify_states.mjs /home/max/projects/site-dev/dist/client/index.html
+```
+
+- Browser gates MUST run with `DS_REQUIRE_BROWSER=1`. A `SKIPPED` print with
+  exit 0 measured nothing — it is not a pass.
+- Python gates run directly: `python3 scripts/validate_tokens.py <tokens.json>`,
+  `python3 scripts/lint_hardcodes.py <src dir>`.
+- Or use the `ux-ui-gates` MCP server configured in this repo's `opencode.json`
+  (tools: `list_gates`, `run_gate`, `review_ui`, `get_doctrine`,
+  `get_design_system`, `get_tokens`).
+
+### Rules that do not bend
+
+1. Never state a contrast ratio, a WCAG verdict or a pass rate that a gate did
+   not just print. "Not verified yet" is always acceptable.
+2. Zero emoji — UI, code, copy, comments, commit messages.
+3. Token by intent; one source of truth for tokens: `src/styles/global.css`
+   (`@theme`). No hardcoded hex, px or ms in components.
+4. Every interactive element renders default, hover, focus, active, disabled,
+   loading, error and selected states.
+5. Mobile is the base: base styles ARE the phone layout; wider screens layer on
+   with `min-width`.
+6. Every screen has one first place for the eye; display type is at least 2.5x
+   the body size.
+7. Never a native `<select>`; never a colored border on one side only of a
+   card, alert, toast or callout.
+8. Write the taste block (Domain / Audience & tone / Mood / Motion depth /
+   Layout family / Reference anchor) in the reply BEFORE generating markup.
+9. Run the gates before saying done, screenshot it and click every control. A
+   passing gate is not evidence of taste — argue against your own work.
+
 <!-- graft:start -->
 ## Graft — repo context graph
 

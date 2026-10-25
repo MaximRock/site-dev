@@ -8,6 +8,16 @@
         "mcp"
       ],
       "enabled": true
+    },
+    "ux-ui-gates": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "--package=ux-ui-agent-skills",
+        "ux-ui-mcp"
+      ],
+      "enabled": true
     }
   }
 }
