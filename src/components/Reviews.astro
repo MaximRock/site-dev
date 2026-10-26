@@ -32,7 +32,8 @@ import Icon from "./Icon.astro";
               «{review.text}»
             </blockquote>
 
-            <figcaption class="mt-6 flex gap-1 text-warning" aria-label="Пять звёзд">
+            <figcaption class="mt-6 flex gap-1 text-warning">
+              <span class="sr-only">Оценка: пять из пяти</span>
               {Array.from({ length: 5 }).map(() => (
                 <Icon name="star" size={18} />
               ))}

@@ -17,9 +17,9 @@ import { Icon as BrandIcon } from "astro-icon/components";
     <div class="mt-10 grid gap-6 lg:grid-cols-2">
       {
         Object.values(PLATFORMS).map((platform) => (
-          <article class="card flex flex-col p-7 hover:bg-card-hover">
+          <article class="card flex min-w-0 flex-col p-7 hover:bg-card-hover">
             <div class="flex items-center justify-between">
-              <h3 class="text-2xl">{platform.title}</h3>
+              <h3 class="text-xl break-words sm:text-2xl">{platform.title}</h3>
             </div>
             <p class="mt-2 text-sm text-muted">{platform.text}</p>
             <ul class="mt-5 flex flex-1 flex-col gap-2.5">

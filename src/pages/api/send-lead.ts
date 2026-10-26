@@ -44,12 +44,12 @@ export async function POST({ request }: { request: Request }) {
   }
 
   const text =
-    "📩 Новая заявка\n\n" +
+    "Новая заявка\n\n" +
     `Имя: ${name}\n` +
     `Контакт: ${contact}\n` +
     `Тема: ${subject || "—"}\n` +
     `Комментарий: ${comment || "—"}\n` +
-    (consent ? "Согласие: ✅" : "Согласие: ❌");
+    (consent ? "Согласие: да" : "Согласие: нет");
 
   try {
     const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {

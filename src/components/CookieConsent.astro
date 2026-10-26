@@ -11,7 +11,7 @@ const c = COOKIE_CONSENT;
       hidden
       data-storage-key={c.storageKey}
       role="dialog"
-      aria-modal="false"
+      aria-modal="true"
       aria-label="Согласие на использование cookie"
       class="fixed inset-x-0 bottom-[calc(5rem_+_env(safe-area-inset-bottom))] z-[60] px-3 lg:bottom-6 lg:px-4"
     >
@@ -22,7 +22,7 @@ const c = COOKIE_CONSENT;
               {c.text}{" "}
               <a
                 href={c.policyHref}
-                class="text-accent underline underline-offset-2 transition hover:text-accent2"
+                class="text-accent-link underline underline-offset-2 transition hover:text-accent2"
               >
                 {c.policyLabel}
               </a>.
@@ -88,6 +88,28 @@ const c = COOKIE_CONSENT;
       return { necessary: true as const, analytics, webvisor: analytics && !!prefs?.webvisor };
     };
 
+    const focusable = () =>
+      Array.from(
+        root.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => !el.closest("[hidden]"));
+
+    let lastFocused: HTMLElement | null = null;
+
+    const hide = () => {
+      root.hidden = true;
+      lastFocused?.focus({ preventScroll: true });
+      lastFocused = null;
+    };
+
+    const show = () => {
+      if (!root.hidden) return;
+      lastFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      root.hidden = false;
+      focusable()[0]?.focus({ preventScroll: true });
+    };
+
     const read = () => {
       try {
         const raw = localStorage.getItem(key);
@@ -102,7 +124,7 @@ const c = COOKIE_CONSENT;
       try {
         localStorage.setItem(key, JSON.stringify({ ...value, date: new Date().toISOString() }));
       } catch {}
-      root.hidden = true;
+      hide();
       window.dispatchEvent(new CustomEvent("cookie-consent-changed", { detail: value }));
     };
 
@@ -134,7 +156,16 @@ const c = COOKIE_CONSENT;
             break;
           case "customize": {
             fillPanel(read() || { analytics: false, webvisor: false });
-            if (panel) panel.hidden = !panel.hidden;
+            if (panel) {
+              panel.hidden = !panel.hidden;
+              if (panel.hidden) {
+                btn.focus({ preventScroll: true });
+              } else {
+                panel
+                  .querySelector<HTMLInputElement>("input:not([disabled])")
+                  ?.focus({ preventScroll: true });
+              }
+            }
             break;
           }
           case "save":
@@ -144,6 +175,21 @@ const c = COOKIE_CONSENT;
       });
     });
 
-    if (!read()) root.hidden = false;
+    root.addEventListener("keydown", (event) => {
+      if (event.key !== "Tab") return;
+      const items = focusable();
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    if (!read()) show();
   }
 </script>

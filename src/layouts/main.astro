@@ -54,6 +54,7 @@ const cookieKey = COOKIE_CONSENT.storageKey;
     {/* Яндекс.Метрика грузится из клиентского скрипта только после согласия на cookie (см. ниже). */}
   </head>
   <body data-metrika-id={metrikaId} data-cookie-key={cookieKey}>
+    <CookieConsent />
     <Header />
     <main id="main">
       <slot />
@@ -61,7 +62,6 @@ const cookieKey = COOKIE_CONSENT.storageKey;
     <Footer />
     <MobileFixedCta />
     <BackToTop />
-    <CookieConsent />
   </body>
 </html>
 
