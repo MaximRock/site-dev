@@ -3,7 +3,7 @@ import { LEGAL_POINTS } from "../data/site.js";
 import Icon from "./Icon.astro";
 ---
 
-<section class="section-spacing bg-section/50">
+<section class="section-spacing bg-section">
   <div class="container-x">
     <div class="max-w-2xl">
       <p class="eyebrow mb-4">Законность и безопасность</p>
@@ -16,8 +16,8 @@ import Icon from "./Icon.astro";
     <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {
         LEGAL_POINTS.map((point) => (
-          <article class="card p-6 hover:bg-[#202025]">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/15 text-accent2">
+          <article class="card p-6 hover:bg-card-hover">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-wash text-accent-link">
               <Icon name="shield" size={24} />
             </div>
             <h3 class="mt-4 text-lg">{point.title}</h3>

@@ -47,8 +47,8 @@ export async function POST({ request }: { request: Request }) {
     "Новая заявка\n\n" +
     `Имя: ${name}\n` +
     `Контакт: ${contact}\n` +
-    `Тема: ${subject || "—"}\n` +
-    `Комментарий: ${comment || "—"}\n` +
+    `Тема: ${subject || "не указано"}\n` +
+    `Комментарий: ${comment || "не указано"}\n` +
     (consent ? "Согласие: да" : "Согласие: нет");
 
   try {

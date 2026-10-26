@@ -2,229 +2,521 @@
 import { CONTACTS, NAV, NAV_DESKTOP } from "../data/site.js";
 import Icon from "./Icon.astro";
 import BrandMark from "./BrandMark.astro";
-import { Icon as BrandIcon } from "astro-icon/components";
+import ThemeToggle from "./ThemeToggle.astro";
 
-const phone = CONTACTS.phone;
-const phoneUrl = CONTACTS.phoneUrl;
-const telegram = CONTACTS.telegram;
-const whatsapp = CONTACTS.whatsapp;
-const max = CONTACTS.max;
+const { phone, phoneUrl, telegram, whatsapp, max, email, emailUrl } = CONTACTS;
 ---
 
-<header class="absolute top-2.5 left-2.5 right-2.5 z-40 rounded-xl border border-edge/70 bg-deep/80 backdrop-blur-lg p-2 transition-transform duration-300 xl:sticky xl:top-4 xl:left-auto xl:right-auto xl:mt-4 xl:mx-auto xl:w-fit xl:max-w-none xl:p-4">
-  <div class="flex items-center justify-between gap-4">
-    <a href="/#top" class="flex items-center gap-3" aria-label="S|L — на главную">
-      <img
-        src="/logo.png"
-        alt="Логотип S|L"
-        width="600"
-        height="400"
-        loading="eager"
-        class="h-10 w-10 rounded-2xl object-contain"
-      />
-      <span class="flex items-baseline gap-3 leading-none text-heading whitespace-nowrap">
-        <BrandMark class="text-xl" />
-        <span class="hidden font-display text-xl font-bold uppercase tracking-[0.08em] text-muted min-[360px]:inline">
-          Style <span class="text-brand font-normal">|</span> Logic
-        </span>
+<header class="site-header">
+  <div class="container-x site-header__inner">
+    <a class="site-brand" href="/#top" aria-label="Style | Logic, на главную">
+      <BrandMark class="site-brand__mark" />
+      <span class="site-brand__word">
+        Style <span class="site-brand__pipe" aria-hidden="true">|</span> Logic
       </span>
     </a>
 
-    <nav class="hidden items-center gap-1 xl:flex" aria-label="Основная навигация">
+    <nav class="site-nav" aria-label="Основная навигация">
       {
         NAV_DESKTOP.map((item) => (
-          <a
-            href={item.href}
-            class="rounded-lg px-3 py-2 text-sm font-medium text-body transition hover:text-accent2"
-          >
-            {item.label}
-          </a>
+          <a href={item.href}>{item.label}</a>
         ))
       }
     </nav>
 
-    <div class="hidden items-center gap-4 xl:flex">
+    <div class="site-actions">
+      <a class="site-phone" href={phoneUrl} data-goal="phone_click">{phone}</a>
+      <ThemeToggle />
       <a
-        href={phoneUrl}
-        class="group flex items-center gap-2 font-display text-sm font-bold text-heading transition hover:text-accent2"
-        data-goal="phone_click"
+        href="/#contacts"
+        class="btn btn-primary site-cta"
+        data-goal="click_consultation"
       >
-        <span class="status-dot" aria-hidden="true"></span>
-        {phone}
+        Бесплатный разбор
       </a>
-      <div class="flex items-center gap-3">
-        <a
-          href={max}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Написать в Макс"
-          class="transition hover:opacity-80"
-        >
-          <img src="/max.svg" alt="Макс" class="h-[28px] w-[28px] rounded-xl" />
-        </a>
-        <a
-          href={telegram}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Написать в Telegram"
-          class="text-[#229ED9] transition hover:opacity-80"
-          data-goal="telegram_click"
-        >
-          <BrandIcon name="simple-icons:telegram" size={28} />
-        </a>
-        <a
-          href={whatsapp}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Написать в WhatsApp"
-          class="text-[#25D366] transition hover:opacity-80"
-          data-goal="whatsapp_click"
-        >
-          <BrandIcon name="simple-icons:whatsapp" size={28} />
-        </a>
-      </div>
-      <a href="/#contacts" class="btn btn-primary btn-sm" data-goal="click_consultation">Получить бесплатный разбор</a>
+      <button
+        id="menu-toggle"
+        type="button"
+        class="site-menu-btn"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Открыть меню"
+      >
+        <Icon name="menu" size={22} />
+      </button>
     </div>
-
-    <button
-      id="menu-toggle"
-      type="button"
-      class="inline-flex h-9 w-9 xl:h-11 xl:w-11 items-center justify-center rounded-xl border border-edge text-heading transition hover:text-accent2"
-      aria-expanded="false"
-      aria-controls="mobile-menu"
-      aria-label="Открыть меню"
-    >
-      <Icon name="menu" class="h-5 w-5 xl:h-6 xl:w-6" />
-    </button>
   </div>
 </header>
 
 <div
   id="mobile-menu"
   hidden
-  class="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-deep xl:left-auto xl:top-0 xl:right-0 xl:bottom-0 xl:w-[350px] xl:bg-deep/95 xl:backdrop-blur xl:border-l xl:border-t-0 xl:shadow-2xl"
+  class="site-menu"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Меню"
 >
-  <div class="flex items-center justify-between border-b border-edge px-5 py-4 xl:px-6 xl:py-5">
-    <a href="/#top" class="flex items-center gap-3" aria-label="S|L — на главную">
-      <img src="/logo.png" alt="Логотип S|L" width="600" height="400" loading="eager" class="h-9 w-9 rounded-2xl object-contain" />
-      <span class="flex items-baseline gap-2.5 leading-none text-heading whitespace-nowrap">
-        <BrandMark class="text-lg" />
-        <span class="hidden font-display text-lg font-bold uppercase tracking-[0.08em] text-muted min-[360px]:inline">
-          Style <span class="text-brand font-normal">|</span> Logic
-        </span>
+  <div class="container-x site-menu__top">
+    <a class="site-brand" href="/#top" aria-label="Style | Logic, на главную">
+      <BrandMark class="site-brand__mark" />
+      <span class="site-brand__word">
+        Style <span class="site-brand__pipe" aria-hidden="true">|</span> Logic
       </span>
     </a>
-    <button id="menu-close" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-edge text-heading transition hover:text-accent2" aria-label="Закрыть меню">
-      <Icon name="close" size={22} />
-    </button>
+    <div class="site-menu__top-actions">
+      <ThemeToggle />
+      <button
+        id="menu-close"
+        type="button"
+        class="site-menu-btn"
+        aria-label="Закрыть меню"
+      >
+        <Icon name="close" size={22} />
+      </button>
+    </div>
   </div>
 
-  <nav aria-label="Мобильная навигация" class="flex flex-1 flex-col justify-center px-5 py-4">
+  <nav class="container-x site-menu__nav" aria-label="Мобильная навигация">
     {
-      NAV.map((item) => (
-        <a
-          href={item.href}
-          class="rounded-lg px-2 py-3 text-base font-medium text-body transition hover:text-heading xl:px-6 xl:text-xl"
-        >
-          {item.label}
+      NAV.map((item, index) => (
+        <a href={item.href} class="site-menu__link">
+          <span class="site-menu__index" aria-hidden="true">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <span>{item.label}</span>
         </a>
       ))
     }
   </nav>
 
-  <div class="mt-auto flex flex-col gap-3 border-t border-edge p-5 xl:gap-5 xl:p-6">
-    <a href={phoneUrl} class="flex items-center gap-2 font-display text-sm font-bold text-heading xl:text-lg">
-      <span class="status-dot" aria-hidden="true"></span>
-      {phone}
-    </a>
-    <div class="flex items-center gap-3">
-      <a href={max} target="_blank" rel="noopener noreferrer" aria-label="Написать в Макс" class="transition hover:opacity-80">
-        <img src="/max.svg" alt="Макс" class="h-7 w-7 rounded-xl" />
-      </a>
-      <a href={telegram} target="_blank" rel="noopener noreferrer" aria-label="Написать в Telegram" class="text-[#229ED9] transition hover:opacity-80" data-goal="telegram_click">
-        <BrandIcon name="simple-icons:telegram" size={28} />
-      </a>
-      <a href={whatsapp} target="_blank" rel="noopener noreferrer" aria-label="Написать в WhatsApp" class="text-[#25D366] transition hover:opacity-80" data-goal="whatsapp_click">
-        <BrandIcon name="simple-icons:whatsapp" size={28} />
-      </a>
+  <div class="container-x site-menu__foot">
+    <div class="site-menu__contacts">
+      <a href={phoneUrl} data-goal="phone_click">{phone}</a>
+      <a href={emailUrl}>{email}</a>
     </div>
-    <a href="/#contacts" class="btn btn-primary w-full" data-goal="click_consultation">Получить бесплатный разбор</a>
+    <div class="site-menu__socials">
+      <a
+        href={telegram}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-goal="telegram_click"
+      >
+        Telegram
+      </a>
+      <a
+        href={whatsapp}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-goal="whatsapp_click"
+      >
+        WhatsApp
+      </a>
+      <a href={max} target="_blank" rel="noopener noreferrer">MAX</a>
+    </div>
+    <a
+      href="/#contacts"
+      class="btn btn-primary site-menu__cta"
+      data-goal="click_consultation"
+    >
+      Получить бесплатный разбор
+    </a>
   </div>
 </div>
 
-<div id="menu-backdrop" hidden class="fixed inset-0 z-[45] backdrop-blur-md bg-deep/30"></div>
+<style>
+  .site-header {
+    position: sticky;
+    top: var(--header-offset);
+    z-index: 40;
+    width: min(
+      calc(100% - var(--header-offset) - var(--header-offset)),
+      var(--layout-max)
+    );
+    margin-inline: auto;
+    background: var(--color-deep);
+    border: 1px solid var(--color-edge);
+    border-radius: var(--radius-frame);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: var(--header-h);
+  }
+
+  .site-brand {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    flex-shrink: 0;
+    color: var(--color-heading);
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .site-brand :global(.site-brand__mark) {
+    font-size: 1.5rem;
+  }
+
+  .site-brand__word {
+    font-family: var(--font-display);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
+
+  .site-brand__pipe {
+    color: var(--color-accent-link);
+  }
+
+  .site-brand:hover .site-brand__word,
+  .site-brand:focus-visible .site-brand__word {
+    color: var(--color-heading);
+  }
+
+  .site-nav {
+    display: none;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .site-nav a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+    color: var(--color-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color var(--motion-fast) ease;
+  }
+
+  .site-nav a::after {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.35rem;
+    height: 1px;
+    background: var(--color-brand);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--motion-fast) ease;
+  }
+
+  .site-nav a:hover,
+  .site-nav a:focus-visible {
+    color: var(--color-heading);
+  }
+
+  .site-nav a:hover::after,
+  .site-nav a:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .site-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .site-phone {
+    display: none;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: 0.5rem;
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--motion-fast) ease;
+  }
+
+  .site-phone:hover,
+  .site-phone:focus-visible {
+    color: var(--color-accent-link);
+  }
+
+  .site-cta {
+    display: none;
+    height: 2.75rem;
+    padding-inline: 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .site-menu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-shrink: 0;
+    padding: 0;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-control);
+    background: transparent;
+    color: var(--color-heading);
+    cursor: pointer;
+    transition:
+      background-color var(--motion-fast) ease,
+      border-color var(--motion-fast) ease;
+  }
+
+  .site-menu-btn:hover {
+    background: var(--color-wash);
+    border-color: var(--color-heading);
+  }
+
+  .site-menu-btn:active {
+    transform: translateY(1px);
+  }
+
+  .site-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background: var(--color-deep);
+  }
+
+  .site-menu[hidden] {
+    display: none;
+  }
+
+  .site-menu__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: var(--header-h);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .site-menu__top-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .site-menu__nav {
+    display: flex;
+    flex-direction: column;
+    padding-block: 1.5rem;
+  }
+
+  .site-menu__link {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--color-line);
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 7vw, 2.25rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    transition: color var(--motion-fast) ease;
+  }
+
+  .site-menu__link:hover,
+  .site-menu__link:focus-visible {
+    color: var(--color-accent-link);
+  }
+
+  .site-menu__index {
+    color: var(--color-brand);
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+  }
+
+  .site-menu__foot {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: auto;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .site-menu__contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .site-menu__contacts a {
+    color: var(--color-heading);
+    font-size: 1rem;
+    text-decoration: none;
+    transition: color var(--motion-fast) ease;
+  }
+
+  .site-menu__contacts a:hover,
+  .site-menu__contacts a:focus-visible {
+    color: var(--color-accent-link);
+  }
+
+  .site-menu__socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .site-menu__socials a {
+    padding-bottom: 0.15rem;
+    border-bottom: 1px solid var(--color-line);
+    color: var(--color-body);
+    text-decoration: none;
+    transition:
+      color var(--motion-fast) ease,
+      border-color var(--motion-fast) ease;
+  }
+
+  .site-menu__socials a:hover,
+  .site-menu__socials a:focus-visible {
+    color: var(--color-heading);
+    border-color: var(--color-heading);
+  }
+
+  .site-menu__cta {
+    width: 100%;
+  }
+
+  @media (max-width: 359px) {
+    .site-brand__word {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .site-nav {
+      display: flex;
+    }
+
+    .site-menu-btn {
+      display: none;
+    }
+
+    .site-cta {
+      display: inline-flex;
+    }
+
+    .site-menu {
+      display: none !important;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .site-phone {
+      display: inline-flex;
+    }
+  }
+</style>
 
 <script>
-  const toggle = document.getElementById("menu-toggle") as HTMLButtonElement | null;
-  const menu = document.getElementById("mobile-menu") as HTMLElement | null;
-  const backdrop = document.getElementById("menu-backdrop") as HTMLElement | null;
-  const header = document.querySelector("header");
-  const isDesktop = () => window.matchMedia("(min-width: 1280px)").matches;
+  const menuToggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  const menuClose = document.getElementById("menu-close");
+  const main = document.querySelector("main");
+  const footer = document.querySelector("footer");
+  const desktop = window.matchMedia("(min-width: 1280px)");
 
   let menuOpen = false;
-  const topOffset = header ? header.getBoundingClientRect().top : 0;
-  const peek = 18;
+  let lastFocused: HTMLElement | null = null;
 
-  const showHeader = () => { if (!header) return; header.style.transform = ""; header.classList.remove("peeking"); };
-  const hideHeader = () => {
-    if (!header || !isDesktop()) return;
-    const hideY = header.offsetHeight + topOffset - peek;
-    header.style.transform = `translateY(${-hideY}px)`;
-    header.classList.add("peeking");
+  const setInert = (state: boolean) => {
+    [main, footer].forEach((element) => {
+      if (element) (element as HTMLElement & { inert: boolean }).inert = state;
+    });
   };
 
-  const closeMenu = () => {
-    if (!menu) return;
-    menu.hidden = true;
-    if (backdrop) backdrop.hidden = true;
-    document.documentElement.style.overflow = "";
-    menuOpen = false;
-    if (window.scrollY > 0) hideHeader(); else showHeader();
-    toggle?.setAttribute("aria-expanded", "false");
-    toggle?.setAttribute("aria-label", "Открыть меню");
+  const focusableItems = () => {
+    if (!menu) return [];
+    return Array.from(
+      menu.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter((element) => element.offsetParent !== null);
   };
 
   const openMenu = () => {
-    if (!menu) return;
+    if (!menu || !menuToggle || menuOpen) return;
+    lastFocused = document.activeElement as HTMLElement | null;
     menu.hidden = false;
-    if (backdrop) backdrop.hidden = false;
-    document.documentElement.style.overflow = "hidden";
     menuOpen = true;
-    showHeader();
-    toggle?.setAttribute("aria-expanded", "true");
-    toggle?.setAttribute("aria-label", "Закрыть меню");
+    menuToggle.setAttribute("aria-expanded", "true");
+    menuToggle.setAttribute("aria-label", "Закрыть меню");
+    document.documentElement.style.overflow = "hidden";
+    setInert(true);
+    requestAnimationFrame(() => menuClose?.focus());
   };
 
-  toggle?.addEventListener("click", () => {
-    if (!menu) return;
-    menu.hidden ? openMenu() : closeMenu();
+  const closeMenu = (restoreFocus = true) => {
+    if (!menu || !menuOpen) return;
+    menu.hidden = true;
+    menuOpen = false;
+    menuToggle?.setAttribute("aria-expanded", "false");
+    menuToggle?.setAttribute("aria-label", "Открыть меню");
+    document.documentElement.style.overflow = "";
+    setInert(false);
+    if (restoreFocus) (lastFocused ?? menuToggle)?.focus();
+  };
+
+  menuToggle?.addEventListener("click", () => {
+    if (menuOpen) closeMenu();
+    else openMenu();
   });
 
-  backdrop?.addEventListener("click", closeMenu);
-
-  document.getElementById("menu-close")?.addEventListener("click", closeMenu);
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeMenu();
-  });
+  menuClose?.addEventListener("click", () => closeMenu());
 
   menu?.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", closeMenu);
+    link.addEventListener("click", () => closeMenu(false));
   });
 
-  let ticking = false;
-  window.addEventListener("scroll", () => {
-    if (menuOpen || !isDesktop() || !header) return;
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        if (window.scrollY <= topOffset + peek) showHeader(); else hideHeader();
-        ticking = false;
-      });
-      ticking = true;
+  document.addEventListener("keydown", (event) => {
+    if (!menuOpen) return;
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeMenu();
+      return;
+    }
+
+    if (event.key !== "Tab" || !menu) return;
+
+    const items = focusableItems();
+    if (!items.length) return;
+
+    const first = items[0];
+    const last = items[items.length - 1];
+    const active = document.activeElement;
+
+    if (event.shiftKey && (active === first || !menu.contains(active))) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && (active === last || !menu.contains(active))) {
+      event.preventDefault();
+      first.focus();
     }
   });
 
-  header?.addEventListener("mouseenter", showHeader);
-  header?.addEventListener("mouseleave", () => { if (window.scrollY > 0 && isDesktop()) hideHeader(); });
-  header?.addEventListener("click", showHeader);
+  desktop.addEventListener("change", (event) => {
+    if (event.matches) closeMenu(false);
+  });
 </script>

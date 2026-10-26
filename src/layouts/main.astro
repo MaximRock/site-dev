@@ -13,17 +13,40 @@ const cookieKey = COOKIE_CONSENT.storageKey;
 ---
 
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#09090f" />
+    <meta name="theme-color" content="#f6f2ea" />
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        let theme = null;
+        try {
+          theme = localStorage.getItem("theme");
+        } catch {}
+        if (theme !== "light" && theme !== "dark") {
+          const query = new URLSearchParams(location.search).get("theme");
+          theme =
+            query === "light" || query === "dark"
+              ? query
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+        }
+        root.dataset.theme = theme;
+        root.style.colorScheme = theme;
+        document
+          .querySelector('meta[name="theme-color"]')
+          ?.setAttribute("content", theme === "dark" ? "#14110d" : "#f6f2ea");
+      })();
+    </script>
     <meta name="format-detection" content="telephone=no" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="application-name" content="S|L" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta
       name="keywords"
       content="создание сайтов, дизайн сайтов, написание сайтов, покупка сайта, сайты, код, дизайн код, заказать сайт, разработка сайтов, сайт под ключ, создание лендинга, веб-студия, сайт для бизнеса"
@@ -45,15 +68,11 @@ const cookieKey = COOKIE_CONSENT.storageKey;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content="/logo.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+
     {/* Яндекс.Метрика грузится из клиентского скрипта только после согласия на cookie (см. ниже). */}
   </head>
   <body data-metrika-id={metrikaId} data-cookie-key={cookieKey}>
+    <a href="#main" class="skip-link">Перейти к содержанию</a>
     <CookieConsent />
     <Header />
     <main id="main">
@@ -117,9 +136,6 @@ const cookieKey = COOKIE_CONSENT.storageKey;
     loadMetrika((e as CustomEvent<{ analytics: boolean; webvisor: boolean }>).detail)
   );
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const sections = Array.from(document.querySelectorAll<HTMLElement>("main > section"));
-
   window.__track = (goal: string) => {
     try {
       const ym =
@@ -130,24 +146,6 @@ const cookieKey = COOKIE_CONSENT.storageKey;
       console.debug("[analytics]", goal);
     } catch {}
   };
-
-  if (!reduceMotion && "IntersectionObserver" in window) {
-    sections.forEach((section) => section.classList.add("reveal"));
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-  }
 
   document.addEventListener(
     "click",

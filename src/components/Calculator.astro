@@ -1,14 +1,14 @@
-<section id="calculator" class="section-spacing bg-section/50">
+<section id="calculator" class="section-spacing bg-section">
   <div class="container-x">
     <div class="mx-auto max-w-2xl pb-10 text-center">
       <p class="eyebrow mb-4">Калькулятор стоимости</p>
       <h2 class="text-3xl sm:text-4xl">Ориентировочная стоимость за 1 минуту</h2>
-      <p class="mt-4 text-muted">4 вопроса — и вы увидите примерный диапазон бюджета на ваш проект.</p>
+      <p class="mt-4 text-muted">4 вопроса, и вы увидите примерный диапазон бюджета на ваш проект.</p>
     </div>
 
     <div id="calc-card" class="card mx-auto max-w-2xl p-6 sm:p-8">
       <div class="mb-7 flex items-center gap-4">
-        <div class="h-2 flex-1 overflow-hidden rounded-full bg-white/10">
+        <div class="h-2 flex-1 overflow-hidden rounded-full bg-wash-hover">
           <div id="calc-progress" class="h-full rounded-full bg-accent transition-all duration-300" style="width: 10%"></div>
         </div>
         <span id="calc-step-label" class="shrink-0 text-sm text-muted">1 из 4</span>
@@ -57,8 +57,8 @@ const steps: Step[] = [
     title: "Сколько страниц планируется?",
     options: [
       { value: "1", label: "1" },
-      { value: "2-5", label: "2–5" },
-      { value: "6-10", label: "6–10" },
+      { value: "2-5", label: "2-5" },
+      { value: "6-10", label: "6-10" },
       { value: "10+", label: "10+" },
     ],
   },
@@ -189,7 +189,7 @@ function showResult() {
   const resultPrice = document.getElementById("calc-result-price") as HTMLElement | null;
 
   if (resultType) resultType.textContent = TYPE_LABELS[type] ?? "Проект";
-  if (resultPrice) resultPrice.textContent = `${formatPrice(min)} – ${formatPrice(max)}`;
+  if (resultPrice) resultPrice.textContent = `от ${formatPrice(min)} до ${formatPrice(max)}`;
 
   ;(window as any).__track?.("calculator_complete");
 

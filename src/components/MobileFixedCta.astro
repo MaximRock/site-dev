@@ -1,5 +1,42 @@
-<div class="fixed inset-x-0 bottom-0 z-50 border-t border-line/60 bg-deep/90 p-3 backdrop-blur-lg lg:hidden" style="padding-bottom: calc(0.75rem + env(safe-area-inset-bottom))">
-  <a href="/#contacts" class="btn btn-primary w-full" data-goal="click_consultation" style="height: 56px">
+<div
+  data-mobile-cta
+  hidden
+  class="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-deep p-3 lg:hidden"
+  style="padding-bottom: calc(0.75rem + env(safe-area-inset-bottom))"
+>
+  <a
+    href="/#contacts"
+    class="btn btn-primary h-14 w-full"
+    data-goal="click_consultation"
+  >
     Получить бесплатный разбор
   </a>
 </div>
+
+<script>
+  const panel = document.querySelector<HTMLElement>("[data-mobile-cta]");
+
+  if (panel) {
+    let visible = false;
+    let ticking = false;
+
+    const update = () => {
+      const next = window.scrollY > 480;
+      if (next === visible) return;
+      visible = next;
+      panel.hidden = !next;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        update();
+        ticking = false;
+      });
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+</script>

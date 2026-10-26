@@ -19,7 +19,7 @@ import Icon from "./Icon.astro";
         TEAM.map((person, index) => (
           <article class="card flex items-start gap-5 p-6 hover:bg-card-hover sm:items-center">
             <div
-              class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-accent to-accent-blue font-display text-2xl font-extrabold text-white"
+              class="flex h-16 w-16 shrink-0 items-center justify-center rounded-[var(--radius-control)] bg-primary font-display text-2xl font-bold text-on-primary"
               aria-hidden="true"
             >
               {person.name[0]}
@@ -43,14 +43,14 @@ import Icon from "./Icon.astro";
     </div>
 
     <aside class="card mt-8 flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
-      <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent/15 text-accent">
+      <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-wash text-accent-link">
         <Icon name="shield" size={24} />
       </div>
       <div class="min-w-0 flex-1">
         <h3 class="text-lg">Прозрачная работа</h3>
-        <p class="mt-1 text-sm text-muted">
+        <p class="mt-1 max-w-prose text-sm text-muted">
           Понимаете, что происходит на каждом этапе. Никаких тайных слоев и неожиданных
-          затрат — всё обсуждаем заранее.
+          затрат. Всё обсуждаем заранее.
         </p>
       </div>
       <a href="#contacts" class="btn btn-ghost btn-sm shrink-0">

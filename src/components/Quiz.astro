@@ -3,7 +3,7 @@ const options = [
   { value: "landing", label: "Лендинг" },
   { value: "visitka", label: "Сайт-визитка" },
   { value: "multipage", label: "Многостраничный сайт" },
-  { value: "consult", label: "Не знаю — нужна консультация" },
+  { value: "consult", label: "Не знаю, нужна консультация" },
 ];
 ---
 
@@ -12,7 +12,7 @@ const options = [
     <div class="mx-auto max-w-2xl rounded-[24px] border border-edge bg-surface p-6 sm:p-10">
       <p class="eyebrow mb-4">Подбор решения</p>
       <h2 class="text-2xl sm:text-3xl">Какой сайт подойдет именно вашему бизнесу?</h2>
-      <p class="mt-3 text-muted">Выберите один вариант — покажем, что подходит лучше всего.</p>
+      <p class="mt-3 text-muted">Выберите один вариант. Покажем, что подходит лучше всего.</p>
 
       <div class="mt-8 flex flex-col gap-3" role="group" aria-label="Тип сайта">
         {
@@ -29,7 +29,7 @@ const options = [
         }
       </div>
 
-      <div id="quiz-result" class="mt-6 hidden rounded-2xl border border-accent/40 bg-accent/10 p-5">
+      <div id="quiz-result" class="mt-6 hidden rounded-2xl border border-accent/40 bg-card p-5">
         <p id="quiz-rec" class="font-medium text-heading"></p>
       </div>
 

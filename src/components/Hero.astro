@@ -1,79 +1,346 @@
 ---
-import Icon from "./Icon.astro";
+import { CASES } from "../data/site.js";
+
+const coffee = CASES.find((item) => item.slug === "kofeynya") ?? CASES[0];
+const school =
+  CASES.find((item) => item.slug === "shkola-manikyura") ?? CASES[1] ?? CASES[0];
+
+const mainImage = coffee.desktop[0];
+const phoneImage = school.mobile[0];
 ---
 
-<section id="top" class="relative overflow-hidden mt-0 pt-[110px] pb-20 xl:mt-[-94px] xl:pt-[206px] xl:pb-32">
-  <!-- Background -->
-  <div aria-hidden="true" class="pointer-events-none absolute inset-0">
-    <div class="hero-bg"></div>
-    <div class="absolute -top-32 right-[-12%] h-[540px] w-[540px] rounded-full bg-accent/25 blur-[130px]"></div>
-    <div class="absolute bottom-[-22%] left-[-12%] h-[440px] w-[440px] rounded-full bg-accent-blue/15 blur-[130px]"></div>
-    <div
-      class="absolute inset-0 opacity-[0.03]"
-      style="background-image: linear-gradient(#8b5cf6 1px, transparent 1px), linear-gradient(90deg, #8b5cf6 1px, transparent 1px); background-size: 56px 56px"
-    ></div>
-  </div>
+<section id="top" class="hero">
+  <div class="container-x hero__grid">
+    <div class="hero__copy">
+      <p class="hero__eyebrow hero-anim">Веб-студия / дизайн и код</p>
 
-  <div class="container-x relative">
-    <div class="relative max-w-3xl">
-      <!-- Label -->
-      <p class="eyebrow mb-6 hero-anim" style="animation-delay: 0s">Style <span class="text-brand">|</span> Logic / Веб-разработка</p>
-
-      <!-- H1 -->
-      <h1 class="mb-6 hero-anim">
-        Сайт, который помогает бизнесу<br />
-        <span
-          class="bg-gradient-to-r from-accent to-accent-blue bg-clip-text text-transparent"
-        >
-          получать заявки
-        </span>
+      <h1 class="hero-anim" style="animation-delay: 60ms">
+        Сайт, который<br />
+        помогает бизнесу<br />
+        <span class="hero__accent">получать заявки</span>
       </h1>
 
-      <!-- Subtitle -->
-      <p class="hero-subtitle mb-8 max-w-xl text-lg text-body lg:text-xl hero-anim" style="animation-delay: 0.1s">
-        Разрабатываем сайты под конкретную задачу бизнеса — от структуры и оффера
-        до дизайна, разработки, аналитики и запуска.
+      <p class="hero__lead hero-anim" style="animation-delay: 120ms">
+        Проектируем и собираем сайты для малого и среднего бизнеса. Структура,
+        дизайн, разработка и запуск. На Tilda или на индивидуальном коде, под
+        задачу бизнеса.
       </p>
 
-      <!-- CTA buttons -->
-      <div class="flex flex-col gap-3 sm:flex-row hero-anim" style="animation-delay: 0.2s">
-        <a href="#contacts" class="btn btn-primary">
-          Получить бесплатный разбор
+      <div class="hero__actions hero-anim" style="animation-delay: var(--motion-base)">
+        <a href="#contacts" class="btn btn-primary">Получить бесплатный разбор</a>
+        <a href="#cases" class="hero__link">
+          Смотреть кейсы
+          <span aria-hidden="true">→</span>
         </a>
-        <a href="#cases" class="btn btn-ghost">Посмотреть кейс</a>
       </div>
-      <p class="mt-3 text-sm text-muted">30 минут • без обязательства заказывать сайт</p>
 
-      <!-- Advantages -->
-      <ul class="mt-8 flex flex-wrap gap-2" aria-label="Направления">
-        <li class="chip">Стратегия → дизайн → разработка</li>
-        <li class="chip">Tilda или индивидуальный код</li>
-        <li class="chip">Фиксированная стоимость до старта</li>
+      <p class="hero__note hero-anim" style="animation-delay: 220ms">
+        30 минут, без обязательств
+      </p>
+
+      <ul
+        class="hero__proof hero-anim"
+        style="animation-delay: 260ms"
+        aria-label="Ключевые условия"
+      >
+        <li>Tilda и индивидуальный код</li>
+        <li>Фиксированная смета</li>
+        <li>Запуск от 7 дней</li>
       </ul>
-
-      <!-- Review counter -->
-      <div class="mt-8 flex items-center gap-3 text-sm text-muted">
-        <div class="flex -space-x-2">
-          <div class="h-8 w-8 rounded-full border-2 border-deep bg-accent/30 flex items-center justify-center text-xs font-bold text-accent">И</div>
-          <div class="h-8 w-8 rounded-full border-2 border-deep bg-accent-blue/30 flex items-center justify-center text-xs font-bold text-accent-blue">М</div>
-        </div>
-        <div>
-          <span class="text-heading font-semibold">12+</span> отзывов
-        </div>
-      </div>
     </div>
 
-    {/* <div class="card mt-10 flex items-center gap-4 p-4 lg:mt-0 lg:absolute lg:right-0 lg:bottom-8 lg:max-w-sm">
-      <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent/15 text-accent">
-        <Icon name="gift" size={24} />
-      </div>
-      <div class="min-w-0 flex-1">
-        <p class="font-display font-bold text-heading">Подарок при заказе сайта</p>
-        <p class="mt-1 text-sm text-muted">
-          Чек-лист «50 ошибок на сайте, которые убивают заявки»
-        </p>
-      </div>
-      <span class="demo-badge shrink-0 self-start sm:self-center">Материал готовится</span>
-    </div> */}
+    <div class="hero__media hero-anim" style="animation-delay: var(--motion-fast)">
+      <a
+        class="hero__work"
+        href="#cases"
+        aria-label="Смотреть кейсы: кофейня и школа маникюра"
+      >
+        <figure class="hero__main">
+          <img
+            src={mainImage}
+            alt="Пример дизайна сайта кофейни, главный экран"
+            width="1835"
+            height="950"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+          <span class="hero__badge">Пример</span>
+        </figure>
+
+        <figure class="hero__phone">
+          <img
+            src={phoneImage}
+            alt="Пример дизайна сайта школы маникюра, мобильная версия"
+            width="365"
+            height="790"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+
+        <div class="hero__captions">
+          <p><span class="hero__index">01</span> Кофейня. Сайт с онлайн-меню</p>
+          <p><span class="hero__index">02</span> Школа маникюра. Мобильная версия</p>
+        </div>
+      </a>
+    </div>
   </div>
 </section>
+
+<style>
+  .hero {
+    padding-top: calc(var(--header-h) + clamp(2.5rem, 7vw, 4.5rem));
+    padding-bottom: clamp(3.5rem, 8vw, 7rem);
+  }
+
+  .hero__grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .hero__copy {
+    min-width: 0;
+  }
+
+  .hero__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-eyebrow);
+  }
+
+  .hero__eyebrow::before {
+    content: "";
+    width: 2.5rem;
+    height: 2px;
+    flex-shrink: 0;
+    background: var(--color-brand);
+  }
+
+  .hero h1 {
+    margin-top: 1.5rem;
+  }
+
+  .hero__accent {
+    text-decoration: underline;
+    text-decoration-color: var(--color-brand);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.12em;
+  }
+
+  .hero__lead {
+    margin-top: 1.5rem;
+    max-width: 40rem;
+    color: var(--color-body);
+    font-size: 1.0625rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .hero__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    border-bottom: 1px solid var(--color-line);
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+      color var(--motion-fast) ease,
+      border-color var(--motion-fast) ease;
+  }
+
+  .hero__link span {
+    transition: transform var(--motion-fast) ease;
+  }
+
+  .hero__link:hover,
+  .hero__link:focus-visible {
+    color: var(--color-accent-link);
+    border-color: var(--color-brand);
+  }
+
+  .hero__link:hover span,
+  .hero__link:focus-visible span {
+    transform: translateX(3px);
+  }
+
+  .hero__note {
+    margin-top: 0.75rem;
+    color: var(--color-muted);
+    font-size: 0.875rem;
+  }
+
+  .hero__proof {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    margin-top: 2.25rem;
+    padding: 0;
+    list-style: none;
+    color: var(--color-body);
+    font-size: 0.875rem;
+  }
+
+  .hero__proof li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hero__proof li::before {
+    content: "";
+    width: 0.375rem;
+    height: 0.375rem;
+    flex-shrink: 0;
+    background: var(--color-brand);
+  }
+
+  .hero__media {
+    position: relative;
+    min-width: 0;
+  }
+
+  .hero__work {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .hero__main {
+    position: relative;
+    margin: 0;
+    border: 1px solid var(--color-edge);
+    border-radius: var(--radius-media);
+    background: var(--color-card);
+    overflow: hidden;
+  }
+
+  .hero__main img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1835 / 950;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 200ms ease;
+  }
+
+  .hero__work:hover .hero__main img {
+    transform: scale(1.015);
+  }
+
+  .hero__badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.3rem 0.5rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-chip);
+    background: var(--color-deep);
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .hero__phone {
+    position: absolute;
+    top: 2rem;
+    right: -0.75rem;
+    width: 25%;
+    margin: 0;
+    border: 1px solid var(--color-edge);
+    border-radius: var(--radius-media);
+    background: var(--color-deep);
+    overflow: hidden;
+    box-shadow: 0 0.75rem 2rem
+      color-mix(in srgb, var(--color-shadow) 18%, transparent);
+  }
+
+  .hero__phone img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 365 / 790;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .hero__captions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 1.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-line);
+    color: var(--color-muted);
+    font-size: 0.75rem;
+  }
+
+  .hero__captions p {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin: 0;
+  }
+
+  .hero__index {
+    flex-shrink: 0;
+    color: var(--color-accent-link);
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  @media (min-width: 640px) {
+    .hero__actions {
+      flex-direction: row;
+      align-items: center;
+      gap: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: start;
+    }
+
+    .hero__lead {
+      font-size: 1.125rem;
+    }
+
+    .hero__media {
+      margin-top: 2.75rem;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .hero__phone {
+      top: 1rem;
+      right: -0.25rem;
+      width: 28%;
+    }
+  }
+</style>
