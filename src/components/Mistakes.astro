@@ -1,38 +1,28 @@
 ---
 import { MISTAKES_CARDS } from "../data/site.js";
-import Icon from "./Icon.astro";
 ---
 
-<section class="section-spacing bg-section">
-  <div class="container-x">
-    <div class="max-w-2xl">
-      <p class="eyebrow mb-4">Частые ошибки</p>
-      <h2 class="text-3xl sm:text-4xl">Возможно, вам не нужен новый сайт</h2>
-      <p class="mt-4 text-muted">
-        Иногда проблема не в том, что у бизнеса плохой сайт. Проблема в том, что посетитель
-        не понимает, что вы предлагаете, почему ему стоит выбрать вас и что делать дальше.
+<section class="section-spacing">
+  <div class="container-x grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+    <div>
+      <p class="eyebrow mb-4">Чек-лист</p>
+      <h2 class="text-3xl sm:text-4xl">Пять признаков, что сайту нужна работа</h2>
+      <p class="mt-4 max-w-prose text-muted">
+        Пройдите по списку и отметьте, что уже есть на вашем сайте.
       </p>
     </div>
 
-    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <ol class="card flex flex-col divide-y divide-edge">
       {
         MISTAKES_CARDS.map((item) => (
-          <article class="card group p-6 transition hover:border-accent/50 hover:bg-card-hover">
-            <span class="font-display text-4xl font-extrabold text-accent-link transition group-hover:text-accent">
+          <li class="flex items-start gap-4 p-5 sm:p-6">
+            <span class="font-display text-lg font-bold text-accent-link">
               {item.num}
             </span>
-            <p class="mt-3 text-body">{item.text}</p>
-          </article>
+            <p class="text-body">{item.text}</p>
+          </li>
         ))
       }
-    </div>
-
-    <aside class="card mt-10 flex flex-col gap-5 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-7">
-      <p class="flex items-start gap-3 font-display font-semibold text-heading">
-        <Icon name="search" size={22} class="mt-0.5 shrink-0 text-accent" />
-        <span>Прежде чем создавать новый сайт, нужно понять, почему существующий не работает.</span>
-      </p>
-      <a href="#contacts" class="btn btn-primary shrink-0" data-goal="click_consultation">Разобрать мой сайт</a>
-    </aside>
+    </ol>
   </div>
 </section>

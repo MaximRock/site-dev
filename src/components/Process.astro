@@ -1,45 +1,49 @@
 ---
-import { PROCESS_STEPS } from "../data/site.js";
-import Icon from "./Icon.astro";
+import { PROCESS_STEPS, WHAT_YOU_GET } from "../data/site.js";
 ---
 
 <section id="process" class="section-spacing">
-  <div class="container-x">
-    <div class="max-w-2xl">
+  <div class="container-x grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+    <div>
       <p class="eyebrow mb-4">Как мы работаем</p>
-      <h2 class="text-3xl sm:text-4xl">Шесть шагов от задачи до запуска</h2>
-      <p class="mt-4 text-muted">
-        Прозрачный процесс: вы всегда понимаете, что происходит с проектом на каждом этапе.
+      <h2 class="text-3xl sm:text-4xl">От задачи до запуска</h2>
+      <p class="mt-4 max-w-prose text-muted">
+        Начинаем не с дизайна, а с задачи. Сначала разбираемся, что нужно
+        бизнесу, затем делаем структуру и дизайн.
+      </p>
+      <p class="mt-3 max-w-prose text-muted">
+        Точный состав работ зависит от выбранного формата и фиксируется до
+        начала работы.
       </p>
     </div>
 
-    <ol class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {
-        PROCESS_STEPS.map((step) => (
-          <li class="card group relative p-6 transition hover:border-accent/50 hover:bg-card-hover">
-            <span class="font-display text-4xl font-extrabold text-accent-link transition group-hover:text-accent">
-              {step.num}
-            </span>
-            <h3 class="mt-3 text-lg">{step.title}</h3>
-            <p class="mt-1.5 text-sm text-muted">{step.text}</p>
-          </li>
-        ))
-      }
-    </ol>
+    <div class="flex flex-col gap-6">
+      <ol class="flex flex-col gap-3">
+        {
+          PROCESS_STEPS.map((step) => (
+            <li class="card flex gap-4 p-5 sm:p-6">
+              <span class="font-display text-lg font-bold text-accent-link">
+                {step.num}
+              </span>
+              <div class="min-w-0">
+                <h3 class="text-lg">{step.title}</h3>
+                <p class="mt-1 text-sm text-muted">{step.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
 
-    <aside class="card mt-8 flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
-      <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-wash text-accent-link">
-        <Icon name="clock" size={24} />
-      </div>
-      <div class="min-w-0 flex-1">
-        <h3 class="text-lg">После запуска</h3>
-        <p class="mt-1 max-w-prose text-sm text-muted">
-          Сайт можно развивать: доработки, поддержка, новые страницы и функции.
-        </p>
-      </div>
-      <a href="#contacts" class="btn btn-ghost btn-sm shrink-0">
-        Обсудить проект
-      </a>
-    </aside>
+      <aside class="card p-5 sm:p-6">
+        <h3 class="text-lg">Что входит</h3>
+        <ul class="mt-3 flex flex-wrap gap-2">
+          {
+            WHAT_YOU_GET.map((item) => (
+              <li class="chip">{item}</li>
+            ))
+          }
+        </ul>
+      </aside>
+    </div>
   </div>
 </section>
