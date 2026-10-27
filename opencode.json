@@ -12,12 +12,33 @@
     "ux-ui-gates": {
       "type": "local",
       "command": [
-        "npx",
-        "-y",
-        "--package=ux-ui-agent-skills",
-        "ux-ui-mcp"
+        "node",
+        "/home/max/projects/ux-ui-agent-skills/mcp/server.mjs"
       ],
-      "enabled": true
+      "enabled": true,
+      "timeout": 600000,
+      "environment": {
+        "PLAYWRIGHT_BROWSERS_PATH": "/nix/store/35ks1vk4jj0jkqb82p5waixxzifbbsy2-playwright-browsers"
+      }
+    }
+  },
+  "permission": {
+    "skill": {
+      "ui-ux-pro-max": "allow",
+      "design": "allow",
+      "design-system": "allow",
+      "banner-design": "ask",
+      "brand": "ask",
+      "slides": "ask",
+      "ui-styling": "ask",
+      "better-interface": "allow",
+      "better-accessibility": "allow",
+      "better-layout": "allow",
+      "better-writing": "allow",
+      "better-typography": "allow",
+      "better-colors": "allow",
+      "better-ui": "allow",
+      "interface-review": "allow"
     }
   }
 }

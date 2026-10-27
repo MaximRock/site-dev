@@ -21,6 +21,21 @@ Consult these guides before working on related tasks:
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
 
+## Skill precedence
+
+This repo also loads agent skills (UUPM globally, jakubkrehel locally). The
+repo's own rules always win over any skill recommendation:
+
+- One source of truth for tokens: `src/styles/global.css` (`@theme`). No
+  hardcoded hex, px or ms in components. Skills suggesting exact values
+  (e.g. 150ms, 0.96 scale) are references only — map them to tokens.
+- No native `<select>`; no colored border on one side only of a card, alert,
+  toast or callout.
+- Never run UUPM `--persist`, never create `design-system/MASTER.md`, never
+  let a skill overwrite `src/styles/global.css`.
+- Never state a contrast ratio, a WCAG verdict or a pass rate that a gate did
+  not just print. "Not verified yet" is always acceptable.
+
 ## Design doctrine (ux-ui-agent-skills)
 
 The design rules live in the UX/UI kit at `~/projects/ux-ui-agent-skills`
