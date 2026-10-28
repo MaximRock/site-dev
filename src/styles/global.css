@@ -129,16 +129,6 @@ html {
     overflow-wrap: anywhere;
   }
 
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0 0 auto;
-    z-index: 39;
-    height: var(--header-offset);
-    background: var(--color-deep);
-    pointer-events: none;
-  }
-
   img,
   svg,
   video,
