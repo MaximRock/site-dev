@@ -1,628 +1,195 @@
 ---
-import { CASES } from "../data/site.js";
+import { CASES, REVIEWS } from "../data/site.js";
+import Icon from "./Icon.astro";
+
+const review = REVIEWS[0];
 ---
 
 <section id="cases" class="section-spacing">
   <div class="container-x">
-    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+    <div class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
       <div class="max-w-2xl">
         <p class="eyebrow mb-4">Кейсы</p>
-        <h2 class="text-3xl sm:text-4xl">Как мы строим сайты на реальных примерах</h2>
+        <h2 class="text-3xl sm:text-4xl">Два проекта, в которых видно подход</h2>
         <p class="mt-4 text-muted">
-          Реальные проекты: от разбора задачи до запуска работающего сайта. Листайте карточки:
-          внутри виды для компьютера и для смартфона.
+          Не шаблоны, а решения под задачу: от структуры и текста до визуального языка.
+          Смотрите, как одна и та же логика работает в разных нишах.
         </p>
       </div>
-
-      <!-- Стрелки переключения карточек ленты -->
-      <div class="flex items-center gap-3" data-cases-nav>
-        <button class="case-nav-btn" data-cases-prev aria-label="Предыдущий кейс">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="M15 6 9 12l6 6"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </svg>
-        </button>
-        <button class="case-nav-btn" data-cases-next aria-label="Следующий кейс">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="m9 6 6 6-6 6"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </svg>
-        </button>
-      </div>
+      <p class="max-w-sm text-sm text-muted lg:justify-self-end">
+        Каждый проект начинается с разбора бизнеса. Поэтому у кофейни и школы маникюра
+        получились разные сайты, а не одна тема с заменённым логотипом.
+      </p>
     </div>
 
-    <div class="cases-rail" data-cases-rail>
+    <div class="mt-10 grid gap-6 lg:grid-cols-2">
       {
-        CASES.map((item) => (
-          <article id={`case-${item.slug}`} class="card case-card" data-case>
+        CASES.map((item, i) => (
+          <article class="card case-card">
+            <div class="case-media">
+              <img
+                src={item.desktop[0]}
+                alt={`${item.title}: главный экран для компьютера`}
+                width="1835"
+                height="950"
+                loading="lazy"
+              />
+              <figure class="case-phone">
+                <img
+                  src={item.mobile[0]}
+                  alt={`${item.title}: мобильная версия`}
+                  width="364"
+                  height="748"
+                  loading="lazy"
+                />
+              </figure>
+              <span class="case-index" aria-hidden="true">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+            </div>
+
             <div class="case-body">
-              <!-- Десктопная лента -->
-              <div class="case-strip" data-strip>
-                <div
-                  class="case-track"
-                  data-track
-                  tabindex="0"
-                  aria-label={`Виды для компьютера: ${item.title}`}
-                >
-                  {item.desktop.map((src, i) => (
-                    <figure class="case-slide">
-                      <img
-                        src={src}
-                        alt={`${item.title}: вид для компьютера, экран ${i + 1}`}
-                        loading="lazy"
-                        width="1835"
-                        height="950"
-                      />
-                    </figure>
-                  ))}
-                </div>
-                <button
-                  class="case-arrow case-arrow-left case-arrow-under"
-                  data-media-prev
-                  aria-label="Предыдущий экран"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path
-                      d="M15 6 9 12l6 6"
-                      stroke="currentColor"
-                      stroke-width="2.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></path>
-                  </svg>
-                </button>
-                <button
-                  class="case-arrow case-arrow-right case-arrow-under"
-                  data-media-next
-                  aria-label="Следующий экран"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path
-                      d="m9 6 6 6-6 6"
-                      stroke="currentColor"
-                      stroke-width="2.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></path>
-                  </svg>
-                </button>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="chip">{item.type}</span>
+                <span class="chip">{item.niche}</span>
               </div>
-
-              <!-- Мобильная колонка -->
-              <div class="case-phones" data-phone-stack>
-                {item.mobile.map((src, i) => (
-                  <img
-                    src={src}
-                    alt={`${item.title}: вид для смартфона, экран ${i + 1}`}
-                    class="case-phone"
-                    data-phone
-                    loading="lazy"
-                    width="364"
-                    height="748"
-                  />
-                ))}
-                <button
-                  class="case-arrow case-arrow-left case-arrow-under"
-                  data-media-prev
-                  aria-label="Предыдущий экран (смартфон)"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path
-                      d="M15 6 9 12l6 6"
-                      stroke="currentColor"
-                      stroke-width="2.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></path>
-                  </svg>
-                </button>
-                <button
-                  class="case-arrow case-arrow-right case-arrow-under"
-                  data-media-next
-                  aria-label="Следующий экран (смартфон)"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path
-                      d="m9 6 6 6-6 6"
-                      stroke="currentColor"
-                      stroke-width="2.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
-
-              <!-- Текстовая колонка -->
-              <div class="case-info">
-                <div class="flex flex-wrap items-center gap-2">
-                  <span class="case-promo">Промо-вариант</span>
-                  <span class="chip">{item.type}</span>
-                  <span class="chip">{item.niche}</span>
-                </div>
-
-                <h3 class="mt-4 text-2xl">{item.title}</h3>
-                <p class="mt-3 text-body">{item.description}</p>
-
-                <div class="mt-6 flex flex-col gap-3 self-stretch">
-                  <a href="#contacts" class="btn btn-primary" data-goal="case_view">
-                    {item.cta}
-                  </a>
-                  {
-                    item.siteUrl ? (
-                      <a
-                        href={item.siteUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn btn-ghost"
-                        data-goal="case_site"
-                      >
-                        Перейти на сайт
-                      </a>
-                    ) : (
-                      <button
-                        type="button"
-                        class="btn btn-ghost case-site-stub"
-                        aria-disabled="true"
-                        title="Промо-вариант: ссылка появится позже"
-                      >
-                        Перейти на сайт
-                      </button>
-                    )
-                  }
-                </div>
-              </div>
+              <h3 class="mt-4 text-2xl">{item.title}</h3>
+              <p class="mt-3 text-body">{item.summary}</p>
+              <a href="#contacts" class="btn btn-primary mt-6" data-goal="case_view">
+                Хочу такой же подход
+              </a>
             </div>
           </article>
         ))
       }
     </div>
+
+    {
+      review && (
+        <figure class="card review-card mt-6">
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="review-initial" aria-hidden="true">
+              {review.author[0]}
+            </span>
+            <figcaption>
+              <p class="font-display font-bold text-heading">{review.author}</p>
+              <p class="text-sm text-muted">{review.meta}</p>
+            </figcaption>
+            <span class="review-stars ml-auto" role="img" aria-label="Оценка: пять из пяти">
+              {Array.from({ length: 5 }).map(() => (
+                <Icon name="star" size={16} />
+              ))}
+            </span>
+          </div>
+          <blockquote class="mt-5 max-w-3xl text-lg leading-relaxed text-body">
+            «{review.text}»
+          </blockquote>
+        </figure>
+      )
+    }
   </div>
 </section>
 
 <style>
-  /* Внешняя лента карточек */
-  .cases-rail {
-    display: flex;
-    margin-top: 2.5rem;
-    gap: 1.5rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    /* запас под hover-подъём карточки, иначе лента его обрежет */
-    padding: 0.75rem;
-    margin-inline: -0.75rem;
-    scrollbar-width: none;
-  }
-  .cases-rail::-webkit-scrollbar {
-    display: none;
-  }
-
-  @media (min-width: 1024px) {
-    .cases-rail {
-      padding: 0.75rem 0;
-      margin-inline: 0;
-    }
-  }
-
   .case-card {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    flex: none;
-    scroll-snap-align: start;
     overflow: hidden;
   }
 
-  /*
-   * Медиа-высота: только телефонная колонка. Десктопная лента
-   * подстраивается под пропорции скриншота (aspect-ratio).
-   */
-  .case-body {
-    --case-media-h: clamp(230px, 42vw, 300px);
-
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
-  }
-
-  @media (min-width: 1024px) {
-    .case-body {
-      --case-media-h: clamp(320px, 27vw, 420px);
-
-      display: grid;
-      grid-template-columns: minmax(250px, 300px) minmax(0, 1fr) minmax(190px, 240px);
-      gap: 1.25rem;
-      padding: 1.25rem;
-    }
-
-    .case-strip {
-      align-self: start;
-    }
-
-    /* Десктоп: фиксированная высота колонки телефона, впишем как раньше */
-    .case-phones {
-      height: var(--case-media-h);
-      aspect-ratio: auto;
-    }
-
-    :global(.case-phone) {
-      object-fit: cover;
-      object-position: top center;
-    }
-
-    .case-info {
-      order: -1;
-    }
-  }
-
-  /* ---------- Общий фон медиа-блоков ---------- */
-
-  .case-strip,
-  .case-phones {
+  .case-media {
     position: relative;
-    border: 1px solid var(--color-edge);
-    border-radius: 18px;
+    aspect-ratio: 1835 / 950;
     overflow: hidden;
+    border-bottom: 1px solid var(--color-line);
     background: var(--gradient-panel);
   }
 
-  /* Телефонная колонка: на мобильном — пропорции скриншота телефона */
-  .case-phones {
-    height: auto;
-    width: min(100%, calc(60vh * 364 / 748));
-    max-width: 100%;
-    margin-inline: auto;
-    aspect-ratio: 364 / 748;
-  }
-
-  /* На планшетах блок телефона по центру и не во всю ширину.
-     width задаём явно: в flex-колонке margin-inline auto отключает
-     stretch, и от auto-ширины aspect-ratio не отработает */
-  @media (min-width: 768px) and (max-width: 1023.98px) {
-    .case-phones {
-      width: 22.5rem;
-      max-width: 100%;
-      margin-inline: auto;
-    }
-  }
-
-  /* Десктопная лента — высота по пропорциям скриншота */
-  .case-strip {
-    height: auto;
-    aspect-ratio: 1835 / 950;
-  }
-
-  /* ---------- Десктопная лента ---------- */
-
-  .case-track {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    outline-offset: -3px;
-  }
-  .case-track::-webkit-scrollbar {
-    display: none;
-  }
-
-  .case-slide {
-    flex: none;
+  .case-media > img {
     width: 100%;
     height: 100%;
-    scroll-snap-align: start;
-    margin: 0;
-  }
-
-  .case-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
+    object-fit: cover;
+    object-position: top center;
     display: block;
   }
 
-  /* ---------- Мобильная колонка ---------- */
-
-  :global(.case-phone) {
+  .case-phone {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-  }
-  :global(.case-phone.is-active) {
-    opacity: 1;
-  }
-
-  /* ---------- Стрелки ---------- */
-
-  :global(.case-arrow) {
-    position: absolute;
-    top: 50%;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    padding: 0;
-    border: 1px solid color-mix(in srgb, var(--color-media-ink) 30%, transparent);
-    border-radius: var(--radius-control);
-    background: var(--color-media-scrim);
-    color: var(--color-media-ink);
-    cursor: pointer;
-    translate: 0 -50%;
-    transition:
-      background-color 0.2s ease,
-      border-color 0.2s ease,
-      box-shadow 0.2s ease;
-    backdrop-filter: blur(6px);
-  }
-  :global(.case-arrow svg) {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-  :global(.case-arrow:hover) {
-    background: color-mix(in srgb, var(--color-shadow) 88%, transparent);
-    border-color: var(--color-accent);
-  }
-
-  :global(.case-arrow-left) {
-    left: 0.75rem;
-  }
-  :global(.case-arrow-right) {
-    right: 0.75rem;
-  }
-
-  /* Стрелки медиа-блоков — снизу по углам (десктоп-лента и телефонная колонка) */
-  :global(.case-arrow-under) {
-    top: auto;
-    bottom: 0.75rem;
-    translate: 0 0;
-    width: 2.25rem;
-    height: 2.25rem;
-  }
-
-  /* Кнопки переключения карточек ленты (в шапке секции) */
-  :global(.case-nav-btn) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    padding: 0;
+    right: clamp(0.75rem, 3vw, 1.5rem);
+    bottom: clamp(0.75rem, 3vw, 1.5rem);
+    width: clamp(3.75rem, 15%, 7rem);
+    margin: 0;
+    overflow: hidden;
     border: 1px solid var(--color-edge);
     border-radius: var(--radius-control);
+    box-shadow: 0 12px 30px -12px var(--color-shadow);
     background: var(--color-card);
-    color: var(--color-heading);
-    cursor: pointer;
-    transition:
-      background-color 0.2s ease,
-      border-color 0.2s ease,
-      box-shadow 0.2s ease,
-      color 0.2s ease;
-    backdrop-filter: blur(6px);
-  }
-  :global(.case-nav-btn svg) {
-    width: 1.4rem;
-    height: 1.4rem;
-  }
-  :global(.case-nav-btn:hover) {
-    background: var(--color-card-hover);
-    border-color: var(--color-heading);
-  }
-  :global(.case-nav-btn:active) {
-    transform: translateY(1px);
   }
 
-  /* ---------- Текстовая колонка ---------- */
+  .case-phone img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
 
-  /* Бейдж «Промо-вариант» — в цвет верхней подписи «Кейсы» (brand) */
-  .case-promo {
+  .case-index {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
     display: inline-flex;
     align-items: center;
-    padding: 0.375rem 0.75rem;
-    border: 1px solid color-mix(in srgb, var(--color-brand) 45%, var(--color-line));
+    justify-content: center;
+    min-width: 2.5rem;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--color-edge);
     border-radius: var(--radius-chip);
-    background: var(--color-wash);
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--color-heading);
+    background: var(--color-deep);
+    color: var(--color-muted);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
   }
 
-  /* Заглушка кнопки «Перейти на сайт», пока нет реального адреса */
-  :global(.case-site-stub) {
-    opacity: 0.55;
-    cursor: not-allowed;
-    box-shadow: none;
-  }
-
-  .case-info {
+  .case-body {
     display: flex;
+    flex: 1;
     flex-direction: column;
     align-items: flex-start;
-    padding: 0.25rem 0.5rem 0.5rem;
+    padding: 1.25rem;
   }
 
-  .case-info .btn {
+  .case-body .btn {
     align-self: stretch;
     justify-content: center;
   }
-</style>
 
-<script>
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const heading = (): ScrollToOptions => ({ behavior: reduceMotion ? "auto" : "smooth" });
-  const AUTOPLAY_MS = 3500;
+  .review-card {
+    padding: 1.5rem;
+  }
 
-  const mod = (n: number, i: number) => ((i % n) + n) % n;
+  .review-initial {
+    display: flex;
+    width: 2.75rem;
+    height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-control);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
 
-  document.querySelectorAll<HTMLElement>("[data-case]").forEach((card) => {
-    const strip = card.querySelector<HTMLElement>("[data-strip]");
-    const track = card.querySelector<HTMLElement>("[data-track]");
-    const slides = track ? (Array.from(track.children) as HTMLElement[]) : [];
+  .review-stars {
+    display: inline-flex;
+    gap: 0.125rem;
+    color: var(--color-accent);
+  }
 
-    const stack = card.querySelector<HTMLElement>("[data-phone-stack]");
-    const phones = stack
-      ? Array.from(stack.querySelectorAll<HTMLImageElement>("[data-phone]"))
-      : [];
-
-    if (!slides.length && !phones.length) return;
-
-    /* Общий индекс слайда карточки: десктоп и смартфон меняются вместе */
-    let index = 0;
-    let timer = 0;
-    let inView = true;
-
-    const showSlides = () => {
-      if (track && slides.length) {
-        const slide = slides[mod(slides.length, index)];
-        track.scrollTo({
-          left: slide.offsetLeft - track.offsetLeft,
-          ...heading(),
-        });
-      }
-      if (phones.length) {
-        const active = mod(phones.length, index);
-        phones.forEach((phone, k) =>
-          k === active
-            ? phone.classList.add("is-active")
-            : phone.classList.remove("is-active")
-        );
-      }
-    };
-
-    const step = (dir: 1 | -1) => {
-      index += dir;
-      showSlides();
-      restartTimer();
-    };
-
-    /* Автосмена */
-    const startTimer = () => {
-      if (reduceMotion || timer || !inView) return;
-      timer = window.setInterval(() => {
-        index += 1;
-        showSlides();
-      }, AUTOPLAY_MS);
-    };
-
-    const stopTimer = () => {
-      clearInterval(timer);
-      timer = 0;
-    };
-
-    const restartTimer = () => {
-      stopTimer();
-      startTimer();
-    };
-
-    /* Стрелки: на десктопе и в телефонной колонке */
-    card.querySelectorAll<HTMLButtonElement>("[data-media-prev]").forEach((btn) =>
-      btn.addEventListener("click", () => step(-1))
-    );
-    card.querySelectorAll<HTMLButtonElement>("[data-media-next]").forEach((btn) =>
-      btn.addEventListener("click", () => step(1))
-    );
-
-    /* Пауза автосмены при наведении на медиа */
-    strip?.addEventListener("mouseenter", stopTimer);
-    strip?.addEventListener("mouseleave", startTimer);
-    stack?.addEventListener("mouseenter", stopTimer);
-    stack?.addEventListener("mouseleave", startTimer);
-
-    card.addEventListener("focusin", stopTimer);
-    card.addEventListener("focusout", startTimer);
-
-    showSlides();
-
-    /* Крутимся только когда карточка в кадре */
-    if ("IntersectionObserver" in window) {
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            inView = entry.isIntersecting;
-            if (inView) startTimer();
-            else stopTimer();
-          });
-        },
-        { threshold: 0.3 }
-      );
-      io.observe(card);
-    } else {
-      startTimer();
+  @media (min-width: 640px) {
+    .review-card {
+      padding: 2rem;
     }
-  });
-
-  /* Лента карточек: стрелки в шапке секции (по кругу) */
-  document.querySelectorAll<HTMLElement>("[data-cases-rail]").forEach((rail) => {
-    const section = rail.closest<HTMLElement>("section");
-    const prevBtn = section?.querySelector<HTMLButtonElement>("[data-cases-prev]");
-    const nextBtn = section?.querySelector<HTMLButtonElement>("[data-cases-next]");
-
-    const cards = Array.from(rail.querySelectorAll<HTMLElement>(".case-card"));
-    if (!cards.length || !prevBtn || !nextBtn) return;
-
-    /* Текущая карточка: ближайшая к левому краю скролла.
-       Работает при любом числе карточек и боковых паддингах ленты:
-       последняя карточка упирается в конец скролла, пороговая
-       проверка «левая грань <= scrollLeft + запас» её не видит. */
-    const currentIndex = () => {
-      const left = rail.scrollLeft;
-      let best = 0;
-      let bestDist = Infinity;
-      cards.forEach((card, k) => {
-        const dist = Math.abs(card.offsetLeft - rail.offsetLeft - left);
-        if (dist < bestDist) {
-          bestDist = dist;
-          best = k;
-        }
-      });
-      return best;
-    };
-
-    const goCard = (dir: 1 | -1) => {
-      const target = mod(cards.length, currentIndex() + dir);
-      const card = cards[target];
-      rail.scrollTo({
-        left: card.offsetLeft - rail.offsetLeft,
-        ...heading(),
-      });
-    };
-
-    prevBtn.addEventListener("click", () => goCard(-1));
-    nextBtn.addEventListener("click", () => goCard(1));
-  });
-
-  /* Клавиатурный скролл внешней ленты карточек */
-  document.querySelectorAll<HTMLElement>("[data-cases-rail]").forEach((rail) => {
-    rail.addEventListener("keydown", (e) => {
-      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
-      const cardCandidate = rail.querySelector<HTMLElement>(
-        "article:focus-within, article:hover"
-      );
-      const card = cardCandidate?.closest<HTMLElement>(".case-card");
-      if (!card) return;
-      e.preventDefault();
-      const step = card.clientWidth + parseFloat(getComputedStyle(rail).columnGap || "0");
-      rail.scrollBy({
-        left: e.key === "ArrowRight" ? step : -step,
-        ...heading(),
-      });
-    });
-  });
-</script>
+  }
+</style>

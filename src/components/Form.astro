@@ -1,190 +1,132 @@
 ---
-import { CONTACTS, FORM_OPTIONS, CHECKLIST } from "../data/site.js";
+import { CONTACTS } from "../data/site.js";
 import Icon from "./Icon.astro";
 ---
 
-<section id="contacts" class="section-spacing">
-  <div class="container-x">
-    <div class="mx-auto max-w-2xl text-center">
-      <p class="eyebrow mb-4">Заявка</p>
-      <h2 class="text-3xl sm:text-4xl">Расскажите о проекте</h2>
+<div class="form-shell">
+  <form
+    id="lead-form"
+    class="card p-6 sm:p-8"
+    novalidate
+    aria-describedby="form-status"
+  >
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="f-name" class="field-label">
+          Ваше имя <span class="text-accent-link" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="f-name"
+          name="name"
+          type="text"
+          placeholder="Как к вам обращаться?"
+          class="field"
+          autocomplete="name"
+          aria-required="true"
+          aria-describedby="f-name-error"
+        />
+        <p id="f-name-error" class="mt-1.5 hidden text-sm text-error" data-field-error="name"></p>
+      </div>
+
+      <div>
+        <label for="f-contact" class="field-label">
+          Телефон / Telegram <span class="text-accent-link" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="f-contact"
+          name="contact"
+          type="text"
+          placeholder="+7 ... / @username"
+          class="field"
+          autocomplete="tel"
+          aria-required="true"
+          aria-describedby="f-contact-error"
+        />
+        <p id="f-contact-error" class="mt-1.5 hidden text-sm text-error" data-field-error="contact"></p>
+      </div>
     </div>
 
-    <!-- Form -->
-    <form
-      id="lead-form"
-      class="card mx-auto mt-10 max-w-2xl p-6 sm:p-9"
-      novalidate
-      aria-describedby="form-status"
-    >
-      <div class="grid gap-5 sm:grid-cols-2">
-        <div>
-          <label for="f-name" class="field-label">Ваше имя <span class="text-accent-link" aria-hidden="true">*</span></label>
-          <input
-            id="f-name"
-            name="name"
-            type="text"
-            placeholder="Как к вам обращаться?"
-            class="field"
-            autocomplete="name"
-            aria-required="true"
-            aria-describedby="f-name-error"
-          />
-          <p id="f-name-error" class="mt-1.5 hidden text-sm text-error" data-field-error="name"></p>
-        </div>
+    <div class="mt-5">
+      <label for="f-comment" class="field-label">
+        Что нужно сделать? <span class="font-normal text-muted">(необязательно)</span>
+      </label>
+      <textarea
+        id="f-comment"
+        name="comment"
+        rows={3}
+        placeholder="Коротко расскажите о задаче"
+        class="field"
+        aria-describedby="f-comment-error"
+      ></textarea>
+      <p id="f-comment-error" class="mt-1.5 hidden text-sm text-error" data-field-error="comment"></p>
+    </div>
 
-        <div>
-          <label for="f-contact" class="field-label">Телефон / Telegram <span class="text-accent-link" aria-hidden="true">*</span></label>
-          <input
-            id="f-contact"
-            name="contact"
-            type="text"
-            placeholder="+7 ... / @username"
-            class="field"
-            autocomplete="tel"
-            aria-required="true"
-            aria-describedby="f-contact-error"
-          />
-          <p id="f-contact-error" class="mt-1.5 hidden text-sm text-error" data-field-error="contact"></p>
-        </div>
-      </div>
-
-      <div class="mt-5">
-        <span id="f-subject-label" class="field-label">Что нужно сделать?</span>
-        <div class="subject-select">
-          <input
-            type="hidden"
-            id="f-subject"
-            name="subject"
-            value={FORM_OPTIONS[0].label}
-            data-value={FORM_OPTIONS[0].value}
-          />
-          <button
-            type="button"
-            id="f-subject-button"
-            class="field subject-select__button"
-            aria-haspopup="listbox"
-            aria-expanded="false"
-            aria-controls="f-subject-list"
-            aria-labelledby="f-subject-label f-subject-value"
-          >
-            <span id="f-subject-value">{FORM_OPTIONS[0].label}</span>
-            <Icon name="chevron" size={18} class="subject-select__chevron" />
-          </button>
-          <ul
-            id="f-subject-list"
-            class="subject-select__list"
-            role="listbox"
-            tabindex="-1"
-            aria-labelledby="f-subject-label"
-            hidden
-          >
-            {FORM_OPTIONS.map((opt, i) => (
-              <li
-                id={`f-subject-opt-${i}`}
-                class="subject-select__option"
-                role="option"
-                data-value={opt.value}
-                aria-selected={i === 0 ? "true" : "false"}
-              >
-                {opt.label}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      <div class="mt-5">
-        <label for="f-comment" class="field-label">
-          Комментарий <span class="font-normal text-muted">(необязательно)</span>
-        </label>
-        <textarea
-          id="f-comment"
-          name="comment"
-          rows={3}
-          placeholder="Коротко расскажите о задаче"
-          class="field"
-          aria-describedby="f-comment-error"
-        ></textarea>
-        <p id="f-comment-error" class="mt-1.5 hidden text-sm text-error" data-field-error="comment"></p>
-      </div>
-
-      <div class="mt-5 flex items-start gap-3">
-        <input
-          id="f-consent"
-          name="consent"
-          type="checkbox"
-          class="mt-1 h-5 w-5 shrink-0 accent-brand"
-          aria-required="true"
-          aria-describedby="f-consent-error"
-        />
-        <label for="f-consent" class="text-sm text-muted">
-          Я согласен на обработку персональных данных. Подробнее в{" "}
-          <a href="/privacy" target="_blank" rel="noopener" class="text-accent-link underline underline-offset-2 hover:text-accent2">
-            политике конфиденциальности
-          </a>.
-        </label>
-      </div>
-      <p id="f-consent-error" class="mt-1.5 hidden text-sm text-error" data-field-error="consent"></p>
-
-      <button id="submit-btn" type="submit" class="btn btn-primary mt-6 w-full">
-        Получить бесплатный разбор
-      </button>
-
-      <p class="mt-4 text-center text-sm text-muted">
-        Или напишите нам напрямую в{" "}
+    <div class="mt-5 flex items-start gap-3">
+      <input
+        id="f-consent"
+        name="consent"
+        type="checkbox"
+        class="mt-1 h-5 w-5 shrink-0 accent-brand"
+        aria-required="true"
+        aria-describedby="f-consent-error"
+      />
+      <label for="f-consent" class="text-sm text-muted">
+        Я согласен на обработку персональных данных. Подробнее в{" "}
         <a
-          href={CONTACTS.telegramBot}
+          href="/privacy"
           target="_blank"
-          rel="noopener noreferrer"
-          class="font-medium text-accent-link underline underline-offset-2 hover:text-accent2"
-          data-goal="form_telegram"
+          rel="noopener"
+          class="text-accent-link underline underline-offset-2 hover:text-accent2"
         >
-          Telegram
+          политике конфиденциальности
         </a>.
-      </p>
+      </label>
+    </div>
+    <p id="f-consent-error" class="mt-1.5 hidden text-sm text-error" data-field-error="consent"></p>
 
-      <p
-        id="form-status"
-        role="status"
-        aria-live="polite"
-        data-telegram={CONTACTS.telegramBot}
-        class="mt-4 hidden rounded-xl px-4 py-3 text-center text-sm font-medium"
-      ></p>
-    </form>
+    <button id="submit-btn" type="submit" class="btn btn-primary mt-6 w-full">
+      Получить бесплатный разбор
+    </button>
 
-    <!-- Success state -->
-    <div
-      id="form-success"
-      hidden
-      class="card mx-auto mt-10 max-w-2xl p-8 sm:p-12 text-center"
+    <p class="mt-4 text-center text-sm text-muted">
+      Или напишите напрямую в{" "}
+      <a
+        href={CONTACTS.telegramBot}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-medium text-accent-link underline underline-offset-2 hover:text-accent2"
+        data-goal="form_telegram"
+      >
+        Telegram
+      </a>.
+    </p>
+
+    <p
+      id="form-status"
       role="status"
       aria-live="polite"
-    >
-      <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-card text-accent">
-        <Icon name="check" size={32} />
-      </div>
-      <h3 class="mt-6 text-2xl">Заявка отправлена</h3>
-      <p class="mt-3 text-muted">
-        Спасибо! Мы получили вашу заявку. Свяжемся с вами в течение рабочего дня и договоримся о
-        времени бесплатного разбора.
-      </p>
+      data-telegram={CONTACTS.telegramBot}
+      class="mt-4 hidden rounded-xl px-4 py-3 text-center text-sm font-medium"
+    ></p>
+  </form>
 
-      <div id="form-checklist" hidden class="mt-6 rounded-[var(--radius-card)] border border-edge bg-wash p-6">
-        <p class="font-display text-lg font-bold text-heading">Ваш чек-лист готов</p>
-        <p class="mt-1 text-sm text-muted">«50 ошибок на сайте, которые убивают заявки»</p>
-        <a
-          href={CHECKLIST.url}
-          download="Чек-лист. 50 ошибок.docx"
-          class="btn btn-primary mt-4 w-full sm:w-auto"
-          data-goal="checklist_download"
-        >
-          Скачать чек-лист
-        </a>
-      </div>
+  <div
+    id="form-success"
+    hidden
+    class="card p-8 text-center sm:p-12"
+    role="status"
+    aria-live="polite"
+  >
+    <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-card text-accent">
+      <Icon name="check" size={32} />
     </div>
+    <h3 class="mt-6 text-2xl">Заявка отправлена</h3>
+    <p class="mt-3 text-muted">
+      Спасибо! Мы получили вашу заявку. Свяжемся с вами в течение рабочего дня и
+      договоримся о времени бесплатного разбора.
+    </p>
   </div>
-</section>
+</div>
 
 <script>
   import confetti from "canvas-confetti";
@@ -213,15 +155,6 @@ import Icon from "./Icon.astro";
     form.hidden = true;
     if (success) success.hidden = false;
 
-    const checklist = document.getElementById("form-checklist");
-    const subjectEl = document.getElementById("f-subject") as HTMLInputElement | null;
-    let wantsChecklist = subjectEl?.dataset.value === "checklist";
-    try {
-      if (sessionStorage.getItem("sl-checklist-intent") === "1") wantsChecklist = true;
-      sessionStorage.removeItem("sl-checklist-intent");
-    } catch {}
-    if (checklist) checklist.hidden = !wantsChecklist;
-
     success?.scrollIntoView({ behavior: "smooth", block: "center" });
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -242,6 +175,7 @@ import Icon from "./Icon.astro";
 
       const name = String(data.get("name") ?? "").trim();
       const contact = String(data.get("contact") ?? "").trim();
+      const comment = String(data.get("comment") ?? "").trim();
       const consent = data.get("consent") === "on";
 
       let firstError: HTMLElement | null = null;
@@ -277,11 +211,8 @@ import Icon from "./Icon.astro";
         return;
       }
 
-      const subject = String(data.get("subject") ?? "").trim();
-      const comment = String(data.get("comment") ?? "").trim();
-
       submitBtn!.disabled = true;
-      submitBtn.textContent = "Отправляем...";
+      submitBtn!.textContent = "Отправляем...";
       setStatus("", "success");
 
       const controller = new AbortController();
@@ -290,7 +221,7 @@ import Icon from "./Icon.astro";
       fetch("/api/send-lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, contact, subject, comment, consent }),
+        body: JSON.stringify({ name, contact, comment, consent }),
         signal: controller.signal,
       })
         .then((res) => res.json())
@@ -303,33 +234,43 @@ import Icon from "./Icon.astro";
         })
         .catch((err) => {
           console.error("[lead-form]", err);
-          setStatus("Не удалось отправить заявку. Попробуйте ещё раз или напишите нам напрямую в Telegram.", "error", true);
+          setStatus(
+            "Не удалось отправить заявку. Попробуйте ещё раз или напишите нам напрямую в Telegram.",
+            "error",
+            true
+          );
         })
         .finally(() => {
           clearTimeout(timeout);
           submitBtn!.disabled = false;
-          submitBtn.textContent = "Получить бесплатный разбор";
+          submitBtn!.textContent = "Получить бесплатный разбор";
         });
     } catch (err) {
       console.error("[lead-form]", err);
-      setStatus("Не удалось отправить заявку. Попробуйте ещё раз или напишите нам напрямую в Telegram.", "error", true);
+      setStatus(
+        "Не удалось отправить заявку. Попробуйте ещё раз или напишите нам напрямую в Telegram.",
+        "error",
+        true
+      );
       submitBtn!.disabled = false;
-      submitBtn.textContent = "Получить бесплатный разбор";
+      submitBtn!.textContent = "Получить бесплатный разбор";
     }
   });
 
-  form?.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>("input, textarea, select").forEach((el) => {
-    el.addEventListener("focus", () => (window as any).__track?.("form_start"), { once: true });
-    el.addEventListener("input", () => {
-      el.classList.remove("field-error");
-      el.removeAttribute("aria-invalid");
-      const errEl = form.querySelector<HTMLElement>(`[data-field-error="${el.name}"]`);
-      if (errEl) {
-        errEl.textContent = "";
-        errEl.classList.add("hidden");
-      }
+  form
+    ?.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea")
+    .forEach((el) => {
+      el.addEventListener("focus", () => (window as any).__track?.("form_start"), { once: true });
+      el.addEventListener("input", () => {
+        el.classList.remove("field-error");
+        el.removeAttribute("aria-invalid");
+        const errEl = form.querySelector<HTMLElement>(`[data-field-error="${el.name}"]`);
+        if (errEl) {
+          errEl.textContent = "";
+          errEl.classList.add("hidden");
+        }
+      });
     });
-  });
 
   const consentEl = document.getElementById("f-consent") as HTMLInputElement | null;
   consentEl?.addEventListener("change", () => {
@@ -341,98 +282,4 @@ import Icon from "./Icon.astro";
       errEl.classList.add("hidden");
     }
   });
-
-  // ---- Custom select (subject) ----
-  const subjectSelect = document.querySelector<HTMLElement>(".subject-select");
-  const subjectButton = document.getElementById("f-subject-button") as HTMLButtonElement | null;
-  const subjectList = document.getElementById("f-subject-list") as HTMLUListElement | null;
-  const subjectHidden = document.getElementById("f-subject") as HTMLInputElement | null;
-  const subjectValueEl = document.getElementById("f-subject-value") as HTMLElement | null;
-
-  if (subjectSelect && subjectButton && subjectList && subjectHidden && subjectValueEl) {
-    const options = Array.from(subjectList.querySelectorAll<HTMLLIElement>('[role="option"]'));
-    const selectedIndex = options.findIndex((o) => o.getAttribute("aria-selected") === "true");
-    let activeIndex = selectedIndex >= 0 ? selectedIndex : 0;
-    let isOpen = false;
-
-    const setActive = (index: number) => {
-      activeIndex = (index + options.length) % options.length;
-      options.forEach((o, i) => o.classList.toggle("is-active", i === activeIndex));
-      subjectList.setAttribute("aria-activedescendant", options[activeIndex].id);
-    };
-
-    const openList = (direction: 1 | -1 = 1) => {
-      isOpen = true;
-      subjectList.hidden = false;
-      subjectButton.setAttribute("aria-expanded", "true");
-      setActive(direction === 1 ? activeIndex : options.length - 1);
-      subjectList.focus();
-    };
-
-    const closeList = (returnFocus = true) => {
-      isOpen = false;
-      subjectList.hidden = true;
-      subjectButton.setAttribute("aria-expanded", "false");
-      subjectList.removeAttribute("aria-activedescendant");
-      options.forEach((o) => o.classList.remove("is-active"));
-      if (returnFocus) subjectButton.focus();
-    };
-
-    const selectOption = (index: number) => {
-      const opt = options[index];
-      if (!opt) return;
-      const label = opt.textContent?.trim() ?? "";
-      options.forEach((o, i) => o.setAttribute("aria-selected", i === index ? "true" : "false"));
-      subjectHidden.value = label;
-      subjectHidden.dataset.value = opt.dataset.value ?? "";
-      subjectValueEl.textContent = label;
-      closeList();
-    };
-
-    subjectButton.addEventListener("click", () => {
-      isOpen ? closeList() : openList();
-    });
-
-    subjectButton.addEventListener("focus", () => (window as any).__track?.("form_start"), { once: true });
-
-    subjectButton.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowDown" || e.key === "ArrowUp" || e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        if (!isOpen) openList(e.key === "ArrowUp" ? -1 : 1);
-      }
-    });
-
-    subjectList.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowDown") {
-        e.preventDefault();
-        setActive(activeIndex + 1);
-      } else if (e.key === "ArrowUp") {
-        e.preventDefault();
-        setActive(activeIndex - 1);
-      } else if (e.key === "Home") {
-        e.preventDefault();
-        setActive(0);
-      } else if (e.key === "End") {
-        e.preventDefault();
-        setActive(options.length - 1);
-      } else if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        selectOption(activeIndex);
-      } else if (e.key === "Escape") {
-        e.preventDefault();
-        closeList();
-      } else if (e.key === "Tab") {
-        closeList(false);
-      }
-    });
-
-    options.forEach((opt, i) => {
-      opt.addEventListener("click", () => selectOption(i));
-      opt.addEventListener("mouseenter", () => setActive(i));
-    });
-
-    document.addEventListener("click", (e) => {
-      if (isOpen && !subjectSelect.contains(e.target as Node)) closeList(false);
-    });
-  }
 </script>

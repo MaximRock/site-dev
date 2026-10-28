@@ -1,27 +1,56 @@
 ---
-import { ADVANTAGES } from "../data/site.js";
+import { ADVANTAGES, TEAM } from "../data/site.js";
 import Icon from "./Icon.astro";
 ---
 
-<section id="advantages" class="section-spacing bg-section">
-  <div class="container-x">
-    <div class="max-w-2xl">
-      <p class="eyebrow mb-4">Преимущества</p>
-      <h2 class="text-3xl sm:text-4xl">Почему с нами удобно работать</h2>
-      <p class="mt-4 text-muted">
-        Мы берем на себя весь процесс. Вам не нужно собирать команду из разных людей.
+<section id="about" class="section-spacing bg-section">
+  <div class="container-x grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+    <div>
+      <p class="eyebrow mb-4">О нас</p>
+      <h2 class="text-3xl sm:text-4xl">Почему нам можно доверять</h2>
+      <p class="mt-4 max-w-prose text-muted">
+        Над проектом работают два специалиста. Вы общаетесь напрямую с теми, кто делает
+        сайт, а не с менеджерами.
       </p>
+
+      <ul class="mt-6 flex flex-col gap-4">
+        {
+          ADVANTAGES.slice(0, 3).map((item) => (
+            <li class="flex items-start gap-3">
+              <Icon name="check" size={20} class="mt-0.5 shrink-0 text-accent" />
+              <div class="min-w-0">
+                <h3 class="text-base">{item.title}</h3>
+                <p class="mt-1 text-sm text-muted">{item.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
     </div>
 
-    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="grid gap-4 sm:grid-cols-2">
       {
-        ADVANTAGES.map((item, index) => (
-          <article class="card group p-6 transition hover:border-accent/50 hover:bg-card-hover">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-wash text-accent-link transition group-hover:bg-wash-hover">
-              <Icon name={index % 2 === 0 ? "check" : "sparkles"} size={24} />
+        TEAM.map((person) => (
+          <article class="card flex flex-col gap-3 p-6">
+            <div
+              class="flex h-14 w-14 items-center justify-center rounded-[var(--radius-control)] bg-primary font-display text-xl font-bold text-on-primary"
+              aria-hidden="true"
+            >
+              {person.name[0]}
             </div>
-            <h3 class="mt-5 text-lg">{item.title}</h3>
-            <p class="mt-1.5 text-sm text-muted">{item.text}</p>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-muted">
+                {person.role}
+              </p>
+              <h3 class="mt-1 text-lg">{person.name}</h3>
+            </div>
+            <ul class="flex flex-wrap gap-1.5">
+              {
+                person.focus.slice(0, 3).map((item) => (
+                  <li class="chip !px-2 !py-0.5 text-xs">{item}</li>
+                ))
+              }
+            </ul>
           </article>
         ))
       }

@@ -17,7 +17,9 @@ const cookieKey = COOKIE_CONSENT.storageKey;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- ds-allow-hardcode:start: theme-color needs a literal fallback for browser chrome -->
     <meta name="theme-color" content="#f4efe5" />
+    <!-- ds-allow-hardcode:end -->
     <script is:inline>
       (() => {
         const root = document.documentElement;
@@ -36,9 +38,6 @@ const cookieKey = COOKIE_CONSENT.storageKey;
         }
         root.dataset.theme = theme;
         root.style.colorScheme = theme;
-        document
-          .querySelector('meta[name="theme-color"]')
-          ?.setAttribute("content", theme === "dark" ? "#14110d" : "#f4efe5");
       })();
     </script>
     <meta name="format-detection" content="telephone=no" />

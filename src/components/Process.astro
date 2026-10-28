@@ -1,5 +1,6 @@
 ---
 import { PROCESS_STEPS, WHAT_YOU_GET } from "../data/site.js";
+import Icon from "./Icon.astro";
 ---
 
 <section id="process" class="section-spacing">
@@ -8,12 +9,11 @@ import { PROCESS_STEPS, WHAT_YOU_GET } from "../data/site.js";
       <p class="eyebrow mb-4">Как мы работаем</p>
       <h2 class="text-3xl sm:text-4xl">От задачи до запуска</h2>
       <p class="mt-4 max-w-prose text-muted">
-        Начинаем не с дизайна, а с задачи. Сначала разбираемся, что нужно
-        бизнесу, затем делаем структуру и дизайн.
+        Начинаем не с дизайна, а с задачи. Сначала разбираемся, что нужно бизнесу,
+        затем делаем структуру, дизайн и код.
       </p>
       <p class="mt-3 max-w-prose text-muted">
-        Точный состав работ зависит от выбранного формата и фиксируется до
-        начала работы.
+        Вы понимаете, что происходит на каждом этапе, и не платите за лишние работы.
       </p>
     </div>
 
@@ -35,11 +35,14 @@ import { PROCESS_STEPS, WHAT_YOU_GET } from "../data/site.js";
       </ol>
 
       <aside class="card p-5 sm:p-6">
-        <h3 class="text-lg">Что входит</h3>
-        <ul class="mt-3 flex flex-wrap gap-2">
+        <h3 class="text-lg">Что входит в разработку</h3>
+        <ul class="mt-4 grid gap-2 sm:grid-cols-2">
           {
             WHAT_YOU_GET.map((item) => (
-              <li class="chip">{item}</li>
+              <li class="flex items-start gap-2.5 text-sm text-body">
+                <Icon name="check" size={17} class="mt-0.5 shrink-0 text-accent" />
+                {item}
+              </li>
             ))
           }
         </ul>

@@ -7,27 +7,18 @@ import { Icon as BrandIcon } from "astro-icon/components";
 
 <footer class="border-t border-line bg-footer pt-16 pb-28 md:pb-10">
   <div class="container-x grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.2fr]">
-    <!-- Left: brand + CTA -->
     <div>
-      <a href="/#top" class="flex items-center gap-3" aria-label="S|L, на главную">
-        <img
-          src="/logo.png"
-          alt="Логотип S|L"
-          width="600"
-          height="400"
-          loading="lazy"
-          class="h-11 w-11 rounded-2xl object-contain"
-        />
+      <a href="/#top" class="flex items-center" aria-label="S|L, на главную">
         <BrandMark class="text-heading text-3xl" />
       </a>
       <p class="mt-5 max-w-sm text-muted">
         Сайты, которые работают на бизнес.
       </p>
-      <p class="mt-2 font-display font-bold text-heading">Хотите обсудить свой сайт?</p>
-      <a href="/#contacts" class="btn btn-primary btn-sm mt-6">Получить бесплатный разбор</a>
+      <p class="mt-2 max-w-sm text-sm text-muted">
+        Дизайн и код без посредников. Работаем с малым и средним бизнесом.
+      </p>
     </div>
 
-    <!-- Nav -->
     <nav aria-label="Навигация в подвале">
       <h3 class="font-display text-sm font-bold uppercase tracking-wider text-heading">Навигация</h3>
       <ul class="mt-4 space-y-2">
@@ -43,7 +34,6 @@ import { Icon as BrandIcon } from "astro-icon/components";
       </ul>
     </nav>
 
-    <!-- Contacts -->
     <div>
       <h3 class="font-display text-sm font-bold uppercase tracking-wider text-heading">Контакты</h3>
       <ul class="mt-4 space-y-3">

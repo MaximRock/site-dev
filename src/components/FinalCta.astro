@@ -1,28 +1,48 @@
 ---
-import Icon from "./Icon.astro";
+import { CONTACTS } from "../data/site.js";
+import Form from "./Form.astro";
 ---
 
-<section class="section-spacing">
-  <div class="container-x relative text-center">
-    <div class="mx-auto max-w-2xl">
+<section id="contacts" class="section-spacing">
+  <div class="container-x grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+    <div>
       <p class="eyebrow mb-4">Следующий шаг</p>
       <h2 class="text-3xl sm:text-4xl">
-        Давайте сначала разберёмся, какой сайт действительно нужен вашему бизнесу
+        Давайте разберёмся, какой сайт действительно нужен вашему бизнесу
       </h2>
-      <p class="mt-4 text-muted">
-        Расскажите, чем вы занимаетесь и какую задачу хотите решить. Мы посмотрим на ситуацию
-        и предложим оптимальный вариант.
+      <p class="mt-4 max-w-prose text-muted">
+        Расскажите, чем вы занимаетесь и какую задачу хотите решить. Посмотрим на
+        ситуацию и предложим оптимальный вариант.
       </p>
+
+      <ul class="mt-6 flex flex-wrap gap-2">
+        <li class="chip">30 минут</li>
+        <li class="chip">Без обязательств</li>
+        <li class="chip">Без сложных терминов</li>
+      </ul>
+
+      <div class="card mt-8 p-5 sm:p-6">
+        <p class="font-display font-bold text-heading">Не готовы оставлять заявку?</p>
+        <p class="mt-1 text-sm text-muted">
+          Напишите напрямую — ответим на вопросы и подскажем, с чего начать.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <a
+            href={CONTACTS.telegramBot}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-ghost btn-sm"
+            data-goal="final_telegram"
+          >
+            Написать в Telegram
+          </a>
+          <a href={CONTACTS.phoneUrl} class="btn btn-ghost btn-sm" data-goal="phone_click">
+            {CONTACTS.phone}
+          </a>
+        </div>
+      </div>
     </div>
 
-    <ul class="mx-auto mt-8 flex max-w-xl flex-wrap items-center justify-center gap-2">
-      <li class="chip">Без сложных терминов</li>
-      <li class="chip">Без навязывания</li>
-      <li class="chip">Без обязательства заказывать сайт</li>
-    </ul>
-
-    <a href="#contacts" class="btn btn-primary mt-8" data-goal="click_consultation">
-      Получить бесплатный разбор
-    </a>
+    <Form />
   </div>
 </section>

@@ -1,52 +1,81 @@
 ---
 import { PLATFORMS, SERVICES } from "../data/site.js";
+import Icon from "./Icon.astro";
 ---
 
 <section id="services" class="section-spacing bg-section">
-  <div class="container-x grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
-    <div>
-      <p class="eyebrow mb-4">Форматы и цены</p>
-      <h2 class="text-3xl sm:text-4xl">Какой сайт нужен вашему бизнесу</h2>
-      <p class="mt-4 max-w-prose text-muted">
-        Не каждому бизнесу нужен большой дорогой сайт. Иногда правильное
-        решение: простой лендинг.
-      </p>
-      <p class="mt-3 max-w-prose text-muted">
-        Мы работаем напрямую, поэтому платите только за результат.
-      </p>
+  <div class="container-x">
+    <div class="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+      <div>
+        <p class="eyebrow mb-4">Форматы и цены</p>
+        <h2 class="text-3xl sm:text-4xl">Какой сайт нужен вашему бизнесу</h2>
+        <p class="mt-4 max-w-prose text-muted">
+          Не каждому бизнесу нужен большой дорогой сайт. Иногда правильное решение —
+          простой лендинг, который быстро запускается и приносит заявки.
+        </p>
+        <p class="mt-3 max-w-prose text-muted">
+          Мы работаем напрямую, поэтому в смете нет аренды офиса, менеджеров и рекламы
+          студии. Только работа над вашим проектом.
+        </p>
 
-      <div class="mt-6 flex flex-col gap-3">
+        <div class="mt-6 flex flex-wrap gap-2">
+          <span class="chip">Фиксированная смета</span>
+          <span class="chip">Без скрытых доплат</span>
+          <span class="chip">Запуск от 7 дней</span>
+        </div>
+      </div>
+
+      <ul class="flex flex-col gap-3">
         {
-          Object.values(PLATFORMS).map((platform) => (
-            <p class="text-sm text-muted">
-              <span class="font-display font-semibold text-heading">
-                {platform.title}:
-              </span>{" "}
-              {platform.points.slice(0, 3).join(", ")}.
-            </p>
+          SERVICES.map((service) => (
+            <li class="card p-5 sm:p-6">
+              <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div class="min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <h3 class="text-xl">{service.title}</h3>
+                    {service.popular && <span class="chip">Популярен</span>}
+                  </div>
+                  <p class="mt-2 text-sm text-muted">{service.text}</p>
+                  <p class="mt-1.5 text-sm text-muted">{service.audience}</p>
+                </div>
+                <p class="shrink-0 font-display text-lg font-bold text-heading">
+                  {service.price}
+                </p>
+              </div>
+            </li>
           ))
         }
-      </div>
+      </ul>
     </div>
 
-    <ul class="flex flex-col gap-3">
+    <div class="mt-8 grid gap-4 lg:grid-cols-2">
       {
-        SERVICES.map((service) => (
-          <li class="card grid gap-3 p-5 sm:grid-cols-[1fr_auto] sm:items-start sm:p-6">
-            <div class="min-w-0">
-              <div class="flex flex-wrap items-center gap-2">
-                <h3 class="text-xl">{service.title}</h3>
-                {service.popular && <span class="chip">Популярен</span>}
-              </div>
-              <p class="mt-2 text-sm text-muted">{service.text}</p>
-              <p class="mt-2 text-sm text-muted">{service.audience}</p>
+        Object.values(PLATFORMS).map((platform) => (
+          <article class="card flex flex-col p-6">
+            <div class="flex items-start justify-between gap-3">
+              <h3 class="text-xl">{platform.title}</h3>
+              <span class="text-xs font-semibold uppercase tracking-wider text-muted">
+                Платформа
+              </span>
             </div>
-            <p class="font-display text-lg font-bold text-heading">
-              {service.price}
-            </p>
-          </li>
+            <p class="mt-2 text-sm text-muted">{platform.text}</p>
+            <ul class="mt-4 flex flex-wrap gap-2">
+              {platform.points.slice(0, 4).map((point) => (
+                <li class="chip !px-2.5 !py-1 text-xs">{point}</li>
+              ))}
+            </ul>
+            <a href="#contacts" class="btn btn-ghost mt-5 w-full">
+              {platform.cta}
+            </a>
+          </article>
         ))
       }
-    </ul>
+    </div>
+
+    <p class="mt-6 flex max-w-3xl items-start gap-3 text-sm text-muted">
+      <Icon name="check" size={18} class="mt-0.5 shrink-0 text-accent" />
+      Точная стоимость зависит от структуры, количества страниц и функционала. Состав работ
+      и смету фиксируем до старта.
+    </p>
   </div>
 </section>
