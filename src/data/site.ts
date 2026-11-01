@@ -1,11 +1,11 @@
 export const CONTACTS = {
-  phone: "+7 (929) 819-19-93",
-  phoneUrl: "tel:+79298191993",
+  phone: "+7 928 168-52-70",
+  phoneUrl: "tel:+79281685270",
   telegram: "https://t.me/irinagerasimenkorrrr",
   telegramBot: "https://t.me/style_logic_studio_bot",
   email: "styleandlogic@yandex.ru",
   emailUrl: "mailto:styleandlogic@yandex.ru",
-  whatsapp: "https://wa.me/79298191993",
+  whatsapp: "https://wa.me/79281685270",
   max: "https://max.ru/u/f9LHodD0cOIIBL1KQ1CBJGryu0p0sDA_Pt5v3vGcgfXaceNmPhSoPjt8lQ8",
 };
 
