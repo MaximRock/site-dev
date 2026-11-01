@@ -92,9 +92,18 @@ const { class: className = "" } = Astro.props;
     );
     const meta = document.querySelector('meta[name="theme-color"]');
     const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let transitionTimer = 0;
 
-    const currentTheme = () => (root.dataset.theme === "dark" ? "dark" : "light");
+    const motionDuration = () => {
+      const raw = Number.parseFloat(
+        getComputedStyle(root).getPropertyValue("--motion-fast")
+      );
+      return Number.isFinite(raw) ? raw : 0;
+    };
+
+    let theme: "light" | "dark" =
+      root.dataset.theme === "dark" ? "dark" : "light";
 
     const readStoredTheme = () => {
       try {
@@ -121,32 +130,41 @@ const { class: className = "" } = Astro.props;
       if (canvas) meta.setAttribute("content", canvas);
     };
 
-    const applyTheme = (theme: "light" | "dark", persist: boolean) => {
-      root.dataset.theme = theme;
-      root.style.colorScheme = theme;
-      syncToggles(theme);
+    const applyTheme = (next: "light" | "dark", persist: boolean) => {
+      theme = next;
+      root.dataset.theme = next;
+      root.style.colorScheme = next;
+      syncToggles(next);
       syncMeta();
       if (persist) {
         try {
-          localStorage.setItem("theme", theme);
+          localStorage.setItem("theme", next);
         } catch {}
       }
     };
 
-    syncToggles(currentTheme());
+    syncToggles(theme);
     syncMeta();
 
     toggles.forEach((button) => {
       button.addEventListener("click", () => {
-        const next = currentTheme() === "dark" ? "light" : "dark";
-        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-          window.clearTimeout(transitionTimer);
-          root.classList.add("theme-transition");
-          transitionTimer = window.setTimeout(
-            () => root.classList.remove("theme-transition"),
-            200
-          );
+        const next: "light" | "dark" = theme === "dark" ? "light" : "dark";
+        theme = next;
+        if (reduceMotion.matches) {
+          applyTheme(next, true);
+          return;
         }
+        if ("startViewTransition" in document) {
+          document.startViewTransition(() => applyTheme(next, true));
+          return;
+        }
+        window.clearTimeout(transitionTimer);
+        root.classList.add("theme-transition");
+        void root.offsetWidth;
+        transitionTimer = window.setTimeout(
+          () => root.classList.remove("theme-transition"),
+          motionDuration()
+        );
         applyTheme(next, true);
       });
     });

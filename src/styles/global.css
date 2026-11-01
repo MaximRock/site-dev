@@ -213,6 +213,19 @@ html {
       border-color var(--motion-fast) ease,
       color var(--motion-fast) ease !important;
   }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--motion-base);
+    animation-timing-function: ease;
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-group(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    pointer-events: none;
+  }
 }
 
 /* ---------- Components ---------- */
@@ -501,6 +514,10 @@ dialog::backdrop {
     animation-duration: var(--motion-reduced) !important;
     animation-iteration-count: 1 !important;
     transition-duration: var(--motion-reduced) !important;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--motion-reduced) !important;
   }
   .card:hover,
   .btn:hover {
