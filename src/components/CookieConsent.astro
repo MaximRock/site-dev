@@ -86,6 +86,9 @@ const c = COOKIE_CONSENT;
     border-radius: var(--radius-card);
     background: var(--color-surface);
     box-shadow: var(--shadow-sheet);
+    max-height: calc(100dvh - 1.5rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .cookie-panel:focus {
