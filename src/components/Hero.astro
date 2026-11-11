@@ -1,11 +1,11 @@
 ---
 import { CASES } from "../data/site.js";
 
-const coffee = CASES.find((item) => item.slug === "kofeynya") ?? CASES[0];
+const bakery = CASES.find((item) => item.slug === "pekarnya") ?? CASES[0];
 const school =
   CASES.find((item) => item.slug === "shkola-manikyura") ?? CASES[1] ?? CASES[0];
 
-const mainImage = coffee.desktop[0];
+const mainImage = bakery.desktop[0];
 const phoneImage = school.mobile[0];
 ---
 
@@ -53,25 +53,24 @@ const phoneImage = school.mobile[0];
       <a
         class="hero__work"
         href="#cases"
-        aria-label="Смотреть кейсы: кофейня и школа маникюра"
+        aria-label="Смотреть кейсы: пекарня и школа маникюра"
       >
         <figure class="hero__main">
           <img
             src={mainImage}
-            alt="Пример дизайна сайта кофейни, главный экран"
+            alt="Сайт пекарни, главный экран"
             width="1835"
             height="950"
             loading="eager"
             fetchpriority="high"
             decoding="async"
           />
-          <span class="hero__badge">Пример</span>
         </figure>
 
         <figure class="hero__phone">
           <img
             src={phoneImage}
-            alt="Пример дизайна сайта школы маникюра, мобильная версия"
+            alt="Сайт школы маникюра, мобильная версия"
             width="365"
             height="790"
             loading="lazy"
@@ -80,7 +79,7 @@ const phoneImage = school.mobile[0];
         </figure>
 
         <div class="hero__captions">
-          <p><span class="hero__index">01</span> Кофейня. Сайт с онлайн-меню</p>
+          <p><span class="hero__index">01</span> Пекарня. Сайт с предзаказом</p>
           <p><span class="hero__index">02</span> Школа маникюра. Мобильная версия</p>
         </div>
       </a>
@@ -243,22 +242,6 @@ const phoneImage = school.mobile[0];
 
   .hero__work:hover .hero__main img {
     transform: scale(1.015);
-  }
-
-  .hero__badge {
-    position: absolute;
-    top: 0.75rem;
-    left: 0.75rem;
-    padding: 0.3rem 0.5rem;
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-chip);
-    background: var(--color-deep);
-    color: var(--color-heading);
-    font-family: var(--font-display);
-    font-size: 0.625rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
   }
 
   .hero__phone {
