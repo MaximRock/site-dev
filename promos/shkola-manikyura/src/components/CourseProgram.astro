@@ -1,0 +1,123 @@
+---
+interface Module {
+  number: string;
+  title: string;
+  outcome: string;
+  lessons: string[];
+}
+
+const modules: Module[] = [
+  {
+    number: '01',
+    title: 'Введение в профессию',
+    outcome: 'Понимание специфики работы мастера маникюра',
+    lessons: [
+      'Инструменты и материалы: что нужно для старта',
+      'Санитарные нормы и безопасность',
+      'Анатомия ногтя: строение и особенности',
+      'Организация рабочего места',
+    ],
+  },
+  {
+    number: '02',
+    title: 'Базовый маникюр',
+    outcome: 'Освоение классического и аппаратного маникюра',
+    lessons: [
+      'Классический обрезной маникюр',
+      'Аппаратный маникюр: техника и нюансы',
+      'Комбинированный маникюр',
+      'Работа с кутикулой: безопасные методы',
+    ],
+  },
+  {
+    number: '03',
+    title: 'Покрытие гель-лаком',
+    outcome: 'Идеальное покрытие без сколов до 3 недель',
+    lessons: [
+      'Подготовка ногтевой пластины',
+      'Техника нанесения базы и топа',
+      'Работа с цветом: плотность и тон',
+      'Дизайны: френч, градиент, втирка',
+      'Снятие покрытия без повреждений',
+    ],
+  },
+  {
+    number: '04',
+    title: 'Наращивание и коррекция',
+    outcome: 'Моделирование ногтей любой сложности',
+    lessons: [
+      'Формы: квадрат, миндаль, балерина',
+      'Наращивание на типсы и формы',
+      'Коррекция ногтей',
+      'Укрепление ногтей гелем',
+    ],
+  },
+  {
+    number: '05',
+    title: 'Педикюр',
+    outcome: 'Профессиональный педикюр любой сложности',
+    lessons: [
+      'Аппаратный педикюр',
+      'Комбинированный педикюр',
+      'Покрытие и дизайн на ногах',
+      'Уход за стопой',
+    ],
+  },
+  {
+    number: '06',
+    title: 'Клиентский сервис и старт',
+    outcome: 'Готовность к работе с первыми клиентами',
+    lessons: [
+      'Как привлекать клиентов с нуля',
+      'Соцсети для мастера: контент и продажи',
+      'Ценообразование и прайс-лист',
+      'Работа с возражениями и лояльность',
+    ],
+  },
+];
+---
+
+<section id="program" class="bg-bg py-16 md:py-24" data-reveal>
+  <div class="mx-auto max-w-3xl px-6">
+    <div class="mb-16 text-center">
+      <span class="mb-4 inline-block text-sm font-semibold uppercase tracking-widest text-accent-dark dark:text-accent-light">
+        Программа курса
+      </span>
+      <h2 class="text-balance font-serif text-3xl font-bold text-text sm:text-4xl">
+        Полная программа обучения
+      </h2>
+      <p class="mt-4 text-text-secondary">
+        6 модулей с практическими уроками и домашними заданиями
+      </p>
+    </div>
+
+    <div class="space-y-4" data-stagger>
+      {modules.map((mod) => (
+        <details class="group cursor-pointer rounded-2xl border border-border bg-surface transition-all duration-200 hover:shadow-lg" data-reveal>
+          <summary class="flex items-center justify-between px-6 py-5">
+            <div class="flex items-center gap-4">
+              <span class="font-serif text-2xl font-bold text-accent/40">{mod.number}</span>
+              <div>
+                <h3 class="text-lg font-semibold text-text">{mod.title}</h3>
+                <p class="text-sm text-text-secondary">{mod.outcome}</p>
+              </div>
+            </div>
+            <svg class="h-5 w-5 shrink-0 text-text-secondary transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <ul class="border-t border-border px-6 py-5 space-y-3">
+            {mod.lessons.map((lesson) => (
+              <li class="flex items-start gap-3 text-sm text-text-secondary">
+                <svg class="mt-0.5 h-4 w-4 shrink-0 text-accent-dark dark:text-accent-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                {lesson}
+              </li>
+            ))}
+          </ul>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

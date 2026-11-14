@@ -1,0 +1,72 @@
+---
+import { Image } from "astro:assets";
+import threeTables from "../assets/images/three-tables.jpg";
+import { site } from "../data/site";
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+---
+
+<section class="visit section" aria-labelledby="visit-title">
+  <div class="container">
+    <div class="visit__grid">
+      <div class="visit__card">
+        <p class="eyebrow">Забрать хлеб</p>
+        <h2 class="visit__title" id="visit-title">
+          Столярный переулок, 7
+        </h2>
+
+        <address class="visit__address">
+          <strong>
+            {site.city}, {site.address.street}
+          </strong>
+          <span>
+            м. {site.metro.station}, {site.metro.walk}
+          </span>
+        </address>
+
+        <dl class="visit__meta">
+          <div class="visit__meta-row">
+            <dt>Часы</dt>
+            <dd>
+              {site.hours.daily}
+              <br />
+              {site.hours.bread}
+            </dd>
+          </div>
+          <div class="visit__meta-row">
+            <dt>Самовывоз</dt>
+            <dd>{site.pickup.note}</dd>
+          </div>
+          <div class="visit__meta-row">
+            <dt>Оплата</dt>
+            <dd>{site.pickup.payment}</dd>
+          </div>
+        </dl>
+
+        <div class="visit__actions">
+          <Button href={site.phone.href}>
+            <Icon name="phone" />
+            Позвонить
+          </Button>
+          <Button href={site.mapsUrl} variant="secondary">
+            <Icon name="map" />
+            Открыть в картах
+          </Button>
+        </div>
+      </div>
+
+      <figure class="visit__photo">
+        <Image
+          src={threeTables}
+          alt="Зал пекарни со столами у окон"
+          widths={[640, 960, 1344]}
+          sizes="(min-width: 900px) 48vw, 100vw"
+          format="webp"
+          quality={82}
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+    </div>
+  </div>
+</section>

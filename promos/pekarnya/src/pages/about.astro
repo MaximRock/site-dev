@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageIntro from "../components/PageIntro.astro";
+import { site } from "../data/site";
+
+const faq = [
+  {
+    question: "Когда выпекают хлеб?",
+    answer: "Основной замес вечером, выпечка ночью. Хлеб на прилавке с 07:30.",
+  },
+  {
+    question: "Можно ли заказать на завтра?",
+    answer: "Да. Предзаказ принимаем на 7 дней вперёд, забрать можно в выбранном интервале.",
+  },
+  {
+    question: "Есть ли доставка?",
+    answer: "Нет. Только самовывоз из пекарни на Столярном переулке.",
+  },
+  {
+    question: "Как оплатить?",
+    answer: "Оплата при получении, наличными или картой.",
+  },
+  {
+    question: "Что если хлеба не осталось?",
+    answer: "Напишите нам. Подскажем, когда будет следующий замес.",
+  },
+];
+---
+
+<BaseLayout
+  title="О пекарне"
+  description="О пекарне «Тёплый Уголок»: закваска, режим работы и самовывоз."
+  breadcrumbs={[
+    { name: "Главная", path: "/" },
+    { name: "О пекарне", path: "/about/" },
+  ]}
+>
+  <PageIntro
+    eyebrow="О пекарне"
+    title="О пекарне"
+    lead="Небольшая пекарня на закваске. Печём каждый день, забирают с утра."
+  />
+  <section class="section section--tight">
+    <div class="container--narrow prose">
+      <h2>Как мы печём</h2>
+      <p>
+        Закваска живёт с 2021 года. Тесто долго бродит, хлеб получается с кислинкой и крепкой
+        коркой. Партии небольшие, чтобы хлеб не залёживался.
+      </p>
+      <h2>Что у нас есть</h2>
+      <p>Хлеб на закваске, слоёная выпечка, завтраки и напитки. Меню меняется по сезону.</p>
+      <h2>Где мы</h2>
+      <p>
+        {site.city}, {site.address.street}, {site.address.district}. Метро {site.metro.station},
+        {site.metro.walk}. {site.hours.daily}, хлеб с 07:30.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container--narrow">
+      <h2>Частые вопросы</h2>
+      <div class="faq">
+        {faq.map((item) => (
+          <details class="faq__item">
+            <summary>{item.question}</summary>
+            <p>{item.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

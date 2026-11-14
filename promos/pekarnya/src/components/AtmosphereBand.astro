@@ -1,0 +1,33 @@
+---
+import { Image } from "astro:assets";
+import atmosphereImage from "../assets/images/morning-atmosphere.webp";
+import { site } from "../data/site";
+---
+
+<section class="atmosphere section on-dark" aria-labelledby="atmosphere-title">
+  <div class="container atmosphere__grid">
+    <div>
+      <p class="eyebrow">Утро на Столярном</p>
+      <h2 class="atmosphere__quote" id="atmosphere-title">
+        Утро начинается с запаха корки.
+      </h2>
+      <p class="atmosphere__caption">
+        Пока город просыпается, у нас уже готов первый хлеб. Заходите до работы или закажите к
+        своему времени. {site.hours.bread.toLowerCase()}.
+      </p>
+    </div>
+
+    <figure class="atmosphere__figure">
+      <Image
+        src={atmosphereImage}
+        alt="Утренний свет на столе с выпечкой"
+        widths={[480, 720, 864]}
+        sizes="(min-width: 900px) 36vw, 100vw"
+        format="webp"
+        quality={82}
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+  </div>
+</section>

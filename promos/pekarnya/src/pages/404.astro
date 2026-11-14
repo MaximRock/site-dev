@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageIntro from "../components/PageIntro.astro";
+import { withBase } from "../lib/withBase";
+---
+
+<BaseLayout
+  title="Страница не найдена"
+  description="Запрошенная страница не найдена. Вернитесь в меню или на главную страницу пекарни."
+>
+  <PageIntro
+    eyebrow="404"
+    title="Страница не найдена"
+    lead="Такой страницы нет. Вернитесь в меню или на главную."
+  />
+  <section class="section section--tight">
+    <div class="container">
+      <div class="empty-state empty-state--center">
+        <h3>Потерялись?</h3>
+        <p>Попробуйте начать с меню или главной страницы.</p>
+        <div class="empty-state__actions">
+          <a class="button button--primary button--compact" href={withBase("/menu/")}>
+            Меню
+          </a>
+          <a class="button button--secondary button--compact" href={withBase("/")}>
+            Главная
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

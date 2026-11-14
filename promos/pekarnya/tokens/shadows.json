@@ -1,0 +1,18 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$description": "Soft warm shadows, used only on floating surfaces.",
+  "shadow": {
+    "panel": {
+      "$type": "shadow",
+      "$value": "0 1.75rem 4.5rem -2.5rem rgba(44, 26, 17, 0.28)"
+    },
+    "header": {
+      "$type": "shadow",
+      "$value": "0 0.5rem 2rem -1.25rem rgba(44, 26, 17, 0.22)"
+    },
+    "dialog": {
+      "$type": "shadow",
+      "$value": "0 2rem 5rem -2rem rgba(44, 26, 17, 0.38)"
+    }
+  }
+}

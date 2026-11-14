@@ -1,0 +1,50 @@
+---
+import { Image } from "astro:assets";
+import brandLockup from "../assets/images/brand-lockup.webp";
+import brandMark from "../assets/images/brand-mark.webp";
+import { site } from "../data/site";
+import { withBase } from "../lib/withBase";
+
+interface Props {
+  variant?: "compact" | "lockup";
+  loading?: "eager" | "lazy";
+}
+
+const { variant = "compact", loading = "eager" } = Astro.props;
+---
+
+<a
+  class:list={["logo", variant === "lockup" && "logo--lockup"]}
+  href={withBase("/")}
+  aria-label={`${site.name} ${site.slogan} На главную`}
+>
+  <span class="logo__compact">
+    <span class="logo__mark" aria-hidden="true">
+      <Image
+        src={brandMark}
+        alt=""
+        width={100}
+        height={70}
+        format="webp"
+        loading={loading}
+        decoding="async"
+      />
+    </span>
+    <span class="logo__text">
+      <span class="logo__name">{site.name}</span> <span class="logo__note">{site.slogan}</span>
+    </span>
+  </span>
+  {variant === "lockup" && (
+    <span class="logo__lockup" aria-hidden="true">
+      <Image
+        src={brandLockup}
+        alt=""
+        width={768}
+        height={512}
+        format="webp"
+        loading={loading}
+        decoding="async"
+      />
+    </span>
+  )}
+</a>

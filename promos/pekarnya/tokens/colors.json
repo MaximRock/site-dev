@@ -1,0 +1,264 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$description": "Warm bakery palette: cream, cocoa, honey. One light theme.",
+  "primitive": {
+    "cream": {
+      "$type": "color",
+      "$value": "#FBF4E8"
+    },
+    "milk": {
+      "$type": "color",
+      "$value": "#F4E8D7"
+    },
+    "warm-white": {
+      "$type": "color",
+      "$value": "#FFFBF4"
+    },
+    "cocoa-deep": {
+      "$type": "color",
+      "$value": "#2C1A11"
+    },
+    "ink": {
+      "$type": "color",
+      "$value": "#2B1B12"
+    },
+    "brown": {
+      "$type": "color",
+      "$value": "#5C4737"
+    },
+    "brown-muted": {
+      "$type": "color",
+      "$value": "#7B6654"
+    },
+    "cream-text": {
+      "$type": "color",
+      "$value": "#FFF9EF"
+    },
+    "cream-soft": {
+      "$type": "color",
+      "$value": "#FBF1E2"
+    },
+    "cream-muted": {
+      "$type": "color",
+      "$value": "#D8C6B2"
+    },
+    "sand": {
+      "$type": "color",
+      "$value": "#E7D8C4"
+    },
+    "sand-strong": {
+      "$type": "color",
+      "$value": "#9A836C"
+    },
+    "cocoa": {
+      "$type": "color",
+      "$value": "#3B2418"
+    },
+    "cocoa-hover": {
+      "$type": "color",
+      "$value": "#523322"
+    },
+    "cocoa-active": {
+      "$type": "color",
+      "$value": "#2A1810"
+    },
+    "danger": {
+      "$type": "color",
+      "$value": "#9B2C2C"
+    },
+    "danger-hover": {
+      "$type": "color",
+      "$value": "#7A1F1F"
+    },
+    "danger-text": {
+      "$type": "color",
+      "$value": "#FFF8F6"
+    },
+    "honey": {
+      "$type": "color",
+      "$value": "#A9660F"
+    },
+    "honey-strong": {
+      "$type": "color",
+      "$value": "#8A4F08"
+    },
+    "honey-soft": {
+      "$type": "color",
+      "$value": "#F0DDBB"
+    },
+    "success": {
+      "$type": "color",
+      "$value": "#2F5B4F"
+    },
+    "warning": {
+      "$type": "color",
+      "$value": "#8A5A00"
+    },
+    "overlay": {
+      "$type": "color",
+      "$value": "rgba(44, 26, 17, 0.55)"
+    }
+  },
+  "semantic": {
+    "surface": {
+      "page": {
+        "$type": "color",
+        "$value": "{primitive.cream}"
+      },
+      "subtle": {
+        "$type": "color",
+        "$value": "{primitive.milk}"
+      },
+      "card": {
+        "$type": "color",
+        "$value": "{primitive.warm-white}"
+      },
+      "raised": {
+        "$type": "color",
+        "$value": "{primitive.warm-white}"
+      },
+      "dark": {
+        "$type": "color",
+        "$value": "{primitive.cocoa-deep}"
+      },
+      "overlay": {
+        "$type": "color",
+        "$value": "{primitive.overlay}"
+      }
+    },
+    "text": {
+      "primary": {
+        "$type": "color",
+        "$value": "{primitive.ink}"
+      },
+      "secondary": {
+        "$type": "color",
+        "$value": "{primitive.brown}"
+      },
+      "tertiary": {
+        "$type": "color",
+        "$value": "{primitive.brown-muted}"
+      },
+      "link": {
+        "$type": "color",
+        "$value": "{primitive.honey-strong}"
+      },
+      "on-action": {
+        "$type": "color",
+        "$value": "{semantic.action.on-primary}"
+      },
+      "on-dark": {
+        "$type": "color",
+        "$value": "{primitive.cream-soft}"
+      },
+      "on-dark-muted": {
+        "$type": "color",
+        "$value": "{primitive.cream-muted}"
+      }
+    },
+    "border": {
+      "default": {
+        "$type": "color",
+        "$value": "{primitive.sand}"
+      },
+      "strong": {
+        "$type": "color",
+        "$value": "{primitive.sand-strong}"
+      }
+    },
+    "action": {
+      "primary": {
+        "$type": "color",
+        "$value": "{primitive.cocoa}"
+      },
+      "primary-hover": {
+        "$type": "color",
+        "$value": "{primitive.cocoa-hover}"
+      },
+      "primary-active": {
+        "$type": "color",
+        "$value": "{primitive.cocoa-active}"
+      },
+      "on-primary": {
+        "$type": "color",
+        "$value": "{primitive.cream-text}"
+      },
+      "destructive": {
+        "$type": "color",
+        "$value": "{primitive.danger}"
+      },
+      "destructive-hover": {
+        "$type": "color",
+        "$value": "{primitive.danger-hover}"
+      },
+      "on-destructive": {
+        "$type": "color",
+        "$value": "{primitive.danger-text}"
+      },
+      "inverse": {
+        "$type": "color",
+        "$value": "{primitive.cream-soft}"
+      },
+      "inverse-hover": {
+        "$type": "color",
+        "$value": "{primitive.cream-text}"
+      },
+      "inverse-active": {
+        "$type": "color",
+        "$value": "{primitive.honey-soft}"
+      },
+      "on-inverse": {
+        "$type": "color",
+        "$value": "{primitive.ink}"
+      }
+    },
+    "accent": {
+      "default": {
+        "$type": "color",
+        "$value": "{primitive.honey}"
+      },
+      "strong": {
+        "$type": "color",
+        "$value": "{primitive.honey-strong}"
+      },
+      "soft": {
+        "$type": "color",
+        "$value": "{primitive.honey-soft}"
+      }
+    },
+    "focus": {
+      "ring": {
+        "$type": "color",
+        "$value": "{primitive.ink}"
+      },
+      "ring-on-dark": {
+        "$type": "color",
+        "$value": "{primitive.cream-soft}"
+      }
+    },
+    "selection": {
+      "background": {
+        "$type": "color",
+        "$value": "{primitive.honey-soft}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{primitive.ink}"
+      }
+    },
+    "status": {
+      "success": {
+        "$type": "color",
+        "$value": "{primitive.success}"
+      },
+      "warning": {
+        "$type": "color",
+        "$value": "{primitive.warning}"
+      },
+      "danger": {
+        "$type": "color",
+        "$value": "{primitive.danger}"
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import fs from 'node:fs';
+
+const content = fs.readFileSync('src/data/cookie.txt', 'utf-8').trim();
+const paragraphs = content.split(/\n\s*\n/);
+---
+
+<BaseLayout
+  title="Политика cookie-файлы — Nail School"
+  description="Политика использования файлов cookie школы маникюра Nail School"
+>
+  <div class="mx-auto max-w-3xl px-6 py-24">
+    <h1 class="mb-8 font-serif text-3xl font-bold text-text">Политика использования файлов cookie</h1>
+    <div class="space-y-4 text-sm text-text-secondary leading-relaxed">
+      {
+        paragraphs.map((p: string) => {
+          const trimmed = p.trim();
+          const isHeader = /^\d+\./.test(trimmed);
+          if (isHeader) {
+            return <h2 class="mt-8 mb-2 text-base font-semibold text-text">{trimmed}</h2>;
+          }
+          if (/^[А-ЯЁA-Z\s]{2,}$/m.test(trimmed)) {
+            return <p class="font-semibold text-text">{trimmed}</p>;
+          }
+          return <p>{trimmed}</p>;
+        })
+      }
+    </div>
+  </div>
+</BaseLayout>

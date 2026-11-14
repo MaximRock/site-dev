@@ -1,0 +1,48 @@
+---
+import { withBase } from "../lib/withBase";
+
+interface Props {
+  disclaimer: string;
+  hoursShort: string;
+  sayIt: string;
+  caption: string;
+}
+
+const { disclaimer, hoursShort, sayIt, caption } = Astro.props;
+---
+
+<footer class="mx-auto max-w-[1200px] px-6 pb-[88px] pt-16 md:pb-8 md:pt-24">
+  <div class="border-t border-ink pt-8">
+    <div class="photo-float -mx-6 md:mx-[16.666%]">
+      <figure class="reveal-img">
+        <picture class="block">
+          <source
+            media="(max-width: 767px)"
+            srcset={withBase("/images/closing-mobile.webp")}
+            width="864"
+            height="648"
+          />
+          <img
+            src={withBase("/images/closing.webp")}
+            alt="Пустой стол у окна вечером"
+            width="800"
+            height="343"
+            class="aspect-[4/3] w-full object-cover object-center md:aspect-[21/9]"
+            loading="lazy"
+          />
+        </picture>
+        <figcaption class="mt-2 px-6 font-mono text-xs text-pencil-ink md:px-0">{caption}</figcaption>
+      </figure>
+    </div>
+    <div class="mt-8 flex flex-col gap-2 font-mono text-xs text-pencil-ink md:flex-row md:gap-0">
+      <p class="md:flex-1">{disclaimer}</p>
+      <p class="md:flex-1">{hoursShort}</p>
+      <p class="md:flex-1">{sayIt}</p>
+      <p class="md:text-right">
+        <a href="#top" class="inline-flex min-h-[44px] items-center underline underline-offset-4 hover:text-lingonberry">
+          наверх
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>

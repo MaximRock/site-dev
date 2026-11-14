@@ -1,0 +1,52 @@
+---
+import { Image } from "astro:assets";
+import heroImage from "../assets/images/hero.webp";
+import { site } from "../data/site";
+import { withBase } from "../lib/withBase";
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__media">
+    <Image
+      src={heroImage}
+      alt="Стол у окна с кофе и свежей выпечкой"
+      widths={[640, 960, 1344]}
+      sizes="100vw"
+      format="webp"
+      quality={82}
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </div>
+
+  <div class="container hero__inner">
+    <div class="hero__panel">
+      <p class="eyebrow">Пекарня на закваске · {site.city}</p>
+      <h1 class="hero__title" id="hero-title">
+        <span class="hero__line">Хлеб, который</span>
+        <span class="hero__line">успевает к&nbsp;завтраку</span>
+      </h1>
+      <p class="hero__lead">
+        Печём на закваске, без ускорений и лишнего. Забирайте тёплый хлеб на Столярном переулке или
+        закажите заранее.
+      </p>
+      <div class="hero__actions">
+        <Button href={withBase("/order/")}>
+          Оформить предзаказ
+          <Icon name="arrow-right" />
+        </Button>
+        <Button href={withBase("/menu/")} variant="secondary">
+          Смотреть меню
+        </Button>
+      </div>
+      <ul class="hero__proof" aria-label="Коротко о пекарне">
+        <li>{site.hours.bread}</li>
+        <li>{site.hours.daily}</li>
+        <li>{site.address.street}</li>
+      </ul>
+    </div>
+  </div>
+</section>

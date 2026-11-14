@@ -1,0 +1,64 @@
+---
+interface Props {
+  id: string;
+  label: string;
+  type?: "text" | "tel" | "email" | "textarea";
+  required?: boolean;
+  autocomplete?: string;
+  placeholder?: string;
+  hint?: string;
+  error?: string;
+}
+
+const {
+  id,
+  label,
+  type = "text",
+  required = false,
+  autocomplete,
+  placeholder,
+  hint,
+  error,
+} = Astro.props;
+const describedBy = [hint ? `${id}-hint` : "", error ? `${id}-error` : ""]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<div class="field" data-field={id}>
+  <label class="field__label" for={id}>
+    {label}
+    {required && <span aria-hidden="true"> *</span>}
+  </label>
+  {type === "textarea" ? (
+    <textarea
+      id={id}
+      name={id}
+      required={required}
+      autocomplete={autocomplete}
+      placeholder={placeholder}
+      aria-describedby={describedBy || undefined}
+      aria-invalid={error ? "true" : undefined}
+      rows={4}
+    ></textarea>
+  ) : (
+    <input
+      id={id}
+      name={id}
+      type={type}
+      required={required}
+      autocomplete={autocomplete}
+      placeholder={placeholder}
+      aria-describedby={describedBy || undefined}
+      aria-invalid={error ? "true" : undefined}
+    />
+  )}
+  {hint && (
+    <p class="field__hint" id={`${id}-hint`}>
+      {hint}
+    </p>
+  )}
+  <p class="field__error" id={`${id}-error`} role="alert" hidden>
+    {error}
+  </p>
+</div>

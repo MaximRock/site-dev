@@ -1,0 +1,45 @@
+---
+import MenuItem from "./MenuItem.astro";
+import type { MenuItem as Item } from "../data/menu";
+import { withBase } from "../lib/withBase";
+
+interface Props {
+  currencyNote: string;
+  items: Item[];
+  extras: string[];
+  detailCaption: string;
+}
+
+const { currencyNote, items, extras, detailCaption } = Astro.props;
+---
+
+<section id="menu" aria-label="меню" class="mx-auto max-w-[1200px] scroll-mt-32 border-t border-coffee px-6 py-8 md:py-12">
+  <div class="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6">
+    <div class="md:col-span-3">
+      <p class="reveal font-mono text-[13px] text-pencil-ink">01 / меню</p>
+      <h2 class="reveal mt-1 font-display text-[28px] lowercase leading-tight">меню</h2>
+      <p class="reveal mt-2 font-mono text-[13px] text-pencil-ink">{currencyNote}</p>
+      <figure class="reveal-img -mx-6 mt-6 md:mx-0 md:mt-6">
+        <img
+          src={withBase("/images/espresso.webp")}
+          alt="Чашка эспрессо на деревянном подоконнике"
+          width="360"
+          height="360"
+          class="aspect-square w-full object-cover object-center"
+          loading="lazy"
+        />
+        <figcaption class="mt-2 px-6 font-mono text-xs text-pencil-ink md:px-0">{detailCaption}</figcaption>
+      </figure>
+    </div>
+    <div class="md:col-span-8 md:col-start-5">
+      <ul>
+        {items.map((i) => <MenuItem id={i.id} name={i.name} price={i.price} note={i.note} soldOut={i.soldOut} />)}
+      </ul>
+      {
+        extras.map((e) => (
+          <p class="reveal mt-3 font-mono text-[13px] text-pencil-ink">{e}</p>
+        ))
+      }
+    </div>
+  </div>
+</section>

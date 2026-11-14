@@ -1,0 +1,96 @@
+---
+import '../styles/global.css';
+import Animations from '../components/Animations.astro';
+import { withBase } from '../lib/withBase';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+}
+
+const { title, description, ogImage = '/og-image.jpg' } = Astro.props;
+
+const site = Astro.site ?? Astro.url;
+const canonicalURL = new URL(Astro.url.pathname, site).href;
+const ogImageURL = /^https?:\/\//.test(ogImage)
+  ? ogImage
+  : new URL(withBase(ogImage), site).href;
+const siteName = 'Nail School';
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <link rel="icon" href={withBase('/favicon.ico')} />
+
+    <script is:inline>
+      (function() {
+        var theme = localStorage.getItem('theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, follow" />
+
+    <link rel="canonical" href={canonicalURL} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content="ru_RU" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Профессия мастер маникюра",
+      "description": description,
+      "provider": {
+        "@type": "Organization",
+        "name": siteName,
+        "url": canonicalURL,
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "3990",
+        "priceCurrency": "RUB",
+        "availability": "https://schema.org/InStock",
+      },
+      "educationalCredentialAwarded": "Сертификат",
+      "teaches": "Маникюр и педикюр",
+      "inLanguage": "ru",
+    })} />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">
+      Перейти к содержанию
+    </a>
+    <main id="main-content">
+      <slot />
+    </main>
+    <Animations />
+  </body>
+</html>

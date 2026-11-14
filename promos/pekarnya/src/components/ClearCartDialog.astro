@@ -1,0 +1,26 @@
+---
+---
+
+<dialog
+  class="confirm-dialog"
+  data-clear-dialog
+  aria-labelledby="clear-cart-title"
+  aria-describedby="clear-cart-text"
+>
+  <div class="confirm-dialog__panel">
+    <h2 class="confirm-dialog__title" id="clear-cart-title">
+      Очистить корзину?
+    </h2>
+    <p class="confirm-dialog__text" id="clear-cart-text">
+      Все позиции будут удалены из заказа. Это действие нельзя отменить.
+    </p>
+    <div class="confirm-dialog__actions">
+      <button type="button" class="button button--secondary button--compact" data-clear-cancel>
+        Отмена
+      </button>
+      <button type="button" class="button button--danger button--compact" data-clear-confirm>
+        Очистить корзину
+      </button>
+    </div>
+  </div>
+</dialog>

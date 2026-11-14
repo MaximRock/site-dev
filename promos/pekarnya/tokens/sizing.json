@@ -1,0 +1,23 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$description": "Layout, touch, focus and stacking sizes.",
+  "size": {
+    "container": { "$type": "dimension", "$value": "73.75rem" },
+    "container-narrow": { "$type": "dimension", "$value": "47.5rem" },
+    "header": { "$type": "dimension", "$value": "4.5rem" },
+    "tap": { "$type": "dimension", "$value": "2.75rem" },
+    "icon": { "$type": "dimension", "$value": "1.25rem" },
+    "icon-lg": { "$type": "dimension", "$value": "1.5rem" },
+    "hero-min": { "$type": "dimension", "$value": "40rem" },
+    "hero-panel-overlap": { "$type": "dimension", "$value": "3.5rem" }
+  },
+  "focus": {
+    "width": { "$type": "dimension", "$value": "2px" },
+    "offset": { "$type": "dimension", "$value": "3px" }
+  },
+  "layer": {
+    "header": { "$type": "number", "$value": 20 },
+    "dialog": { "$type": "number", "$value": 100 },
+    "skip": { "$type": "number", "$value": 200 }
+  }
+}

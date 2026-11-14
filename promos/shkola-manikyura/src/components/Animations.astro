@@ -1,0 +1,30 @@
+<script>
+import { animate, inView } from 'motion';
+
+inView(
+  '[data-reveal]',
+  (element) => {
+    animate(
+      element,
+      { opacity: [0, 1], y: [24, 0] },
+      { duration: 0.6, easing: 'ease-out' } as Record<string, unknown>
+    );
+  },
+  { amount: 0.2 }
+);
+
+inView(
+  '[data-stagger]',
+  (parent) => {
+    const children = parent.querySelectorAll('[data-reveal]');
+    children.forEach((child, i) => {
+      animate(
+        child,
+        { opacity: [0, 1], y: [20, 0] },
+        { duration: 0.5, delay: i * 0.1, easing: 'ease-out' } as Record<string, unknown>
+      );
+    });
+  },
+  { amount: 0.15 }
+);
+</script>

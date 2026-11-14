@@ -1,0 +1,61 @@
+---
+import { Image } from "astro:assets";
+import displayImage from "../assets/images/display.webp";
+import { featuredItems } from "../data/menu";
+import { formatMeasure, formatPrice } from "../lib/format";
+import { withBase } from "../lib/withBase";
+import Icon from "./Icon.astro";
+---
+
+<section class="featured section" aria-labelledby="featured-title">
+  <div class="container">
+    <header class="section-head">
+      <div>
+        <p class="eyebrow">Из печи</p>
+        <h2 class="section-head__title" id="featured-title">
+          Три вещи, за которыми приходят с утра
+        </h2>
+      </div>
+      <a class="section-head__link text-link" href={withBase("/menu/")}>
+        Всё меню
+        <Icon name="arrow-right" class="text-link__arrow" />
+      </a>
+    </header>
+
+    <div class="featured__grid">
+      <figure>
+        <div class="featured__media">
+          <Image
+            src={displayImage}
+            alt="Витрина с хлебом и выпечкой"
+            widths={[480, 720, 864]}
+            sizes="(min-width: 900px) 46vw, 100vw"
+            format="webp"
+            quality={82}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption class="featured__caption">
+          Витрина на Столярном: хлеб, слоёная выпечка и то, что стоит попробовать сегодня.
+        </figcaption>
+      </figure>
+
+      <div class="featured__list">
+        {featuredItems.map((item) => (
+          <article class="bake-row">
+            <div>
+              <h3 class="bake-row__name">{item.name}</h3>
+              <p class="bake-row__desc">{item.description}</p>
+              <p class="bake-row__tags">
+                {formatMeasure(item.weight, item.unit)} ·{" "}
+                {item.allergens.length ? item.allergens.join(", ") : "без аллергенов"}
+              </p>
+            </div>
+            <p class="bake-row__price">{formatPrice(item.price)}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

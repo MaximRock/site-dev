@@ -1,0 +1,28 @@
+{
+  "name": "Тёплый Уголок. Пекарня на закваске",
+  "short_name": "Тёплый Уголок",
+  "description": "Хлеб на закваске, выпечка и завтраки на Столярном переулке.",
+  "lang": "ru",
+  "start_url": "/promo/pekarnya/",
+  "scope": "/promo/pekarnya/",
+  "display": "standalone",
+  "background_color": "#FBF4E8",
+  "theme_color": "#FBF4E8",
+  "icons": [
+    {
+      "src": "/promo/pekarnya/favicon.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/promo/pekarnya/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/promo/pekarnya/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

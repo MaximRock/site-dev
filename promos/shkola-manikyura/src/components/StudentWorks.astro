@@ -1,0 +1,161 @@
+---
+import { Image } from 'astro:assets';
+
+interface Work {
+  title: string;
+  image: ImageMetadata;
+}
+
+import imgFrench from '../assets/photo_2026-06-21_19-20-16.webp';
+import imgGradient from '../assets/photo_2026-06-21_19-20-20.webp';
+import imgDesign from '../assets/photo_2026-06-21_19-20-25.webp';
+import imgNailExtension from '../assets/complex-design.webp';
+import imgDifficult from '../assets/difficult.webp';
+
+const works: Work[] = [
+  { title: 'Френч', image: imgFrench },
+  { title: 'Градиент', image: imgGradient },
+  { title: 'Дизайн', image: imgDesign },
+  { title: 'Наращивание', image: imgNailExtension },
+  { title: 'Сложный дизайн', image: imgDifficult },
+];
+
+const zoomSrcs = works.map((work) => work.image.src);
+---
+
+<section id="works" class="bg-primary py-16 md:py-24">
+  <div class="mx-auto max-w-7xl px-6">
+    <div class="mb-16 text-center">
+      <span class="mb-4 inline-block text-sm font-semibold uppercase tracking-widest text-accent-light">
+        Портфолио
+      </span>
+      <h2 class="text-balance font-serif text-3xl font-bold text-text-on-dark sm:text-4xl">
+        Работы наших учениц
+      </h2>
+      <p class="mt-4 text-text-muted">
+        Результаты после прохождения курса
+      </p>
+    </div>
+
+    <div class="relative">
+      <button
+        type="button"
+        data-ribbon-prev
+        aria-label="Прокрутить назад"
+        aria-haspopup="false"
+        class="pointer-events-none absolute left-0 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-white/15 bg-primary/80 opacity-40 backdrop-blur-sm transition-all duration-200 text-text-on-dark hover:bg-primary-light"
+      >
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        data-ribbon-next
+        aria-label="Прокрутить вперёд"
+        class="pointer-events-none absolute right-0 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-white/15 bg-primary/80 opacity-40 backdrop-blur-sm transition-all duration-200 text-text-on-dark hover:bg-primary-light"
+      >
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      <ul class="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" data-stagger data-ribbon>
+        {works.map((work, i) => (
+          <li class="basis-full shrink-0 snap-start sm:basis-[calc((100%-1.5rem)/2)] lg:basis-[calc((100%-3rem)/3)]">
+            <figure class="group relative overflow-hidden rounded-2xl" data-reveal>
+              <Image
+                src={work.image}
+                alt={work.title}
+                widths={[400, 640]}
+                sizes="20rem"
+                loading="lazy"
+                class="aspect-3/4 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <button
+                type="button"
+                class="absolute inset-0 flex cursor-pointer items-center justify-center bg-primary/60 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100"
+                aria-label={`Увеличить фото: ${work.title}`}
+                data-image={zoomSrcs[i] ?? ''}
+              >
+                <span class="rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-primary pointer-events-none">
+                  Увеличить
+                </span>
+              </button>
+              <figcaption class="pointer-events-none absolute bottom-0 left-0 right-0 bg-gradient-to-t from-primary/80 to-transparent p-4">
+                <p class="text-sm font-medium text-text-on-dark">{work.title}</p>
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+document.querySelectorAll('[data-image]').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    var src = btn.getAttribute('data-image');
+    if (!src) return;
+
+    var overlay = document.createElement('div');
+    overlay.className = 'fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-6 cursor-pointer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-label', 'Просмотр фото');
+
+    var img = document.createElement('img');
+    img.src = src;
+    img.className = 'max-h-[90dvh] max-w-[90dvw] rounded-2xl object-contain shadow-2xl';
+    img.alt = btn.getAttribute('aria-label') || '';
+
+    overlay.appendChild(img);
+    document.body.appendChild(overlay);
+
+    var close = function () {
+      overlay.remove();
+    };
+    overlay.addEventListener('click', close);
+    document.addEventListener('keydown', function listener(e) {
+      if (e.key === 'Escape') {
+        close();
+        document.removeEventListener('keydown', listener);
+      }
+    });
+  });
+});
+
+document.querySelectorAll('[data-ribbon]').forEach((ribbon) => {
+  var prev = ribbon.closest('.relative')?.querySelector('[data-ribbon-prev]');
+  var next = ribbon.closest('.relative')?.querySelector('[data-ribbon-next]');
+  if (!prev || !next) return;
+
+  const prevButton = prev;
+  const nextButton = next;
+
+  function slideStep() {
+    var slide = ribbon.querySelector('li');
+    return slide ? slide.getBoundingClientRect().width + 24 : 320;
+  }
+  function syncArrows() {
+    var max = ribbon.scrollWidth - ribbon.clientWidth;
+    var atStart = ribbon.scrollLeft <= 1;
+    var atEnd = ribbon.scrollLeft >= max - 1;
+    [prevButton, nextButton].forEach(function (btn, isNext) {
+      var inactive = isNext ? atEnd : atStart;
+      btn.classList.toggle('pointer-events-none', inactive);
+      btn.classList.toggle('opacity-40', inactive);
+      btn.setAttribute('aria-disabled', String(inactive));
+    });
+  }
+  prevButton.addEventListener('click', function () {
+    ribbon.scrollBy({ left: -slideStep(), behavior: 'smooth' });
+  });
+  nextButton.addEventListener('click', function () {
+    ribbon.scrollBy({ left: slideStep(), behavior: 'smooth' });
+  });
+  ribbon.addEventListener('scroll', syncArrows, { passive: true });
+  window.addEventListener('resize', syncArrows);
+  syncArrows();
+});
+</script>

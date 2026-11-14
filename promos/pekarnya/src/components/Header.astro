@@ -1,0 +1,95 @@
+---
+import { site } from "../data/site";
+import { withBase } from "../lib/withBase";
+import Icon from "./Icon.astro";
+import Logo from "./Logo.astro";
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => {
+  const target = withBase(href);
+  return path === target || path === target.replace(/\/$/, "");
+};
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <Logo />
+
+    <nav class="site-nav" aria-label="Основная навигация">
+      <ul class="site-nav__list">
+        {site.nav.map((item) => (
+          <li>
+            <a
+              class="site-nav__link"
+              href={withBase(item.href)}
+              aria-current={isCurrent(item.href) ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <a class="header-phone" href={site.phone.href}>
+        <Icon name="phone" class="icon--lg" />
+        {site.phone.label}
+      </a>
+      <a class="button button--primary button--compact" href={withBase("/order/")}>
+        Предзаказ
+        <span class="header-cart-count" data-cart-count-header hidden>
+          0
+        </span>
+        <Icon name="arrow-right" />
+      </a>
+    </div>
+
+    <button
+      type="button"
+      class="nav-drawer__toggle"
+      data-drawer-open
+      aria-expanded="false"
+      aria-controls="site-drawer"
+      aria-label="Открыть меню"
+    >
+      <span>Меню</span>
+      <Icon name="menu" />
+    </button>
+
+    <dialog class="nav-drawer" id="site-drawer" aria-label="Мобильная навигация">
+      <div class="nav-drawer__panel">
+        <button type="button" class="nav-drawer__close" data-drawer-close aria-label="Закрыть меню">
+          <Icon name="close" />
+        </button>
+        <nav aria-label="Мобильная навигация">
+          <ul class="nav-drawer__list">
+            {site.nav.map((item) => (
+              <li>
+                <a
+                  class="nav-drawer__link"
+href={withBase(item.href)}
+                  aria-current={isCurrent(item.href) ? "page" : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a class="nav-drawer__link" href={withBase("/order/")}>
+                Предзаказ
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="nav-drawer__meta">
+          <a href={site.phone.href}>{site.phone.label}</a>
+          <span>{site.hours.daily}</span>
+        </div>
+        <a class="button button--primary" href={withBase("/order/")}>
+          Оформить предзаказ
+        </a>
+      </div>
+    </dialog>
+  </div>
+</header>

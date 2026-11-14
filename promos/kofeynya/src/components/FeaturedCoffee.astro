@@ -1,0 +1,50 @@
+---
+import { withBase } from "../lib/withBase";
+
+interface Props {
+  times: string[];
+  notes: string[];
+  stamp: string;
+  caption: string;
+}
+
+const { times, notes, stamp, caption } = Astro.props;
+---
+
+<section aria-label="фильтр по времени" class="mx-auto max-w-[1200px] px-6 py-12 md:py-16">
+  <div class="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6">
+    <figure class="reveal-img -mx-6 md:mx-0 md:col-span-6">
+      <img
+        src={withBase("/images/barista-pour.webp")}
+        alt="Руки бариста наливают воду в пуровер на деревянном столе"
+        width="720"
+        height="720"
+        class="aspect-square w-full object-cover object-center"
+        loading="lazy"
+      />
+      <figcaption class="mt-2 px-6 font-mono text-xs text-pencil-ink md:px-0">{caption}</figcaption>
+    </figure>
+    <div class="md:col-span-5 md:col-start-8">
+      <p class="reveal font-display text-[32px] leading-tight">{times.join(" / ")}</p>
+      {
+        notes.map((n) => (
+          <p class="reveal mt-3 text-base">{n}</p>
+        ))
+      }
+      <p class="reveal mt-5 inline-block px-3 py-1">
+        <span class="stamp px-3 py-1 font-mono text-[13px]">{stamp}</span>
+      </p>
+      <figure class="reveal-img -mx-6 mt-8 md:mx-0">
+        <img
+          src={withBase("/images/counter.webp")}
+          alt="Деревянный прилавок с чашкой и чеком"
+          width="720"
+          height="480"
+          class="aspect-[3/2] w-full object-cover object-center"
+          loading="lazy"
+        />
+        <figcaption class="mt-2 px-6 font-mono text-xs text-pencil-ink md:px-0">прилавок.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>

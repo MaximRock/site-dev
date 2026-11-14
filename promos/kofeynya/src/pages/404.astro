@@ -1,0 +1,31 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { withBase } from "../lib/withBase";
+---
+
+<Layout
+  title="тут пусто — форточка"
+  description="Тут пусто. Вернитесь к меню кофейни форточка."
+>
+  <main id="main" class="mx-auto max-w-[1200px] px-6 py-24">
+    <p class="font-mono text-[13px] text-pencil-ink">404</p>
+    <h1 class="mt-2 font-display text-[32px] lowercase leading-tight md:text-[40px]">
+      тут пусто.
+    </h1>
+    <p class="mt-4 text-lg">вернитесь к меню.</p>
+    <p class="mt-4 flex gap-5">
+      <a
+        href={withBase("/#menu")}
+        class="inline-flex min-h-[44px] items-center underline underline-offset-4 hover:text-lingonberry"
+      >
+        меню
+      </a>
+      <a
+        href={withBase("/")}
+        class="inline-flex min-h-[44px] items-center underline underline-offset-4 hover:text-lingonberry"
+      >
+        наверх
+      </a>
+    </p>
+  </main>
+</Layout>

@@ -1,0 +1,24 @@
+---
+import { formatPrice } from "../lib/format";
+import { withBase } from "../lib/withBase";
+---
+
+<aside class="cart-bar" data-cart-bar hidden aria-label="Корзина">
+  <div class="cart-bar__info">
+    <span class="cart-bar__count" data-cart-count>
+      0
+    </span>
+    <span>в корзине</span>
+    <span class="cart-bar__total" data-cart-total>
+      {formatPrice(0)}
+    </span>
+  </div>
+  <div class="cart-bar__actions">
+    <button type="button" class="button button--danger-quiet button--compact" data-cart-clear>
+      Очистить
+    </button>
+    <a class="button button--primary button--compact" href={withBase("/order/")}>
+      Оформить
+    </a>
+  </div>
+</aside>

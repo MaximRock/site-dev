@@ -1,0 +1,80 @@
+---
+import { Image } from 'astro:assets';
+import heroImg from '../assets/hero.webp';
+---
+
+<section class="relative flex min-h-screen items-center overflow-hidden bg-primary pt-24" data-reveal>
+  <div class="pointer-events-none absolute inset-0 radial-glow-top-right" />
+
+  <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:py-32">
+    <div class="z-10">
+      <span class="mb-6 inline-block rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-accent-light">
+        Обучение с нуля до PRO
+      </span>
+
+      <h1 class="text-balance font-serif text-4xl leading-tight text-text-on-dark sm:text-5xl lg:text-6xl">
+        Освой востребованную профессию
+        <span class="text-accent">мастера маникюра</span>
+        и начни зарабатывать уже через 30 дней
+      </h1>
+
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-text-muted">
+        Пошаговая программа обучения с поддержкой наставника.
+        Без специальной подготовки — результат с первого урока.
+      </p>
+
+      <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+        <a
+          href="#pricing"
+          class="inline-flex items-center justify-center rounded-full bg-accent px-8 py-4 text-sm font-semibold text-primary transition-all duration-200 hover:bg-accent-light hover:shadow-lg hover:shadow-accent/25 hover:glow-gold-lg"
+        >
+          Начать обучение
+        </a>
+        <a
+          href="#program"
+          class="inline-flex items-center justify-center rounded-full border border-white/20 bg-surface/5 px-8 py-4 text-sm font-semibold text-text-on-dark transition-all duration-200 hover:bg-surface/10"
+        >
+          Смотреть программу
+        </a>
+      </div>
+
+      <div class="mt-12 flex flex-wrap items-center gap-8 border-t border-white/10 pt-8">
+        <div class="flex items-center gap-2">
+          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-accent/20 text-accent">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </span>
+          <span class="text-sm text-text-muted"><strong class="text-text-on-dark">1000+</strong> учеников</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-accent/20 text-accent">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+            </svg>
+          </span>
+          <span class="text-sm text-text-muted"><strong class="text-text-on-dark">Сертификат</strong> по окончании</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-accent/20 text-accent">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+          </span>
+          <span class="text-sm text-text-muted"><strong class="text-text-on-dark">Поддержка</strong> наставника</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative z-10 mt-12 lg:mt-0">
+      <div class="absolute -inset-4 rounded-4xl border border-accent/20" />
+      <Image
+        src={heroImg}
+        alt="Анна Михайленко — преподаватель школы маникюра"
+        widths={[400, 640, 800]}
+        sizes="(min-width: 1024px) 576px, 100vw"
+        class="aspect-3/4 w-full rounded-4xl object-cover"
+      />
+    </div>
+  </div>
+</section>

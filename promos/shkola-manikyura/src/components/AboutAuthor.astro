@@ -1,0 +1,63 @@
+---
+import { Image } from 'astro:assets';
+import masterImg from '../assets/master.webp';
+---
+
+<section id="about" class="bg-primary py-16 md:py-24" data-reveal>
+  <div class="mx-auto grid max-w-7xl items-center gap-16 px-6 lg:grid-cols-2">
+    <div class="relative">
+      <Image
+        src={masterImg}
+        alt="Анна Михайленко — автор курса"
+        widths={[400, 576, 800]}
+        sizes="(min-width: 1024px) 576px, 100vw"
+        loading="lazy"
+        class="aspect-4/5 w-full rounded-3xl object-cover"
+      />
+      <div class="absolute -bottom-4 -right-4 h-24 w-24 rounded-full bg-accent" />
+    </div>
+
+    <div>
+      <span class="mb-4 inline-block text-sm font-semibold uppercase tracking-widest text-accent-light">
+        Автор курса
+      </span>
+      <h2 class="text-balance font-serif text-3xl font-bold text-text-on-dark sm:text-4xl">
+        Анна Михайленко
+      </h2>
+      <p class="mt-2 text-lg text-text-muted">
+        Мастер международного класса, преподаватель с 5-летним стажем
+      </p>
+
+      <div class="mt-8 space-y-4 text-text-muted leading-relaxed">
+        <p>
+          Основатель школы маникюра, сертифицированный мастер и действующий преподаватель.
+          Обучила более 1000 учениц со всего СНГ.
+        </p>
+        <p>
+          Финалист чемпионата по nail-дизайну, регулярно повышаю квалификацию
+          у топ-мастеров Европы и Азии. Мои ученицы работают в премиальных салонах
+          Москвы, Санкт-Петербурга и открывают собственные студии.
+        </p>
+        <p>
+          Разработала авторскую методику, которая позволяет новичкам с нуля
+          освоить профессию за 30 дней и сразу начать зарабатывать.
+        </p>
+      </div>
+
+      <div class="mt-8 flex flex-wrap gap-6">
+        <div>
+          <p class="font-serif text-2xl font-bold text-accent">1000+</p>
+          <p class="text-sm text-text-muted">учениц</p>
+        </div>
+        <div>
+          <p class="font-serif text-2xl font-bold text-accent">5 лет</p>
+          <p class="text-sm text-text-muted">преподавания</p>
+        </div>
+        <div>
+          <p class="font-serif text-2xl font-bold text-accent">50+</p>
+          <p class="text-sm text-text-muted">мастер-классов</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

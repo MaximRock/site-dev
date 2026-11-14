@@ -1,0 +1,78 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageIntro from "../components/PageIntro.astro";
+import { site } from "../data/site";
+import Icon from "../components/Icon.astro";
+import { bakerySchema } from "../lib/schema";
+import { withBase } from "../lib/withBase";
+---
+
+<BaseLayout
+  title="Контакты"
+  description="Контакты пекарни «Тёплый Уголок»: адрес, часы, телефон, Telegram."
+  schemas={[bakerySchema]}
+  breadcrumbs={[
+    { name: "Главная", path: "/" },
+    { name: "Контакты", path: "/contacts/" },
+  ]}
+>
+  <PageIntro
+    eyebrow="Контакты"
+    title="Контакты"
+    lead="Приходите на Столярный. Звоните, если нужен хлеб к времени."
+  />
+  <section class="section section--tight">
+    <div class="container contact-grid">
+      <div class="contact-card">
+        <h2>Адрес</h2>
+        <p>
+          {site.city}, {site.address.street}
+        </p>
+        <p>
+          {site.address.district}, {site.address.postalCode}
+        </p>
+        <p>
+          м. {site.metro.station}, {site.metro.walk}
+        </p>
+        <a
+          class="button button--secondary button--compact"
+          href={site.mapsUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Icon name="map" />
+          Открыть карту
+        </a>
+      </div>
+
+      <div class="contact-card">
+        <h2>Часы</h2>
+        <p>
+          <strong>{site.hours.daily}</strong>
+        </p>
+        <p>{site.hours.bread}</p>
+        <p>{site.hours.note}</p>
+      </div>
+
+      <div class="contact-card">
+        <h2>Связь</h2>
+        <a href={site.phone.href}>{site.phone.label}</a>
+        <a href={site.email.href}>{site.email.label}</a>
+        <a href={site.telegram.href} target="_blank" rel="noreferrer">
+          Telegram <Icon name="arrow-up-right" class="icon" />
+        </a>
+      </div>
+
+      <div class="contact-card">
+        <h2>Самовывоз</h2>
+        <p>
+          {site.pickup.label}. {site.pickup.note}
+        </p>
+        <p>{site.pickup.payment}</p>
+        <a class="button button--primary button--compact" href={withBase("/order/")}>
+          Оформить предзаказ
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

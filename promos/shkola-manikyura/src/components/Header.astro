@@ -1,0 +1,145 @@
+---
+import { withBase } from '../lib/withBase';
+
+export interface NavLink {
+  href: string;
+  label: string;
+}
+
+const navLinks: NavLink[] = [
+  { href: '#about', label: 'О курсе' },
+  { href: '#program', label: 'Программа' },
+  { href: '#works', label: 'Работы' },
+  { href: '#testimonials', label: 'Отзывы' },
+  { href: '#pricing', label: 'Тарифы' },
+  { href: '#faq', label: 'FAQ' },
+];
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-primary/80 border-b border-white/5">
+  <input id="mobile-menu" type="checkbox" class="peer sr-only" />
+
+  <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4" aria-label="Основная навигация">
+    <a href={withBase('/')} class="font-serif text-2xl font-bold text-accent tracking-wide" aria-label="На главную">
+      Nail School
+    </a>
+
+    <ul class="hidden items-center gap-8 md:flex">
+      {navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="text-sm font-medium text-text-on-dark/70 transition-colors duration-200 hover:text-accent-light"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <a
+      href="#pricing"
+      class="hidden rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-primary transition-all duration-200 hover:bg-accent-light hover:shadow-lg hover:shadow-accent/25 md:inline-block"
+    >
+      Записаться
+    </a>
+
+    <button
+      type="button"
+      class="inline-block rounded-full border border-white/20 bg-primary/50 p-2.5 text-text-on-dark transition-all duration-200 hover:bg-white/10 md:bg-transparent"
+      aria-label="Переключить тему"
+      id="theme-toggle"
+    >
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path class="theme-icon-light" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        <path class="theme-icon-dark" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707" />
+      </svg>
+    </button>
+
+    <label
+      for="mobile-menu"
+      class="inline-block cursor-pointer rounded-full border border-white/20 p-2.5 text-text-on-dark transition-all duration-200 hover:bg-white/10 md:hidden"
+      aria-label="Открыть меню"
+      aria-controls="mobile-menu-panel"
+      aria-expanded="false"
+    >
+      <svg class="menu-icon-burger h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <svg class="menu-icon-close hidden h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </label>
+  </nav>
+
+  <div
+    id="mobile-menu-panel"
+    class="hidden peer-checked:block border-t border-white/5 bg-primary/95 backdrop-blur-md md:hidden"
+  >
+    <ul class="flex flex-col px-6 py-4">
+      {navLinks.map((link) => (
+        <li class="border-b border-white/5 last:border-0">
+          <a
+            href={link.href}
+            data-menu-close
+            class="block py-3 text-base font-medium text-text-on-dark/80 transition-colors duration-200 hover:text-accent-light"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+      <li class="pt-4">
+        <a
+          href="#pricing"
+          data-menu-close
+          class="inline-flex w-full items-center justify-center rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-primary transition-all duration-200 hover:bg-accent-light"
+        >
+          Записаться
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <script is:inline>
+    var mobileMenu = document.getElementById('mobile-menu');
+    var menuLabel = document.querySelector('label[for="mobile-menu"]');
+
+    function syncMenuAria() {
+      menuLabel?.setAttribute('aria-expanded', String(mobileMenu?.checked || false));
+    }
+    mobileMenu?.addEventListener('change', syncMenuAria);
+    syncMenuAria();
+
+    document.querySelectorAll('[data-menu-close]').forEach((link) => {
+      link.addEventListener('click', function () {
+        if (mobileMenu) mobileMenu.checked = false;
+        syncMenuAria();
+      });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && mobileMenu?.checked) {
+        mobileMenu.checked = false;
+        syncMenuAria();
+        menuLabel?.focus();
+      }
+    });
+
+    document.getElementById('theme-toggle')?.addEventListener('click', function() {
+      var html = document.documentElement;
+      var isDark = html.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        html.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  </script>
+</header>
+
+<style is:global>
+  #mobile-menu:checked ~ nav .menu-icon-burger { display: none; }
+  #mobile-menu:checked ~ nav .menu-icon-close { display: block; }
+  #mobile-menu:checked ~ nav label[for="mobile-menu"] { background-color: rgb(255 255 255 / 0.1); }
+</style>

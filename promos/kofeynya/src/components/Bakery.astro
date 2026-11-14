@@ -1,0 +1,40 @@
+---
+import MenuItem from "./MenuItem.astro";
+import type { MenuItem as Item } from "../data/menu";
+import { withBase } from "../lib/withBase";
+
+interface Props {
+  items: Item[];
+  stamp: string;
+  caption: string;
+}
+
+const { items, stamp, caption } = Astro.props;
+---
+
+<section aria-label="к булке" class="mx-auto max-w-[1200px] px-6 py-8 md:py-12">
+  <div class="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6">
+    <div class="order-last md:order-none md:col-span-4">
+      <p class="reveal font-mono text-[13px] text-pencil-ink">02 / к булке</p>
+      <h2 class="reveal mt-1 font-display text-[28px] lowercase leading-tight">к булке</h2>
+      <p class="reveal mt-2 font-mono text-[13px] text-pencil-ink">печём утром. мало.</p>
+      <ul class="mt-4">
+        {items.map((i) => <MenuItem id={i.id} name={i.name} price={i.price} note={i.note} soldOut={i.soldOut} />)}
+      </ul>
+    </div>
+    <figure class="reveal-img relative order-first -mx-6 md:order-none md:mx-0 md:col-span-6 md:col-start-7">
+      <img
+        src={withBase("/images/bakery.webp")}
+        alt="Улитка с корицей на тарелке рядом с чашкой кофе"
+        width="720"
+        height="540"
+        class="aspect-[4/3] w-full object-cover object-center"
+        loading="lazy"
+      />
+      <span class="stamp absolute right-4 top-4 bg-paper px-2 py-0.5 font-mono text-xs md:px-3 md:py-1 md:text-[13px]">
+        {stamp}
+      </span>
+      <figcaption class="mt-2 px-6 font-mono text-xs text-pencil-ink md:px-0">{caption}</figcaption>
+    </figure>
+  </div>
+</section>

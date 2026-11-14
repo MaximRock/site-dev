@@ -1,0 +1,75 @@
+---
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+const faqItems: FaqItem[] = [
+  {
+    question: 'Нужен ли опыт для старта?',
+    answer: 'Нет, курс разработан для новичков с нуля. Мы начинаем с самых основ и постепенно переходим к сложным техникам.',
+  },
+  {
+    question: 'Сколько времени нужно уделять обучению?',
+    answer: 'Рекомендуем заниматься 2-3 часа в день. При таком графике вы освоите профессию за 30 дней.',
+  },
+  {
+    question: 'Какие документы я получу после обучения?',
+    answer: 'После успешного прохождения курса вы получаете сертификат установленного образца.',
+  },
+  {
+    question: 'Есть ли рассрочка?',
+    answer: 'Да, мы предлагаем беспроцентную рассрочку на 3, 6 или 12 месяцев. Подробности уточняйте у менеджера.',
+  },
+  {
+    question: 'Что нужно для начала обучения?',
+    answer: 'Базовый набор инструментов (пилки, ножницы, баф) и желание учиться. Полный список материалов вы получите после записи.',
+  },
+  {
+    question: 'Остаётся ли доступ к материалам после окончания?',
+    answer: 'Да, доступ к курсу остаётся навсегда. Вы можете в любой момент повторить пройденный материал.',
+  },
+];
+---
+
+<section id="faq" class="bg-primary py-16 md:py-24" data-reveal>
+  <div class="mx-auto max-w-3xl px-6">
+    <div class="mb-16 text-center">
+      <span class="mb-4 inline-block text-sm font-semibold uppercase tracking-widest text-accent-light">
+        FAQ
+      </span>
+      <h2 class="text-balance font-serif text-3xl font-bold text-text-on-dark sm:text-4xl">
+        Часто задаваемые вопросы
+      </h2>
+    </div>
+
+    <div class="space-y-4" data-stagger>
+      {faqItems.map((item) => (
+        <details class="group cursor-pointer rounded-2xl border border-white/10 bg-primary-light/50 transition-all duration-200 hover:bg-primary-light/80" data-reveal>
+          <summary class="flex items-center justify-between px-6 py-5">
+            <h3 class="text-base font-medium text-text-on-dark">{item.question}</h3>
+            <svg class="h-5 w-5 shrink-0 text-text-muted transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-white/10 px-6 py-5">
+            <p class="text-sm leading-relaxed text-text-muted">{item.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map((item) => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer,
+      },
+    })),
+  })} />
+</section>

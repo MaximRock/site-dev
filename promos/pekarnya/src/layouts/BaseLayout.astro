@@ -1,0 +1,83 @@
+---
+import "@fontsource-variable/literata/wght.css";
+import "@fontsource-variable/literata/wght-italic.css";
+import "@fontsource-variable/onest/wght.css";
+import "../styles/global.css";
+import ClearCartDialog from "../components/ClearCartDialog.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { site } from "../data/site";
+import { withBase } from "../lib/withBase";
+import { breadcrumbSchema, type BreadcrumbItem } from "../lib/schema";
+
+interface Props {
+  title?: string;
+  description?: string;
+  schemas?: readonly Record<string, unknown>[];
+  breadcrumbs?: readonly BreadcrumbItem[];
+}
+
+const {
+  title,
+  description = site.description,
+  schemas = [],
+  breadcrumbs = [],
+} = Astro.props;
+const pageTitle = title ? `${title} | ${site.name}` : site.title;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImage = new URL(withBase("/og-default.jpg"), site.url).href;
+const ogImageAlt = "Стол пекарни «Тёплый Уголок» с хлебом и кофе";
+const jsonLd = [...schemas, ...(breadcrumbs.length ? [breadcrumbSchema(breadcrumbs)] : [])];
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#FBF4E8" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="noindex, follow" />
+    <meta name="generator" content={Astro.generator} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={site.locale} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+    <link rel="icon" href={withBase("/favicon.png")} type="image/png" sizes="64x64" />
+    <link rel="apple-touch-icon" href={withBase("/apple-touch-icon.png")} />
+    <link rel="manifest" href={withBase("/site.webmanifest")} />
+    {jsonLd.map((item) => (
+      <script type="application/ld+json" set:html={JSON.stringify(item)} />
+    ))}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      К содержанию
+    </a>
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <ClearCartDialog />
+    <script>
+      import { initSite } from "../scripts/site";
+      initSite();
+    </script>
+  </body>
+</html>

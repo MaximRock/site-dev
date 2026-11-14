@@ -1,0 +1,81 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Intro from "../components/Intro.astro";
+import Menu from "../components/Menu.astro";
+import FeaturedCoffee from "../components/FeaturedCoffee.astro";
+import Bakery from "../components/Bakery.astro";
+import Atmosphere from "../components/Atmosphere.astro";
+import About from "../components/About.astro";
+import Philosophy from "../components/Philosophy.astro";
+import Location from "../components/Location.astro";
+import Footer from "../components/Footer.astro";
+import {
+  siteName,
+  nav,
+  openingLine,
+  hero,
+  intro,
+  featured,
+  facts,
+  atmosphereCaptions,
+  story,
+  theses,
+  handwritten,
+  location,
+  footer,
+} from "../data/cafe";
+import { coffeeItems, bakeryItems, currencyNote, coffeeExtras, bakeryStamp } from "../data/menu";
+---
+
+<Layout>
+  <Header siteName={siteName} nav={nav} />
+  <main id="main">
+    <Hero
+      openingLine={openingLine}
+      h1={hero.h1}
+      sub={hero.sub}
+      schedule={hero.schedule}
+      links={hero.links}
+      caption={hero.caption}
+    />
+    <Intro lines={intro.lines} footnote={intro.footnote} />
+    <Menu
+      currencyNote={currencyNote}
+      items={coffeeItems}
+      extras={coffeeExtras}
+      detailCaption="эспрессо. пить сразу."
+    />
+    <FeaturedCoffee
+      times={featured.times}
+      notes={featured.notes}
+      stamp={featured.stamp}
+      caption={featured.caption}
+    />
+    <Bakery items={bakeryItems} stamp={bakeryStamp} caption="улитка. одна на всех. пока есть." />
+    <Atmosphere
+      facts={facts}
+      interiorCaption={atmosphereCaptions.interior}
+      guestsCaption={atmosphereCaptions.guests}
+    />
+    <About paragraphs={story} />
+    <Philosophy theses={theses} handwritten={handwritten} />
+    <Location
+      address={location.address}
+      addressNote={location.addressNote}
+      landmarks={location.landmarks}
+      hours={location.hours}
+      brewTimes={location.brewTimes}
+      phone={location.phone}
+      phoneNote={location.phoneNote}
+      caption={location.caption}
+    />
+  </main>
+  <Footer
+    disclaimer={footer.disclaimer}
+    hoursShort={footer.hoursShort}
+    sayIt={footer.sayIt}
+    caption={footer.caption}
+  />
+</Layout>

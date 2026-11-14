@@ -1,0 +1,111 @@
+---
+interface Props {
+  tierName?: string;
+}
+
+const { tierName } = Astro.props;
+---
+
+<div id="signup-overlay" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+  <div class="relative w-full max-w-lg rounded-3xl bg-surface p-8 shadow-2xl" role="dialog" aria-label="Форма записи на курс">
+    <button
+      type="button"
+      class="absolute right-5 top-5 cursor-pointer text-text-muted transition-colors hover:text-text"
+      aria-label="Закрыть"
+      id="modal-close"
+    >
+      <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <h3 class="text-2xl font-bold text-text">Записаться на курс</h3>
+    <p class="mt-2 text-text-secondary">Оставьте ваши контакты, я свяжусь с вами</p>
+    {tierName !== undefined && <p class="mt-1 text-sm font-semibold text-accent-dark dark:text-accent-light">Тариф: <span class="tier-name">{tierName}</span></p>}
+
+    <form class="mt-8 space-y-5" id="signup-form" novalidate>
+      <div>
+        <label for="form-name" class="mb-1.5 block text-sm font-medium text-text">Имя</label>
+        <input
+          id="form-name"
+          type="text"
+          placeholder="Ваше имя"
+          class="w-full rounded-xl border border-border bg-bg px-4 py-3 text-text placeholder:text-text-muted focus:border-accent focus:outline-none"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="form-phone" class="mb-1.5 block text-sm font-medium text-text">Телефон</label>
+        <input
+          id="form-phone"
+          type="tel"
+          placeholder="+7 (000) 000-00-00"
+          class="w-full rounded-xl border border-border bg-bg px-4 py-3 text-text placeholder:text-text-muted focus:border-accent focus:outline-none"
+          required
+        />
+      </div>
+
+      <label class="flex cursor-pointer items-start gap-3">
+        <input type="checkbox" class="form-checkbox mt-1 h-4 w-4 rounded border-border accent-accent" required />
+        <span class="text-sm text-text-secondary">Я даю согласие на обработку персональных данных</span>
+      </label>
+
+      <label class="flex cursor-pointer items-start gap-3">
+        <input type="checkbox" class="form-checkbox mt-1 h-4 w-4 rounded border-border accent-accent" required />
+        <span class="text-sm text-text-secondary">Я ознакомлен(а) с политикой защиты и обработки персональных данных</span>
+      </label>
+
+      <button
+        type="submit"
+        class="w-full cursor-pointer rounded-full bg-accent py-3.5 text-sm font-semibold text-primary transition-all hover:bg-accent-light"
+      >
+        Отправить
+      </button>
+
+      <p class="text-center text-xs text-text-muted">
+        Нажимая на кнопку, вы даете согласие на обработку персональных данных и соглашаетесь с политикой конфиденциальности.
+      </p>
+    </form>
+  </div>
+</div>
+
+<script>
+var overlay = document.getElementById('signup-overlay')!;
+var close = document.getElementById('modal-close')!;
+var phone = document.getElementById('form-phone') as HTMLInputElement | null;
+
+if (close) {
+  close.addEventListener('click', function () {
+    overlay.classList.add('hidden');
+    overlay.classList.remove('flex');
+  });
+}
+overlay.addEventListener('click', function (e) {
+  if (e.target === overlay) {
+    overlay.classList.add('hidden');
+    overlay.classList.remove('flex');
+  }
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && !overlay.classList.contains('hidden')) {
+    overlay.classList.add('hidden');
+    overlay.classList.remove('flex');
+  }
+});
+
+if (phone) {
+  phone.addEventListener('input', function () {
+    var value = phone!.value.replace(/\D/g, '');
+    if (value.length > 0) {
+      if (value[0] !== '7') value = '7' + value;
+      var formatted = '+7 ';
+      if (value.length > 1) formatted += '(' + value.slice(1, 4);
+      if (value.length > 4) formatted += ') ' + value.slice(4, 7);
+      if (value.length > 7) formatted += '-' + value.slice(7, 9);
+      if (value.length > 9) formatted += '-' + value.slice(9, 11);
+      phone!.value = formatted;
+    }
+  });
+}
+</script>

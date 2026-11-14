@@ -1,0 +1,13 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$description": "Short, calm transitions. All motion respects reduced-motion.",
+  "duration": {
+    "fast": { "$type": "duration", "$value": "140ms" },
+    "base": { "$type": "duration", "$value": "180ms" },
+    "slow": { "$type": "duration", "$value": "280ms" }
+  },
+  "ease": {
+    "out": { "$type": "cubicBezier", "$value": [0.22, 1, 0.36, 1] },
+    "in-out": { "$type": "cubicBezier", "$value": [0.65, 0, 0.35, 1] }
+  }
+}

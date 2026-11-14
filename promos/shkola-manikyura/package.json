@@ -1,0 +1,29 @@
+{
+  "name": "nail-school",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Premium nail school landing page",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "astro": "7.4.11",
+    "canvas-confetti": "^1.9.4",
+    "motion": "^12.40.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@tailwindcss/vite": "^4.2.1",
+    "@types/node": "^26.0.0",
+    "playwright": "^1.64.1",
+    "tailwindcss": "^4.2.1",
+    "typescript": "^6.0.3"
+  }
+}

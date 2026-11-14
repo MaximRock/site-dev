@@ -1,8 +1,10 @@
+import { TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID } from "astro:env/server";
+
 export const prerender = false;
 
 export async function POST({ request }: { request: Request }) {
-  const botToken = import.meta.env.TELEGRAM_BOT_TOKEN as string | undefined;
-  const chatId = import.meta.env.TELEGRAM_CHAT_ID as string | undefined;
+  const botToken = TELEGRAM_BOT_TOKEN;
+  const chatId = TELEGRAM_CHAT_ID;
 
   if (!botToken || !chatId) {
     return new Response(JSON.stringify({ ok: false, message: "Отправка заявок временно недоступна" }), {

@@ -1,0 +1,19 @@
+---
+import AtmosphereBand from "../components/AtmosphereBand.astro";
+import CtaPanel from "../components/CtaPanel.astro";
+import FeaturedBake from "../components/FeaturedBake.astro";
+import Hero from "../components/Hero.astro";
+import ProcessSteps from "../components/ProcessSteps.astro";
+import VisitCard from "../components/VisitCard.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { bakerySchema } from "../lib/schema";
+---
+
+<BaseLayout schemas={[bakerySchema]}>
+  <Hero />
+  <FeaturedBake />
+  <ProcessSteps />
+  <AtmosphereBand />
+  <VisitCard />
+  <CtaPanel />
+</BaseLayout>

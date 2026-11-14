@@ -1,0 +1,39 @@
+---
+import { withBase } from "../lib/withBase";
+
+interface Props {
+  paragraphs: string[];
+}
+
+const { paragraphs } = Astro.props;
+---
+
+<section aria-label="история" class="border-t border-coffee mx-auto max-w-[1200px] px-6 py-16 md:py-24">
+  <div class="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6">
+    <div class="md:col-span-5 md:col-start-2">
+      {
+        paragraphs.map((p) => (
+          <p class="reveal mb-4 text-lg leading-[1.5]">{p}</p>
+        ))
+      }
+    </div>
+    <figure class="reveal-img -mx-6 md:mx-0 md:col-span-3 md:col-start-9">
+      <picture class="block">
+        <source
+          media="(max-width: 767px)"
+          srcset={withBase("/images/counter-mobile.webp")}
+          width="864"
+          height="648"
+        />
+        <img
+          src={withBase("/images/counter.webp")}
+          alt="Деревянный прилавок с чашкой и чеком"
+          width="360"
+          height="480"
+          class="aspect-[4/3] w-full object-cover object-center md:aspect-[3/4]"
+          loading="lazy"
+        />
+      </picture>
+    </figure>
+  </div>
+</section>

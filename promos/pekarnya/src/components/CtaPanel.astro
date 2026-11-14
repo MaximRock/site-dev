@@ -1,0 +1,47 @@
+---
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+import { withBase } from "../lib/withBase";
+---
+
+<section class="section" aria-labelledby="cta-title">
+  <div class="container">
+    <div class="cta-panel on-dark">
+      <div class="cta-panel__content">
+        <p class="eyebrow">Предзаказ</p>
+        <h2 class="cta-panel__title" id="cta-title">
+          Хлеб лучше заказать заранее
+        </h2>
+        <p class="cta-panel__text">
+          Свежий хлеб расходится к обеду. Оформите предзаказ на завтра или на неделю вперёд. Мы
+          отложим и подготовим к выбранному времени.
+        </p>
+        <div class="cta-panel__actions">
+          <Button href={withBase("/order/")} variant="inverse">
+            Оформить предзаказ
+            <Icon name="arrow-right" />
+          </Button>
+        </div>
+        <p class="cta-panel__note">Самовывоз, оплата при получении.</p>
+      </div>
+
+      <svg
+        class="cta-panel__mark"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="0.7"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M12 21V7"></path>
+        <path d="M12 16c-3 0-5-2-5-5 3 0 5 2 5 5Z"></path>
+        <path d="M12 16c3 0 5-2 5-5-3 0-5 2-5 5Z"></path>
+        <path d="M12 11c-2.4 0-4-1.6-4-4 2.4 0 4 1.6 4 4Z"></path>
+        <path d="M12 11c2.4 0 4-1.6 4-4-2.4 0-4 1.6-4 4Z"></path>
+        <path d="M12 7c-1.5 0-2.5-1-2.5-2.5C11 4.5 12 5.5 12 7Z"></path>
+      </svg>
+    </div>
+  </div>
+</section>

@@ -127,7 +127,7 @@ export const CASES = [
     title: "Сайт для пекарни",
     niche: "Пекарня",
     type: "Сайт с предзаказом",
-    siteUrl: "",
+    siteUrl: "/promo/pekarnya/",
     desktop: [
       "/cases/pekarnya/desktop-1.webp",
       "/cases/pekarnya/desktop-2.webp",
@@ -151,7 +151,7 @@ export const CASES = [
     title: "Сайт для школы маникюра",
     niche: "Школа маникюра",
     type: "Лендинг",
-    siteUrl: "",
+    siteUrl: "/promo/shkola-manikyura/",
     desktop: [
       "/cases/shkola-manikyura/desktop-1.webp",
       "/cases/shkola-manikyura/desktop-2.webp",
@@ -175,7 +175,7 @@ export const CASES = [
     title: "Сайт для кофейни",
     niche: "Кофейня",
     type: "Сайт с онлайн-меню",
-    siteUrl: "",
+    siteUrl: "/promo/kofeynya/",
     desktop: [
       "/cases/kofeynya/desktop-1.webp",
       "/cases/kofeynya/desktop-2.webp",

@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageIntro from "../components/PageIntro.astro";
+import MenuBoard from "../components/MenuBoard.astro";
+import CartBar from "../components/CartBar.astro";
+import { menuSchema } from "../lib/schema";
+
+const title = "Меню";
+const description =
+  "Меню пекарни «Тёплый Уголок»: хлеб на закваске, выпечка, завтраки и напитки на Столярном переулке.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  schemas={[menuSchema]}
+  breadcrumbs={[
+    { name: "Главная", path: "/" },
+    { name: "Меню", path: "/menu/" },
+  ]}
+>
+  <PageIntro
+    eyebrow="Хлеб и выпечка"
+    title="Меню"
+    lead="Хлеб, выпечка и завтраки. Предзаказ на завтра, самовывоз."
+  />
+  <section class="section section--tight">
+    <div class="container">
+      <MenuBoard />
+    </div>
+  </section>
+  <CartBar />
+</BaseLayout>

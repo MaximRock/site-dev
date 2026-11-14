@@ -1,0 +1,79 @@
+---
+import { site } from "../data/site";
+import { withBase } from "../lib/withBase";
+import Icon from "./Icon.astro";
+import Logo from "./Logo.astro";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <Logo variant="lockup" loading="lazy" />
+        <p class="footer__note">
+          Хлеб на закваске, выпечка и завтраки на Столярном переулке. Печём небольшими партиями и
+          стараемся, чтобы к утру всё было готово.
+        </p>
+        <p class="footer__demo">{site.demoNote}</p>
+      </div>
+
+      <nav aria-label="Навигация в подвале">
+        <h2 class="footer__title">Разделы</h2>
+        <ul class="footer__list">
+          {site.nav.map((item) => (
+            <li>
+              <a class="footer__link" href={withBase(item.href)}>
+                {item.label}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a class="footer__link" href={withBase("/order/")}>
+              Предзаказ
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div>
+        <h2 class="footer__title">Контакты</h2>
+        <address class="footer__address">
+          <span>
+            {site.city}, {site.address.street}
+          </span>
+          <span>
+            м. {site.metro.station}, {site.metro.walk}
+          </span>
+          <a href={site.phone.href}>{site.phone.label}</a>
+          <a href={site.email.href}>{site.email.label}</a>
+          <a href={site.telegram.href} target="_blank" rel="noreferrer">
+            Telegram <Icon name="arrow-up-right" class="icon" />
+          </a>
+        </address>
+      </div>
+
+      <div>
+        <h2 class="footer__title">Часы</h2>
+        <div class="footer__hours">
+          <p>
+            <strong>{site.hours.daily}</strong>
+          </p>
+          <p>{site.hours.bread}</p>
+          <p>{site.pickup.note}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p>
+        © {year} {site.name}
+      </p>
+      <a href={withBase("/privacy/")}>Политика конфиденциальности</a>
+      <p class="footer__credit">
+        Демо-проект студии <span>{site.studio.name}</span>
+      </p>
+    </div>
+  </div>
+</footer>

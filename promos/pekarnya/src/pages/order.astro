@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageIntro from "../components/PageIntro.astro";
+import DatePicker from "../components/DatePicker.astro";
+import TimeSlotPicker from "../components/TimeSlotPicker.astro";
+import OrderForm from "../components/OrderForm.astro";
+import OrderSummary from "../components/OrderSummary.astro";
+import CartBar from "../components/CartBar.astro";
+import { site } from "../data/site";
+
+const title = "Предзаказ";
+const description =
+  "Предзаказ хлеба и выпечки в пекарне «Тёплый Уголок»: самовывоз на Столярном переулке.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  breadcrumbs={[
+    { name: "Главная", path: "/" },
+    { name: "Предзаказ", path: "/order/" },
+  ]}
+>
+  <PageIntro
+    eyebrow="Забрать в пекарне"
+    title="Предзаказ"
+    lead="Оформите заказ на завтра или на неделю вперёд. Мы подготовим хлеб к выбранному времени, а вы заберёте его на Столярном."
+  />
+  <noscript>
+    <div class="container">
+      <div class="notice">
+        <p>
+          <strong>Для формы предзаказа нужен JavaScript.</strong>
+        </p>
+        <p>
+          Позвоните <a href={site.phone.href}>{site.phone.label}</a> или напишите в
+          <a href={site.telegram.href} target="_blank" rel="noreferrer">
+            Telegram
+          </a>
+          . Подскажем, что будет в печи завтра, и примем заказ.
+        </p>
+      </div>
+    </div>
+    <style>
+      .order-needs-js {
+        display: none !important;
+      }
+    </style>
+  </noscript>
+  <section class="section">
+    <div class="container order-layout order-needs-js">
+      <div class="order-layout__main">
+        <DatePicker />
+        <TimeSlotPicker />
+        <OrderForm />
+      </div>
+      <aside class="order-layout__side">
+        <OrderSummary />
+      </aside>
+    </div>
+  </section>
+  <CartBar />
+  <script>
+    import "../scripts/order-page";
+  </script>
+</BaseLayout>

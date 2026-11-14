@@ -1,0 +1,79 @@
+---
+import { Image } from "astro:assets";
+import bakerHands from "../assets/images/baker-hands.webp";
+import bakerOven from "../assets/images/baker-oven.webp";
+---
+
+<section class="process section" aria-labelledby="process-title">
+  <div class="container process__grid">
+    <div class="process__intro">
+      <p class="eyebrow">Как мы печём</p>
+      <h2 class="section-head__title" id="process-title">
+        Тесто не торопят
+      </h2>
+      <p class="lead">
+        Закваска, время и печь. Всё, что нужно хорошему хлебу. Рецепты короткие, процессы длинные:
+        тесто у нас отдыхает дольше, чем мы.
+      </p>
+
+      <ol class="process__steps">
+        <li class="process__step">
+          <span class="process__number">01</span>
+          <div>
+            <h3 class="process__step-title">Замес</h3>
+            <p class="process__step-text">
+              Мука, вода, соль и закваска. Смешиваем и оставляем набирать силу.
+            </p>
+          </div>
+        </li>
+        <li class="process__step">
+          <span class="process__number">02</span>
+          <div>
+            <h3 class="process__step-title">Расстойка</h3>
+            <p class="process__step-text">
+              От двенадцати до шестнадцати часов в прохладе. Ночью тесто становится хлебом.
+            </p>
+          </div>
+        </li>
+        <li class="process__step">
+          <span class="process__number">03</span>
+          <div>
+            <h3 class="process__step-title">Печь</h3>
+            <p class="process__step-text">
+              Печём на камне при высокой температуре. Корка тонкая, мякиш влажный.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="process__figures">
+      <figure class="process__figure">
+        <Image
+          src={bakerHands}
+          alt="Пекарь замешивает тесто руками"
+          widths={[360, 540, 720]}
+          sizes="(min-width: 900px) 24vw, 45vw"
+          format="webp"
+          quality={80}
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>Замес на закваске</figcaption>
+      </figure>
+      <figure class="process__figure">
+        <Image
+          src={bakerOven}
+          alt="Пекарь достаёт противень с булочками из печи"
+          widths={[360, 540, 720]}
+          sizes="(min-width: 900px) 24vw, 45vw"
+          format="webp"
+          quality={80}
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>Противень из печи</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>

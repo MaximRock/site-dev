@@ -1,0 +1,22 @@
+---
+import { site } from "../data/site";
+
+interface Props {
+  name?: string;
+}
+
+const { name = "slot" } = Astro.props;
+---
+
+<fieldset class="slot-picker" data-slot-picker>
+  <legend class="slot-picker__legend">Интервал самовывоза</legend>
+  <div class="slot-picker__grid">
+    {site.preorder.slots.map((slot) => (
+      <label class="slot-card">
+        <input type="radio" name={name} value={slot} />
+        <span>{slot}</span>
+      </label>
+    ))}
+  </div>
+  <p class="field__error" data-error-for="slot" hidden></p>
+</fieldset>

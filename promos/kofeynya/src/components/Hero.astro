@@ -1,0 +1,54 @@
+---
+import type { NavLink } from "../data/cafe";
+import { withBase } from "../lib/withBase";
+
+interface Props {
+  openingLine: string;
+  h1: string;
+  sub: string;
+  schedule: string[];
+  links: NavLink[];
+  caption: string;
+}
+
+const { openingLine, h1, sub, schedule, links, caption } = Astro.props;
+---
+
+<section id="top" aria-label="начало" class="scroll-mt-[73px]">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <p class="reveal pt-8 font-mono text-[13px] text-pencil-ink md:col-span-4">{openingLine}</p>
+    <div class="grid grid-cols-1 gap-8 pb-8 pt-6 md:grid-cols-12 md:gap-6 md:pb-16">
+      <div class="md:col-span-4">
+        <h1 class="reveal font-display text-[32px] lowercase leading-[1.15] md:text-[clamp(40px,5vw,64px)]">{h1}</h1>
+        <p class="reveal mt-4 text-lg">{sub}</p>
+        <p class="reveal mt-4 font-mono text-sm">
+          фильтр: {schedule.join(" / ")}
+        </p>
+        <p class="reveal mt-4 flex gap-5">
+          {
+            links.map((l) => (
+              <a href={l.href} class="inline-flex min-h-[44px] items-center underline underline-offset-4 hover:text-lingonberry">
+                {l.label}
+              </a>
+            ))
+          }
+        </p>
+      </div>
+      <div class="photo-float -mx-6 md:mx-0 md:col-span-7 md:col-start-6">
+        <figure class="reveal-img">
+          <img
+            src={withBase("/images/hero.webp")}
+            alt="Бариста за эспрессо-машиной у окна в кофейне"
+            width="864"
+            height="1080"
+            class="aspect-[4/5] w-full object-cover object-top"
+            loading="eager"
+            fetchpriority="high"
+          />
+          <figcaption class="mt-2 px-6 font-mono text-xs text-pencil-ink md:px-0">{caption}</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+  <div class="pb-12 md:pb-0"></div>
+</section>

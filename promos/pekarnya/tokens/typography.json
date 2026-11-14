@@ -1,0 +1,48 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$description": "Literata for display and prices, Onest for body and UI.",
+  "font": {
+    "family": {
+      "display": {
+        "$type": "fontFamily",
+        "$value": "\"Literata Variable\", Georgia, serif"
+      },
+      "body": {
+        "$type": "fontFamily",
+        "$value": "\"Onest Variable\", system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif"
+      }
+    },
+    "weight": {
+      "regular": { "$type": "fontWeight", "$value": 400 },
+      "medium": { "$type": "fontWeight", "$value": 500 },
+      "semibold": { "$type": "fontWeight", "$value": 600 },
+      "bold": { "$type": "fontWeight", "$value": 700 }
+    },
+    "size": {
+      "xs": { "$type": "dimension", "$value": "0.8125rem" },
+      "sm": { "$type": "dimension", "$value": "0.875rem" },
+      "base": { "$type": "dimension", "$value": "1.0625rem" },
+      "lg": { "$type": "dimension", "$value": "1.25rem" },
+      "xl": { "$type": "dimension", "$value": "1.5rem" },
+      "2xl": { "$type": "dimension", "$value": "2rem" },
+      "3xl": { "$type": "dimension", "$value": "2.75rem" },
+      "4xl": { "$type": "dimension", "$value": "3.5rem" },
+      "5xl": { "$type": "dimension", "$value": "clamp(3rem, 7vw, 5.5rem)" }
+    },
+    "line": {
+      "tight": { "$type": "number", "$value": 1.05 },
+      "heading": { "$type": "number", "$value": 1.15 },
+      "body": { "$type": "number", "$value": 1.6 },
+      "caption": { "$type": "number", "$value": 1.4 }
+    },
+    "tracking": {
+      "eyebrow": { "$type": "dimension", "$value": "0.08em" },
+      "display": { "$type": "dimension", "$value": "-0.02em" }
+    },
+    "measure": {
+      "body": { "$type": "dimension", "$value": "65ch" },
+      "display": { "$type": "dimension", "$value": "20ch" },
+      "intro": { "$type": "dimension", "$value": "48ch" }
+    }
+  }
+}

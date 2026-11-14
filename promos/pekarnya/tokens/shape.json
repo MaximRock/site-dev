@@ -1,0 +1,15 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$description": "Radii and border widths. Soft, rounded, never pill-shaped cards.",
+  "radius": {
+    "sm": { "$type": "dimension", "$value": "0.625rem" },
+    "md": { "$type": "dimension", "$value": "0.75rem" },
+    "lg": { "$type": "dimension", "$value": "1rem" },
+    "xl": { "$type": "dimension", "$value": "1.5rem" },
+    "pill": { "$type": "dimension", "$value": "999px" }
+  },
+  "border": {
+    "hairline": { "$type": "dimension", "$value": "1px" },
+    "strong": { "$type": "dimension", "$value": "0.09375rem" }
+  }
+}

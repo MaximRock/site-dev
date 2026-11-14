@@ -1,0 +1,95 @@
+---
+import { withBase } from "../lib/withBase";
+
+interface Props {
+  address: string;
+  addressNote: string;
+  landmarks: string[];
+  hours: string[];
+  brewTimes: string;
+  phone: string;
+  phoneNote: string;
+  caption: string;
+  mapUrl?: string;
+}
+
+const { address, addressNote, landmarks, hours, brewTimes, phone, phoneNote, caption } =
+  Astro.props;
+---
+
+<section id="visit" aria-label="как найти" class="mx-auto max-w-[1200px] scroll-mt-32 border-t border-coffee px-6 py-8 md:py-12">
+  <div class="grid grid-cols-1 md:grid-cols-12 md:gap-0">
+    <div class="order-last -mx-6 bg-pine px-6 py-10 text-paper md:order-none md:mx-0 md:col-span-5">
+      <p class="reveal font-mono text-[13px] opacity-70">04 / как найти</p>
+      <h2 class="reveal mt-1 font-display text-2xl lowercase leading-tight">как найти</h2>
+      <p class="reveal mt-4 font-display text-xl leading-snug">{address}</p>
+      <p class="reveal mt-1 font-mono text-[13px] opacity-70">{addressNote}</p>
+      <p class="reveal mt-4">{landmarks.join(" ")}</p>
+      <div id="hours" class="reveal mt-6 scroll-mt-32">
+        <p class="font-mono text-[13px] uppercase tracking-wide opacity-70">часы</p>
+        {
+          hours.map((h) => (
+            <p class="mt-1 font-mono text-sm">{h}</p>
+          ))
+        }
+        <p class="mt-2 font-mono text-sm">{brewTimes}</p>
+      </div>
+      <p class="reveal mt-6">
+        <a href={`tel:${phone.replace(/[^+\d]/g, "")}`} class="inline-flex min-h-[44px] items-center font-mono text-base underline underline-offset-4">
+          {phone}
+        </a>
+      </p>
+      <p class="reveal mt-1 font-mono text-[13px] opacity-70">{phoneNote}</p>
+      <p class="reveal mt-6 flex flex-col gap-3 sm:flex-row md:flex-col lg:flex-row">
+        <span
+          aria-disabled="true"
+          class="inline-flex min-h-[48px] cursor-not-allowed select-none items-center justify-center bg-paper px-5 text-[15px] text-ink opacity-50"
+        >
+          показать на карте
+        </span>
+        <button
+          type="button"
+          data-copy-address={address}
+          class="inline-flex min-h-[48px] cursor-pointer items-center justify-center border border-paper px-5 text-[15px] transition-transform active:translate-y-[1px]"
+        >
+          скопировать адрес
+        </button>
+      </p>
+      <p data-copy-hint class="mt-2 hidden font-mono text-[13px]" aria-live="polite">скопировано</p>
+    </div>
+    <figure class="reveal-img order-first -mx-6 md:order-none md:mx-0 md:col-span-7">
+      <div class="parallax-frame aspect-[4/3] w-full md:h-full md:aspect-auto" data-parallax>
+        <img
+          src={withBase("/images/street.webp")}
+          alt="Стеклянный павильон кофейни на дождливой улице вечером"
+          width="840"
+          height="630"
+          class="h-full w-full object-cover object-center"
+          loading="lazy"
+        />
+      </div>
+      <figcaption class="mt-2 px-6 font-mono text-xs text-pencil-ink md:hidden">{caption}</figcaption>
+    </figure>
+  </div>
+  <p class="mt-2 hidden font-mono text-xs text-pencil-ink md:block">{caption}</p>
+</section>
+
+<script>
+  const btn = document.querySelector("[data-copy-address]");
+  const hint = document.querySelector("[data-copy-hint]");
+  btn?.addEventListener("click", async () => {
+    const text = btn.getAttribute("data-copy-address") ?? "";
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+    }
+    hint?.classList.remove("hidden");
+    window.setTimeout(() => hint?.classList.add("hidden"), 1500);
+  });
+</script>

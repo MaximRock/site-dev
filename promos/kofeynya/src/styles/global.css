@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #ecebe6;
+  --color-paper-deep: #e2e1da;
+  --color-ink: #191b19;
+  --color-pine: #3e4f47;
+  --color-lingonberry: #b23a2f;
+  --color-pencil: #8a8d88;
+  --color-pencil-ink: #676b67;
+  --color-coffee: #3a2c24;
+
+  --font-display: "Unbounded", "Arial Black", sans-serif;
+  --font-text: "Golos Text", system-ui, sans-serif;
+  --font-mono: "PT Mono", ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-lingonberry);
+  color: var(--color-paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-lingonberry);
+  outline-offset: 2px;
+}
+
+/* dotted leader between dish name and price */
+.leader {
+  flex: 1 1 auto;
+  border-bottom: 1px dotted var(--color-pencil);
+  margin: 0 0.75rem;
+  transform: translateY(-4px);
+  min-width: 1.5rem;
+}
+
+/* single stamp вольность: bрусника, slight turn */
+.stamp {
+  color: var(--color-lingonberry);
+  border: 2px solid var(--color-lingonberry);
+  border-radius: 2px;
+  transform: rotate(6deg);
+}
+
+a {
+  transition:
+    color 150ms ease-out,
+    text-decoration-color 150ms ease-out;
+}
+
+/* enter-once appearance: 8px + fade, 150–250ms.
+   Одинаково для текста и фото. Скрытое состояние — только с JS (.js):
+   без скриптов сайт целиком виден. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal,
+  .js .reveal-img {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 220ms ease-out,
+      transform 220ms ease-out;
+  }
+  .js .reveal.is-visible,
+  .js .reveal-img.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-img {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* сдвиг подписи при наведении на кадр — только для мыши */
+figcaption {
+  transition: transform 150ms ease-out;
+}
+@media (hover: hover) {
+  figure:hover figcaption {
+    transform: translateX(4px);
+  }
+}
+
+/* кадр точечного параллакса: запас 32px, сдвиг ±16px внутри */
+.parallax-frame {
+  overflow: hidden;
+}
+.parallax-frame img {
+  height: calc(100% + 32px);
+  margin-top: -16px;
+  will-change: transform;
+}
+
+/* фото парит над фоном: мягкое кофейное свечение за пределами клипа
+   (исключение: цвет --color-coffee вместо тени, лимит скругления 2px обойдён).
+   Свечение живёт на обёртке .photo-float, а не на фигуре: у фигуры
+   overflow:hidden клиппит hover-зум и обрезал бы ореол. Hero + closing (footer). */
+.photo-float {
+  position: relative;
+  isolation: isolate;
+}
+.photo-float::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 -12px 0;
+  border-radius: 8px;
+  background: radial-gradient(
+    115% 115% at 50% 26%,
+    rgba(58, 44, 36, 0.62),
+    rgba(58, 44, 36, 0.3) 44%,
+    rgba(58, 44, 36, 0) 66%
+  );
+  filter: blur(8px);
+}
+@media (min-width: 768px) {
+  .photo-float::before {
+    inset: 12px -16px -16px -16px;
+  }
+}
+
+/* все фото: единый радиус 3px как в hero + hover-зум ×1.03 (220мс).
+   Исключение «фото не зумим» (ART_DIRECTION): зум только под hover:hover,
+   только `<img>` и `<picture> > img` — уличный .parallax-frame (параллакс)
+   не трогаем: его transformом управляет JS в Layout. */
+.reveal-img {
+  overflow: hidden;
+}
+.reveal-img > img,
+.reveal-img > picture > img {
+  border-radius: 3px;
+}
+@media (hover: hover) {
+  .reveal-img > img,
+  .reveal-img > picture > img {
+    transform-origin: center;
+    transition: transform 220ms ease-out;
+  }
+  .reveal-img:hover > img,
+  .reveal-img:hover > picture > img {
+    transform: scale(1.03);
+  }
+}

@@ -1,0 +1,60 @@
+---
+import Field from "./Field.astro";
+import { site } from "../data/site";
+import { withBase } from "../lib/withBase";
+---
+
+<form class="order-form" data-order-form novalidate>
+  <div class="order-form__grid">
+    <Field
+      id="name"
+      label="Имя"
+      type="text"
+      required
+      autocomplete="name"
+      placeholder="Как к вам обращаться"
+    />
+    <Field
+      id="phone"
+      label="Телефон"
+      type="tel"
+      required
+      autocomplete="tel"
+      placeholder="+7 999 123-45-67"
+    />
+  </div>
+
+  <div data-slot-picker-host></div>
+
+  <Field
+    id="comment"
+    label="Комментарий"
+    type="textarea"
+    placeholder="Например: без упаковки, заберу после 18:00"
+    hint="Необязательно, до 400 символов."
+  />
+
+  <label class="consent">
+    <input type="checkbox" name="consent" data-consent required />
+    <span>
+      Согласен на обработку персональных данных для оформления предзаказа.
+      <a href={withBase("/privacy/")}>Подробнее</a>
+    </span>
+  </label>
+  <p class="field__error" data-error-for="consent" hidden></p>
+
+  <div class="order-form__actions">
+    <button type="submit" class="button button--primary">
+      Подготовить письмо
+    </button>
+    <button type="button" class="button button--secondary" data-copy-order>
+      Скопировать заказ
+    </button>
+    <a class="button button--ghost" href={site.telegram.href} target="_blank" rel="noreferrer">
+      Написать в Telegram
+    </a>
+  </div>
+
+  <p class="order-form__status" data-order-status role="status" aria-live="polite"></p>
+  <div class="order-form__errors" data-error-summary hidden></div>
+</form>

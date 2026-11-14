@@ -1,0 +1,23 @@
+---
+interface Props {
+  id: string;
+  name: string;
+  price: number;
+  note: string;
+  soldOut?: boolean;
+}
+
+const { id, name, price, note, soldOut = false } = Astro.props;
+---
+
+<li class="group border-b border-ink/15 py-3 transition-colors hover:bg-paper-deep/60">
+  <div class="flex items-baseline">
+    <span class="w-10 shrink-0 font-mono text-[13px] text-pencil-ink">{id}</span>
+    <span class:list={["text-[17px] font-medium", soldOut && "line-through decoration-lingonberry decoration-2"]}>
+      {name}
+    </span>
+    <span class="leader" aria-hidden="true"></span>
+    <span class="shrink-0 font-display text-[17px] transition-transform duration-150 group-hover:-translate-x-[2px]">{soldOut ? "—" : price}</span>
+  </div>
+  <p class="pl-10 text-sm text-pencil-ink">{soldOut ? "разобрали. завтра будут." : note}</p>
+</li>

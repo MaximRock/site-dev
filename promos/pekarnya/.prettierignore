@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.agents/
+.claude/
+images/
+AGENTS.md
+opencode.json
+src/styles/tokens.css
+package-lock.json

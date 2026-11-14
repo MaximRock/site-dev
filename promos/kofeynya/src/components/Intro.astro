@@ -1,0 +1,21 @@
+---
+interface Props {
+  lines: string[];
+  footnote: string;
+}
+
+const { lines, footnote } = Astro.props;
+---
+
+<section aria-label="коротко" class="border-t border-coffee mx-auto max-w-[1200px] px-6 py-16 md:py-24">
+  <div class="grid grid-cols-1 md:grid-cols-12 md:gap-6">
+    <div class="md:col-span-5 md:col-start-3">
+      {
+        lines.map((l) => (
+          <p class="reveal text-[20px] leading-[1.4] md:text-[22px]">{l}</p>
+        ))
+      }
+      <p class="reveal mt-4 font-mono text-[13px] text-pencil-ink">{footnote}</p>
+    </div>
+  </div>
+</section>

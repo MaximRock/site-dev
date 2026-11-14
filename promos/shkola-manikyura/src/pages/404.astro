@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { withBase } from '../lib/withBase';
+---
+
+<BaseLayout
+  title="404 — Страница не найдена — Nail School"
+  description="Страница не найдена. Вернитесь на главную."
+>
+  <Header />
+  <div class="flex min-h-svh flex-col">
+    <section class="flex flex-1 items-center justify-center px-6">
+      <div class="text-center" data-reveal>
+        <p class="text-display text-balance font-serif font-bold text-accent-dark dark:text-accent-light">404</p>
+        <p class="mt-4 text-lg text-text-secondary">Страница не найдена</p>
+        <p class="mt-2 text-sm text-text-muted">Возможно, она была удалена или ссылка неверна.</p>
+        <a
+          href={withBase('/')}
+          class="mt-8 inline-block rounded-full bg-accent px-8 py-3 text-sm font-semibold text-primary transition-all duration-200 hover:bg-accent-light hover:shadow-lg hover:shadow-accent/25"
+        >
+          На главную
+        </a>
+      </div>
+    </section>
+    <Footer />
+  </div>
+</BaseLayout>

@@ -1,0 +1,77 @@
+---
+import { menuCategories, menuItems } from "../data/menu";
+import { formatPrice } from "../lib/format";
+
+const grouped = menuCategories.map((category) => ({
+  category,
+  items: menuItems.filter((item) => item.category === category.id),
+}));
+---
+
+<section class="menu-board" aria-labelledby="menu-heading">
+  <h1 id="menu-heading" class="visually-hidden">
+    Меню
+  </h1>
+  <nav class="category-nav" aria-label="Категории меню">
+    <ul class="category-nav__list">
+      {menuCategories.map((category) => (
+        <li>
+          <a href={`#${category.id}`}>{category.label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  {grouped.map(({ category, items }) => (
+    <section class="menu-category" id={category.id} aria-labelledby={`${category.id}-title`}>
+      <header class="menu-category__head">
+        <h2 id={`${category.id}-title`}>{category.label}</h2>
+        <p>{category.note}</p>
+      </header>
+      <ul class="menu-list">
+        {items.map((item) => (
+          <li class="menu-item" data-menu-item={item.id}>
+            <div class="menu-item__main">
+              <h3 class="menu-item__name">{item.name}</h3>
+              <p class="menu-item__desc">{item.description}</p>
+              <p class="menu-item__meta">
+                {item.weight} {item.unit} ·{" "}
+                {item.allergens.length
+                  ? `аллергены: ${item.allergens.join(", ")}`
+                  : "без аллергенов"}
+                {item.soldOut && " · закончилось"}
+              </p>
+            </div>
+            <div class="menu-item__side">
+              <p class="menu-item__price">{formatPrice(item.price)}</p>
+              <div class="qty-stepper" data-qty-for={item.id}>
+                <button
+                  type="button"
+                  data-qty-dec
+                  aria-label={`Уменьшить количество: ${item.name}`}
+                >
+                  −
+                </button>
+                <input
+                  type="number"
+                  min="0"
+                  max="20"
+                  value="0"
+                  data-qty-input
+                  aria-label={`Количество: ${item.name}`}
+                />
+                <button
+                  type="button"
+                  data-qty-inc
+                  aria-label={`Увеличить количество: ${item.name}`}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</section>

@@ -1,0 +1,19 @@
+---
+interface Props {
+  href: string;
+  variant?: "primary" | "secondary" | "inverse";
+  compact?: boolean;
+  class?: string;
+  ariaCurrent?: "page";
+}
+
+const { href, variant = "primary", compact = false, class: className, ariaCurrent } = Astro.props;
+---
+
+<a
+  class:list={["button", `button--${variant}`, compact && "button--compact", className]}
+  href={href}
+  aria-current={ariaCurrent}
+>
+  <slot />
+</a>

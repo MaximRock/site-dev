@@ -9,25 +9,25 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "start": "node ./dist/server/entry.mjs",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.5",
+    "@astrojs/node": "11.1.12",
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/manrope": "^5.3.0",
     "@fontsource/dm-serif-display": "^5.3.0",
     "@tailwindcss/vite": "^4.2.1",
     "@types/canvas-confetti": "^1.9.0",
-    "astro": "^7.1.6",
+    "astro": "7.4.11",
     "astro-icon": "^1.2.0",
     "canvas-confetti": "^1.9.4",
     "tailwindcss": "^4.2.1",
     "vite": "^8.0.13"
   },
   "devDependencies": {
-    "@astrojs/vercel": "^11.0.10",
     "@iconify-json/simple-icons": "^1.2.93",
-    "@nanonets/graft": "^0.10.1",
-    "vercel": "^59.16.0"
+    "@nanonets/graft": "^0.10.1"
   }
 }

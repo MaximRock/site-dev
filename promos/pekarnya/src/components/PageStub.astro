@@ -1,0 +1,44 @@
+---
+import { site } from "../data/site";
+import { withBase } from "../lib/withBase";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+import PageIntro from "./PageIntro.astro";
+
+interface Props {
+  title: string;
+  eyebrow: string;
+  lead: string;
+  description: string;
+  heading: string;
+  text: string;
+}
+
+const { title, eyebrow, lead, description, heading, text } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <PageIntro eyebrow={eyebrow} title={title} lead={lead} />
+
+  <section class="section section--flush-top" aria-labelledby="stub-title">
+    <div class="container--narrow">
+      <div class="notice-card">
+        <p class="eyebrow">Скоро</p>
+        <h2 class="notice-card__title" id="stub-title">
+          {heading}
+        </h2>
+        <p class="notice-card__text">{text}</p>
+        <div class="notice-card__actions">
+          <Button href={site.phone.href}>
+            <Icon name="phone" />
+            Позвонить
+          </Button>
+          <Button href={withBase("/")} variant="secondary">
+            На главную
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
