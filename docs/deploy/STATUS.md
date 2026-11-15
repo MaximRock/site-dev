@@ -22,7 +22,7 @@
 | 5. Первый деплой | [x] | 2026-11-14 | opencode | REV `3e03381-manual-20261114-201438`; сервис active, сайт и promo открываются, `nginx -t` на сервере успешен |
 | 6. GitHub Actions | [x] | 2026-11-15 | opencode | workflow run `43729148642` успешен; REV `fb5c6ac-1`, симлинки переключены |
 | 7. Приёмка | [x] | 2026-11-15 | opencode | пройдена; API ok, rate limit 429, reboot/certbot ок; mobile overflow исправлен в `5675765-1` |
-| 8. Обслуживание | [ ] | | | |
+| 8. Обслуживание | [~] | 2026-11-15 | opencode | 8.1–8.3, 8.5–8.6 готовы; 8.4 ждёт снапшот и менеджер паролей |
 | 9. Откат | [ ] | | | |
 
 ## Этап 1. Bootstrap
@@ -102,12 +102,12 @@
 
 ## Этап 8. Обслуживание
 
-- [ ] 8.1 Автообновления безопасности.
-- [ ] 8.2 Ограничение journald.
-- [ ] 8.3 Регулярные проверки.
-- [ ] 8.4 Бэкапы.
-- [ ] 8.5 Retention релизов и диск.
-- [ ] 8.6 Мониторинг и алерты.
+- [x] 8.1 Автообновления безопасности: `unattended-upgrades` active/enabled, 0 upgradable.
+- [x] 8.2 Ограничение journald: `SystemMaxUse=200M`, journal 79.7M.
+- [x] 8.3 Регулярные проверки: диск 15%, swap 0, failed 0, fail2ban без текущих банов, certbot dry-run success.
+- [~] 8.4 Бэкапы: GitHub и сертификат готовы; снапшот Planetahost и копия секретов в менеджере паролей ждут подтверждения.
+- [x] 8.5 Retention релизов и диск: main 4, promo по 4, лимит 5; песочница 5 из 6; диск 13%.
+- [x] 8.6 Мониторинг и алерты: серверный timer каждые 5 минут, внешний GitHub Actions каждые 15 минут, Telegram-алерт на сервере.
 
 ## Этап 9. Откат
 
@@ -166,6 +166,13 @@
 | 2026-11-15 | 7.6 | `certbot renew --dry-run --no-random-sleep-on-renew` | success; timer active; сертификат до 2027-02-12 | нет |
 | 2026-11-15 | 7.7 | SEO, responsive, mobile menu/form | canonical/OG абсолютные; gates responsive/mobile-first OK; promo overflow OK; main cookie-overlay — ложное срабатывание | sitemap/robots main 404 |
 | 2026-11-15 | 7.7 | Найден overflow 280px на `shkola-manikyura`; фикс hero/pricing; commit `5675765`, workflow `43732040400` | release `5675765-1`; gates 280/320/414 OK; mobile menu/form smoke OK | нет |
+| 2026-11-15 | 8.1 | Проверены `20auto-upgrades` и `unattended-upgrades` | конфиг уже верный; active/enabled; 0 upgradable | изменений не потребовалось |
+| 2026-11-15 | 8.2 | Создан `/etc/systemd/journald.conf.d/99-size.conf`, restart journald | active; journal 79.7M; vacuum 0B | нет |
+| 2026-11-15 | 8.3 | `df`, `free`, `systemctl --failed`, `journalctl -p err`, fail2ban, certbot dry-run | диск 15%, swap 0, failed 0; ошибки только SSH-сканеры и networkd wait; certbot success | нет |
+| 2026-11-15 | 8.4 | Проверены GitHub, `/etc/site/site.env`, сертификат | remote `180f2b7`; 600 root:root, 2 ключа; cert до 2027-02-12 | снапшот провайдера и менеджер паролей не проверены |
+| 2026-11-15 | 8.5 | Проверены релизы, диск, retention в песочнице | main 4, promo по 4; `current` `180f2b7-1`; sandbox 5 из 6; диск 13% | старые релизы не удалялись |
+| 2026-11-15 | 8.6 | Установлены `style-logic-monitor` и timer; создан `.github/workflows/uptime.yml` | timer active/enabled; state `ok`; ручной run `43741414243` success | первый старт упал `226/NAMESPACE`, исправлено `StateDirectory` |
+| 2026-11-15 | 8.6 | Actions обновлены до `checkout@v7`, `setup-node@v7`, `github-script@v9`; deploy run `43741416636` | success 2m16s; release `180f2b7-1`; Node 20 warning ушла | осталась аннотация миграции `ubuntu-latest` на Ubuntu 26 |
 
 ## Открытые вопросы и риски
 
@@ -177,7 +184,9 @@
 - Telegram API: DNS `api.telegram.org` отдаёт недоступный с VPS `149.154.166.110`; в `/etc/hosts` закреплён `149.154.167.220`. При смене IP Telegram форму перепроверить.
 - `sitemap-index.xml` и `robots.txt` main отдают 404; promo закрыты noindex. Добавить sitemap/robots main отдельной задачей, если нужно.
 - `verify_overflow` для main флагует фиксированный cookie-баннер, перекрывающий hero-ссылки; после reject баннер скрыт. Это overlay, не layout-дефект.
-- GitHub Actions: аннотации о Node.js 20 deprecation у `actions/checkout@v4` и `actions/setup-node@v4`; обновить actions в этапе обслуживания.
+- GitHub Actions: Node.js 20 deprecation закрыта обновлением до `checkout@v7`, `setup-node@v7`, `github-script@v9`; осталась будущая миграция `ubuntu-latest` на Ubuntu 26 (октябрь 2026).
+- Мониторинг: серверный Telegram-алерт не сработает при полной недоступности VPS; для этого внешний GitHub Actions создаёт issue. Telegram-секреты в CI не передаются.
+- Снапшот этапа 8: снапшот VPS в панели Planetahost и копия `TELEGRAM_*` в менеджере паролей не подтверждены; без них 8.4 остаётся `[~]`.
 - 512M swap; следить за `free -h` и OOM.
 - Снапшот `pre-bootstrap` недоступен; по решению заказчика этап 1 выполняется без него, fallback — переустановка сервера.
 - `certbot renew --dry-run` без `--no-random-sleep-on-renew` может ждать до ~2.5 минут; это не зависание.
