@@ -68,7 +68,7 @@ const tiers: PricingTier[] = [
     <div class="grid gap-8 lg:grid-cols-3" data-stagger>
       {tiers.map((tier) => (
         <div
-          class={`relative flex flex-col rounded-3xl border-2 p-8 transition-all duration-200 hover:-translate-y-1 ${
+          class={`relative flex min-w-0 flex-col rounded-3xl border-2 p-8 transition-all duration-200 hover:-translate-y-1 ${
             tier.highlighted
               ? 'border-accent bg-surface shadow-lg shadow-accent/10 scale-105 lg:scale-110 hover:glow-gold-lg'
               : 'border-border bg-surface hover:glow-gold'
