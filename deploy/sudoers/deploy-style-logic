@@ -1,0 +1,1 @@
+deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart style-logic, /usr/bin/systemctl is-active style-logic, /usr/sbin/nginx -t, /usr/bin/systemctl reload nginx

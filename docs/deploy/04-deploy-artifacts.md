@@ -1,6 +1,6 @@
 # Этап 4. Артефакты деплоя
 
-Статус: план. Не выполнен.
+Статус: выполнен 2026-11-14. В рамках этапа 4 сервер не изменялся; на этапе 5 конфиг проверен на сервере и `nginx -t` прошёл.
 
 Где: локально, `/home/max/projects/site-dev`.
 
@@ -30,11 +30,12 @@ Workflow передаёт slug'и в `activate-release.sh` из этого фа�
 ## 4.2 `deploy/nginx/style-logic-limits.conf`
 
 ```nginx
+server_names_hash_bucket_size 64;
 limit_req_zone $binary_remote_addr zone=send_lead:10m rate=20r/m;
 limit_req_status 429;
 ```
 
-Решение D7: 20 запросов в минуту, burst 5 в location.
+Решение D7: 20 запросов в минуту, burst 5 в location. На этапе 5 добавлен `server_names_hash_bucket_size 64`: nginx 1.24 на VPS не принял дефолтное значение 32.
 
 ## 4.3 `deploy/nginx/style-logic-headers.conf`
 
@@ -112,6 +113,8 @@ deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart style-logic, /usr/bin/sys
 - Чистка старых релизов после успешного health-check, оставлять 5 main и 5 каждого promo.
 - Slug'и принимать аргументами или читать из `deploy/promos.json`, не держать второй список.
 
+Факт: скрипт принимает slug'и аргументами; workflow передаёт их из `deploy/promos.json`. Retention реализован через `find` + сортировку по mtime. Скрипт проверен в песочнице: успешная активация, откат при неудачном health-check, сохранение 5 релизов.
+
 ## 4.9 `.github/workflows/deploy.yml`
 
 Взять за основу runbook 4.9 и внести:
@@ -137,13 +140,27 @@ bash -n deploy/activate-release.sh
 - `deploy/promos.json` — единственный список promo.
 - Все пути в `activate-release.sh` совпадают с runbook и workflow.
 
+## Фактическое выполнение
+
+- `deploy/promos.json` — единственный список promo; workflow и скрипт используют его.
+- nginx: `style-logic-limits.conf`, `style-logic-headers.conf`, `style-logic-app.conf`, `style-logic.conf`; в limits добавлен `server_names_hash_bucket_size 64` после проверки на сервере.
+- В `style-logic.conf` — отдельные `location ^~ /promo/<slug>/` для трёх slug с собственным `error_page 404`; вложенная regex-локация кэширует `_astro`/`images` на 30d без собственных `add_header`.
+- `limit_req` только на точном `/api/send-lead`; 429 отдаётся JSON из `@rate_limited`.
+- systemd unit: `deploy`, `/srv/site/current`, `127.0.0.1:4321`, `/etc/site/site.env`, ограничения `ProtectSystem=strict`, `ProtectHome=true`, `PrivateTmp=true`, `NoNewPrivileges=true`.
+- sudoers: только restart/is-active сервиса, `nginx -t` и reload nginx; `visudo -cf` — parsed OK.
+- `activate-release.sh`: проверка всех релизов до переключения, атомарные симлинки, rollback, health-check `GET /` и `POST /api/send-lead` -> 400, retention 5.
+- Workflow: job только для `main`, `REV` = короткий SHA + `GITHUB_RUN_ATTEMPT`, staging `npm prune --omit=dev`, rsync `dist`/`node_modules`/lockfiles, promo только `dist`, SSH с `BatchMode=yes` и `known_hosts`, без Telegram-секретов и без npm на сервере.
+- Локальная проверка nginx на временной копии: syntax ok; promo index 200; promo 404 отдаёт `/promo/<slug>/404.html` с `X-Robots-Tag`; `_astro` — `Cache-Control: max-age=2592000`; 7-й POST — 429 с JSON.
+- Staging-копия после `npm prune --omit=dev`: Astro 7.4.11 и `@astrojs/node` 11.1.12 на месте, `GET /` — 200.
+- На этапе 5 `nginx -t` на сервере прошёл после добавления `server_names_hash_bucket_size 64`.
+
 ## Критерии приёмки
 
-- [ ] Созданы `deploy/promos.json`, четыре nginx-файла, unit, sudoers, скрипт активации.
-- [ ] Создан `.github/workflows/deploy.yml`.
-- [ ] `bash -n deploy/activate-release.sh` проходит.
-- [ ] В скрипте и workflow нет секретов.
-- [ ] `nginx -t` на сервере ещё не запускался: это этап 5.
+- [x] Созданы `deploy/promos.json`, четыре nginx-файла, unit, sudoers, скрипт активации.
+- [x] Создан `.github/workflows/deploy.yml`.
+- [x] `bash -n deploy/activate-release.sh` проходит; `shellcheck` — 0 замечаний.
+- [x] В скрипте и workflow нет секретов; `actionlint` — 0 замечаний.
+- [x] `nginx -t` на сервере не запускался в рамках этапа 4; на этапе 5 прошёл успешно.
 
 ## Откат
 

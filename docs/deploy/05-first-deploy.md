@@ -1,6 +1,6 @@
 # Этап 5. Первый ручной деплой
 
-Статус: план. Не выполнен.
+Статус: выполнен 2026-11-14. Сайт и promo открываются, сервис active, `nginx -t` на сервере успешен.
 
 Где: VPS `root@62.173.152.100` и локально `/home/max/projects/site-dev`.
 
@@ -203,14 +203,26 @@ curl -sS -o /dev/null -w '%{http_code}\n' https://style-logic.ru/promo/kofeynya/
 rm -rf /var/www/style-logic-placeholder
 ```
 
+## Фактическое выполнение
+
+- REV: `3e03381-manual-20261114-201438`; релиз main — 188M, promo — 1.2–2.0M.
+- `/etc/site/site.env`: 600 root:root, 2 строки; значения не выводились.
+- `style-logic`: active, `/` -> 200, `POST /api/send-lead` с `{}` -> 400.
+- Симлинки `current` и все три promo указывают на один REV.
+- Первый `nginx -t` после замены конфига упал: `server_names_hash_bucket_size` 32. В `deploy/nginx/style-logic-limits.conf` добавлено `server_names_hash_bucket_size 64`; повторный `nginx -t` — syntax ok, reload выполнен.
+- Публичные проверки: HTTP apex 301 -> `https://style-logic.ru/`; HTTP www 301 -> apex; HTTPS www 301 -> apex; HTTPS apex 200; promo 200 у всех трёх; promo `X-Robots-Tag: noindex, follow`; главная и promo-ассеты 200.
+- Бэкап конфига: `/etc/nginx/sites-available/style-logic.conf.bak.2026-11-14-202041`.
+- Заглушка `/var/www/style-logic-placeholder` удалена.
+- `npm ci --omit=dev` выполнялся в staging на локальной машине; на сервере npm не запускался.
+
 ## Критерии приёмки
 
-- [ ] Релиз лежит в `/srv/site/releases/<REV>`, `current` указывает на него.
-- [ ] Все три promo-симлинка указывают на тот же `<REV>`.
-- [ ] `style-logic` активен, `/` и API отвечают.
-- [ ] `https://style-logic.ru` и promo открываются.
-- [ ] `http` и `www` редиректят на HTTPS apex.
-- [ ] `/etc/site/site.env` имеет права `600 root:root`.
+- [x] Релиз лежит в `/srv/site/releases/<REV>`, `current` указывает на него.
+- [x] Все три promo-симлинка указывают на тот же `<REV>`.
+- [x] `style-logic` активен, `/` и API отвечают.
+- [x] `https://style-logic.ru` и promo открываются.
+- [x] `http` и `www` редиректят на HTTPS apex.
+- [x] `/etc/site/site.env` имеет права `600 root:root`.
 
 ## Откат
 

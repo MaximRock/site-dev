@@ -17,10 +17,10 @@
 | 0. Инвентарь | [x] | 2026-11-13 | opencode | read-only, сервер не изменялся |
 | 1. Bootstrap | [x] | 2026-11-14 | opencode | завершён; reboot выполнен; снапшот пропущен по решению заказчика |
 | 2. Заглушка и TLS | [x] | 2026-11-14 | opencode | сертификат до 2027-02-12; www HTTPS пока 200, редирект на этапе 5 |
-| 3. Миграция репо | [!] | 2026-11-14 | opencode | 3.1–3.10 готовы, сборки и smoke пройдены; 3.0 не закрыт: посторонние изменения дерева не тронуты |
-| 4. Артефакты деплоя | [ ] | | | |
-| 5. Первый деплой | [ ] | | | |
-| 6. GitHub Actions | [ ] | | | |
+| 3. Миграция репо | [x] | 2026-11-14 | opencode | 3.0 закрыт коммитами `f756cf6` и `3e03381`; 3.1–3.10 готовы, сборки и smoke пройдены |
+| 4. Артефакты деплоя | [x] | 2026-11-14 | opencode | артефакты созданы и проверены локально; сервер не изменялся, `nginx -t` на сервере не запускался |
+| 5. Первый деплой | [x] | 2026-11-14 | opencode | REV `3e03381-manual-20261114-201438`; сервис active, сайт и promo открываются, `nginx -t` на сервере успешен |
+| 6. GitHub Actions | [~] | 2026-11-14 | opencode | выполняется |
 | 7. Приёмка | [ ] | | | |
 | 8. Обслуживание | [ ] | | | |
 | 9. Откат | [ ] | | | |
@@ -47,7 +47,7 @@
 
 ## Этап 3. Миграция репозитория
 
-- [!] 3.0 Extraneous-адаптер удалён; посторонние изменения (`README.md`, старые `docs/*`, `site-v3.md`, `public/logo1.png`) не тронуты, коммит/stash не делались.
+- [x] 3.0 Extraneous-адаптер удалён; посторонние изменения разведены коммитами `f756cf6` и `3e03381`, рабочее дерево чистое.
 - [x] 3.1 Astro 7.4.11 и `@astrojs/node` 11.1.12 установлены точно, Vercel удалён.
 - [x] 3.2 `astro.config.mjs` обновлён: Node standalone, `site`, `session: false`, `astro:env`.
 - [x] 3.3 `package.json` и runtime-зависимости; добавлен `start`.
@@ -61,25 +61,25 @@
 
 ## Этап 4. Артефакты деплоя
 
-- [ ] 4.1 `deploy/promos.json`.
-- [ ] 4.2 nginx limits.
-- [ ] 4.3 nginx headers.
-- [ ] 4.4 nginx app proxy.
-- [ ] 4.5 nginx site config.
-- [ ] 4.6 systemd unit.
-- [ ] 4.7 sudoers.
-- [ ] 4.8 `activate-release.sh`.
-- [ ] 4.9 GitHub Actions workflow.
-- [ ] 4.10 Валидация файлов.
+- [x] 4.1 `deploy/promos.json`.
+- [x] 4.2 nginx limits: 20r/m, burst 5, JSON 429; на этапе 5 добавлен `server_names_hash_bucket_size 64`.
+- [x] 4.3 nginx headers.
+- [x] 4.4 nginx app proxy.
+- [x] 4.5 nginx site config: `^~ /api/`, promo-кэш 30d, отдельные promo-локации с корректным 404, HSTS выключен.
+- [x] 4.6 systemd unit.
+- [x] 4.7 sudoers; `visudo -cf` — parsed OK.
+- [x] 4.8 `activate-release.sh`: атомарные симлинки, rollback, health-check, retention 5; проверен в песочнице.
+- [x] 4.9 GitHub Actions workflow: main-only, staging `npm prune --omit=dev`, rsync, без секретов и npm на сервере.
+- [x] 4.10 Валидация: `bash -n`, `shellcheck`, `actionlint`, локальный `nginx -t` на временной копии и функциональный тест nginx.
 
 ## Этап 5. Первый деплой
 
-- [ ] 5.1 Каталоги и права на VPS.
-- [ ] 5.2 Секреты в `/etc/site/site.env`.
-- [ ] 5.3 systemd и sudoers установлены.
-- [ ] 5.4 Первый релиз загружен.
-- [ ] 5.5 Симлинки, запуск, health-check.
-- [ ] 5.6 Боевой nginx и проверка.
+- [x] 5.1 Каталоги и права на VPS.
+- [x] 5.2 Секреты в `/etc/site/site.env`: 600 root:root, 2 ключа.
+- [x] 5.3 systemd и sudoers установлены; `visudo -cf` — parsed OK, unit enabled.
+- [x] 5.4 Первый релиз загружен; `npm ci --omit=dev` в staging, не на сервере.
+- [x] 5.5 Симлинки, запуск, health-check: active, `/` 200, API `{}` 400.
+- [x] 5.6 Боевой nginx и проверка: HTTP/www 301, apex 200, promo 200; заглушка удалена.
 
 ## Этап 6. GitHub Actions
 
@@ -142,13 +142,26 @@
 | 2026-11-14 | 3.1–3.6 | Astro 7.4.11 exact, `@astrojs/node` 11.1.12, Vercel удалён; config/env/SEO/siteUrl | сборка main успешна, canonical и OG абсолютные | `astro` закреплён точной версией |
 | 2026-11-14 | 3.7–3.9 | Три promo в `promos/`; base/site/noindex/withBase; sitemap и robots Pekarnya убраны | все ссылки и ассеты с `/promo/<slug>/` | `node_modules`/`dist` созданы сборкой и покрыты `.gitignore` |
 | 2026-11-14 | 3.10 | Сборки main + 3 promo, smoke, `astro check`, `vitest` | `smoke ok`; Pekarnya и Manicure — 0 ошибок; 42 теста | audit: main 1 high `js-yaml`, coffee 1 high `sharp`; не исправлялись |
+| 2026-11-14 | 3.0 | Коммиты `f756cf6`, `3e03381`, push в `github/main` | рабочее дерево чистое | посторонние изменения разведены отдельным коммитом |
+| 2026-11-14 | 4.1–4.9 | Созданы `deploy/promos.json`, 4 nginx-файла, unit, sudoers, `activate-release.sh`, `.github/workflows/deploy.yml` | `bash -n` и `visudo -cf` проходят; `shellcheck` и `actionlint` — 0 замечаний | сервер не изменялся |
+| 2026-11-14 | 4.10 | Локальная проверка nginx на временной копии: порты, пути и сертификаты заменены | syntax ok; promo 200/404 с `X-Robots-Tag`, кэш 30d, 7-й POST — 429 JSON | `nginx -t` на сервере не запускался; это этап 5 |
+| 2026-11-14 | 4.10 | Песочница `activate-release.sh`: успешная активация и отказ health-check | симлинки переключились и откатились; retention 5 | пути и `sudo` заменены заглушками |
+| 2026-11-14 | 4.10 | Staging-копия: `npm prune --omit=dev`, запуск `dist/server/entry.mjs` | Astro 7.4.11 и адаптер 11.1.12 на месте; `GET /` 200 | без Telegram-секретов |
+| 2026-11-14 | 5.1 | Созданы `/srv/site/releases`, `/srv/www/...`, `/etc/site`; владелец `deploy:deploy` | права каталогов проверены | нет |
+| 2026-11-14 | 5.2 | `.env` -> `/etc/site/site.env` через SSH | 600 root:root, 2 строки, значения не печатались | нет |
+| 2026-11-14 | 5.3 | Установлены unit и sudoers; `daemon-reload`, `enable` | `visudo -cf` parsed OK; unit enabled | нет |
+| 2026-11-14 | 5.4 | Сборки main + 3 promo; staging `npm ci --omit=dev`; REV `3e03381-manual-20261114-201438`; rsync | main 188M, promo 1.2–2.0M; entry.mjs и node_modules на месте | на сервере npm не запускался |
+| 2026-11-14 | 5.5 | `ln -sfn` для current и трёх promo; restart `style-logic` | active; `/` 200; API `{}` 400; симлинки на один REV | нет |
+| 2026-11-14 | 5.6 | Бэкап nginx; замена конфига; первый `nginx -t` | ошибка `server_names_hash_bucket_size` 32 | добавлен `server_names_hash_bucket_size 64` в limits |
+| 2026-11-14 | 5.6 | Повторный `nginx -t` и reload; публичные проверки | syntax ok; HTTP/www 301, apex 200, promo 200; заглушка удалена | нет |
 
 ## Открытые вопросы и риски
 
 - Причина прошлого зависания неизвестна; все длинные команды выполняются с таймаутом и логом.
 - Astro 6 -> 7 у `manicure-site` проверен: `astro check` и сборка проходят, типизация `StudentWorks.astro` исправлена.
-- Этап 3.0 не закрыт: рабочее дерево содержит посторонние изменения; они не тронуты. Нужен отдельный коммит или stash по решению заказчика.
 - Аудит зависимостей: main — 1 high (`js-yaml`), coffee — 1 high (`sharp`); в этом этапе не исправлялись.
+- Этап 5: `nginx -t` на сервере прошёл после добавления `server_names_hash_bucket_size 64`; исходная ошибка — дефолтное значение 32.
+- `activate-release.sh` проверен в песочнице; на реальном сервере пока не запускался (этап 6).
 - 512M swap; следить за `free -h` и OOM.
 - Снапшот `pre-bootstrap` недоступен; по решению заказчика этап 1 выполняется без него, fallback — переустановка сервера.
 - `certbot renew --dry-run` без `--no-random-sleep-on-renew` может ждать до ~2.5 минут; это не зависание.

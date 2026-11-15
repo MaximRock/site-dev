@@ -1,0 +1,116 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            promos/*/package-lock.json
+
+      - name: Install main dependencies
+        run: npm ci
+
+      - name: Build main site
+        run: npm run build
+
+      - name: Build promos
+        run: |
+          set -euo pipefail
+          while IFS=' ' read -r slug dir; do
+            echo "::group::${slug} (${dir})"
+            (cd "$dir" && npm ci && npm run build)
+            echo "::endgroup::"
+          done < <(jq -r 'to_entries[] | "\(.key) \(.value)"' deploy/promos.json)
+
+      - name: Prepare runtime
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/main-release
+          mkdir -p /tmp/main-release
+          cp -a dist package.json package-lock.json /tmp/main-release/
+          cp -a node_modules /tmp/main-release/node_modules
+          cd /tmp/main-release
+          npm prune --omit=dev --no-audit --no-fund
+
+      - name: Smoke test standalone server
+        run: |
+          set -euo pipefail
+          cd /tmp/main-release
+          PORT=4399 HOST=127.0.0.1 node dist/server/entry.mjs &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for _ in $(seq 1 20); do
+            if curl -fsS --max-time 5 -o /dev/null http://127.0.0.1:4399/; then
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "standalone smoke test failed" >&2
+          exit 1
+
+      - name: Configure SSH
+        run: |
+          set -euo pipefail
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Upload releases
+        run: |
+          set -euo pipefail
+          ssh_deploy() {
+            ssh -i "${HOME}/.ssh/id_ed25519" -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=10 -o StrictHostKeyChecking=yes "$@"
+          }
+          REV="${GITHUB_SHA::7}-${GITHUB_RUN_ATTEMPT}"
+          ssh_deploy "${DEPLOY_USER}@${DEPLOY_HOST}" bash -s -- "$REV" <<'REMOTE'
+          mkdir -p "/srv/site/releases/$1/dist" "/srv/site/releases/$1/node_modules"
+          REMOTE
+          rsync -az --delete -e "ssh -i ${HOME}/.ssh/id_ed25519 -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=10 -o StrictHostKeyChecking=yes" /tmp/main-release/dist/ "${DEPLOY_USER}@${DEPLOY_HOST}:/srv/site/releases/${REV}/dist/"
+          rsync -az --delete -e "ssh -i ${HOME}/.ssh/id_ed25519 -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=10 -o StrictHostKeyChecking=yes" /tmp/main-release/node_modules/ "${DEPLOY_USER}@${DEPLOY_HOST}:/srv/site/releases/${REV}/node_modules/"
+          rsync -az -e "ssh -i ${HOME}/.ssh/id_ed25519 -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=10 -o StrictHostKeyChecking=yes" /tmp/main-release/package.json /tmp/main-release/package-lock.json "${DEPLOY_USER}@${DEPLOY_HOST}:/srv/site/releases/${REV}/"
+          while IFS=' ' read -r slug dir; do
+            ssh_deploy "${DEPLOY_USER}@${DEPLOY_HOST}" bash -s -- "$slug" "$REV" <<'REMOTE'
+          mkdir -p "/srv/www/releases/promo/$1/$2"
+          REMOTE
+            rsync -az --delete -e "ssh -i ${HOME}/.ssh/id_ed25519 -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=10 -o StrictHostKeyChecking=yes" "${dir}/dist/" "${DEPLOY_USER}@${DEPLOY_HOST}:/srv/www/releases/promo/${slug}/${REV}/"
+          done < <(jq -r 'to_entries[] | "\(.key) \(.value)"' deploy/promos.json)
+
+      - name: Activate release
+        run: |
+          set -euo pipefail
+          ssh_deploy() {
+            ssh -i "${HOME}/.ssh/id_ed25519" -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=10 -o StrictHostKeyChecking=yes "$@"
+          }
+          REV="${GITHUB_SHA::7}-${GITHUB_RUN_ATTEMPT}"
+          mapfile -t SLUGS < <(jq -r 'keys[]' deploy/promos.json)
+          ssh_deploy "${DEPLOY_USER}@${DEPLOY_HOST}" bash -s -- "$REV" "${SLUGS[@]}" < deploy/activate-release.sh
