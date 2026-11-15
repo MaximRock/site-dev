@@ -1,6 +1,6 @@
 # Этап 6. GitHub Actions
 
-Статус: выполняется 2026-11-14.
+Статус: выполнен 2026-11-15. Первый workflow-деплой прошёл, релиз `fb5c6ac-1` активен.
 
 Где: локально, GitHub, VPS.
 
@@ -95,14 +95,24 @@ readlink -f /srv/www/promo/pekarnya
 
 Ожидаемо: появился новый релиз `<sha>-<attempt>`, симлинки переключились.
 
+## Фактическое выполнение
+
+- Ключ `~/.ssh/style-logic-deploy` создан; публичная часть добавлена пользователю `deploy`; вход по ключу работает.
+- `known_hosts` получен через `ssh-keyscan`; ed25519-отпечаток совпал с сервером.
+- В GitHub четыре секрета: `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`, `SSH_KNOWN_HOSTS`; значения не выводились.
+- Коммит `fb5c6ac` отправлен в `github/main`; workflow run `43729148642` завершился успешно за 1m24s.
+- Новый релиз: `fb5c6ac-1`; `current` и все три promo-симлинка переключены на него.
+- Публичные проверки: apex 200, HTTP/www 301, все promo 200, API `{}` 400; `nginx -t` и сервисы в порядке.
+- Сканирование логов Actions на приватный ключ, Telegram-секреты и токены — чисто.
+
 ## Критерии приёмки
 
-- [ ] `ssh -i ~/.ssh/style-logic-deploy deploy@...` работает.
-- [ ] Отпечаток `known_hosts` совпал.
-- [ ] В GitHub четыре секрета.
-- [ ] Workflow `deploy` завершился успешно.
-- [ ] После прогона `current` и promo-симлинки указывают на новый REV.
-- [ ] В логах Actions нет секретов.
+- [x] `ssh -i ~/.ssh/style-logic-deploy deploy@...` работает.
+- [x] Отпечаток `known_hosts` совпал.
+- [x] В GitHub четыре секрета.
+- [x] Workflow `deploy` завершился успешно.
+- [x] После прогона `current` и promo-симлинки указывают на новый REV.
+- [x] В логах Actions нет секретов.
 
 ## Откат
 
@@ -116,4 +126,5 @@ readlink -f /srv/www/promo/pekarnya
 - `~/.ssh/style-logic-deploy` и `.pub`.
 - `~/.ssh/known_hosts.style-logic`.
 - Четыре GitHub-секрета.
+- Workflow run `43729148642`; релиз `fb5c6ac-1`.
 - Запись результатов в `STATUS.md`.
