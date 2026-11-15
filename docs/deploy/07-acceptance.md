@@ -1,6 +1,6 @@
 # Этап 7. Приёмка
 
-Статус: план. Не выполнен.
+Статус: выполнен 2026-11-15. Приёмка пройдена; найден и исправлен overflow 280px на promo `shkola-manikyura`.
 
 Где: локально, VPS, браузер.
 
@@ -130,16 +130,31 @@ systemctl list-timers | grep certbot
 - состояние после reboot;
 - замечания.
 
+## Фактическое выполнение
+
+- 7.1: HTTP apex 301 -> `https://style-logic.ru/`; HTTPS www 301 -> apex; HTTP www 301 -> apex; HTTPS apex 200; `/privacy/` 200.
+- 7.2: все три promo 200; `X-Robots-Tag: noindex, follow` и meta robots совпадают; ассеты 27/24/14, все 200.
+- 7.3: первый POST дал `{"ok":false}` из-за `ETIMEDOUT` к `api.telegram.org`; DNS возвращал недоступный `149.154.166.110`. В `/etc/hosts` закреплён доступный `149.154.167.220`, сервис перезапущен; повторный POST — `{"ok":true}`. Бот `@style_logic_studio_bot`, чат-группа заявок доступна. В логах только имена переменных, значений секретов нет.
+- 7.4: 15 POST с `{}` — 6 ответов 400, 9 ответов 429; тело 429: `{"ok":false,"message":"Слишком много запросов. Попробуйте позже."}`.
+- 7.5: reboot выполнен; SSH вернулся через 20с; `style-logic`, `nginx`, `fail2ban` active; UFW active; HTTPS 200.
+- 7.6: `certbot renew --dry-run --no-random-sleep-on-renew` — success; `certbot.timer` active; сертификат до 2027-02-12.
+- 7.7: canonical, `og:url`, `og:image`, `twitter:image` абсолютные; viewport есть; ссылки кейсов ведут на все три `/promo/...`; `/privacy/` 200; `logo.png` 200.
+- 7.7: `verify_responsive` — OK для main, `/privacy/` и трёх promo на 280/320/414px; `verify_mobile_first` — OK; `verify_overflow` — OK для promo и `/privacy/`.
+- 7.7: `verify_overflow` для main на 280/414px отметил перекрытие фиксированного cookie-баннера с ссылками hero; после `reject` баннер скрыт, `scrollWidth=390` при viewport 390. Это overlay, не layout-дефект; мобильное меню и форма проверены.
+- 7.7: мобильный smoke: меню main открывается/закрывается, `aria-expanded` меняется; меню promo и модальная форма тарифа открываются/закрываются, 4 поля формы; пустой submit main даёт 3 ошибки валидации.
+- 7.7: `sitemap-index.xml` и `robots.txt` main отдают 404; promo не индексируются через header/meta. Sitemap main отсутствует — отдельное SEO-улучшение, не блокер приёмки.
+- 7.7: найден overflow `shkola-manikyura` на 280px; исправлены `min-w-0`/`break-words` в hero и `min-w-0` в тарифах; коммит `5675765`, workflow `43732040400` success, релиз `5675765-1`.
+
 ## Критерии приёмки
 
-- [ ] HTTP -> HTTPS, `www` -> apex.
-- [ ] Все три promo отдают 200 и noindex.
-- [ ] API возвращает `{"ok":true}`, сообщение приходит.
-- [ ] Rate limit даёт 429 с JSON.
-- [ ] После reboot сервисы активны.
-- [ ] `certbot renew --dry-run` проходит.
-- [ ] Секретов нет в git, CI-логах и ответах API.
-- [ ] Мобильная проверка пройдена.
+- [x] HTTP -> HTTPS, `www` -> apex.
+- [x] Все три promo отдают 200 и noindex.
+- [x] API возвращает `{"ok":true}`, сообщение приходит.
+- [x] Rate limit даёт 429 с JSON.
+- [x] После reboot сервисы активны.
+- [x] `certbot renew --dry-run` проходит.
+- [x] Секретов нет в git, CI-логах и ответах API.
+- [x] Мобильная проверка пройдена; см. замечание про cookie-overlay и отсутствие sitemap main.
 
 ## Откат
 

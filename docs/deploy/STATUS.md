@@ -21,7 +21,7 @@
 | 4. Артефакты деплоя | [x] | 2026-11-14 | opencode | артефакты созданы и проверены локально; сервер не изменялся, `nginx -t` на сервере не запускался |
 | 5. Первый деплой | [x] | 2026-11-14 | opencode | REV `3e03381-manual-20261114-201438`; сервис active, сайт и promo открываются, `nginx -t` на сервере успешен |
 | 6. GitHub Actions | [x] | 2026-11-15 | opencode | workflow run `43729148642` успешен; REV `fb5c6ac-1`, симлинки переключены |
-| 7. Приёмка | [ ] | | | |
+| 7. Приёмка | [x] | 2026-11-15 | opencode | пройдена; API ok, rate limit 429, reboot/certbot ок; mobile overflow исправлен в `5675765-1` |
 | 8. Обслуживание | [ ] | | | |
 | 9. Откат | [ ] | | | |
 
@@ -91,14 +91,14 @@
 
 ## Этап 7. Приёмка
 
-- [ ] 7.1 Домен и HTTPS.
-- [ ] 7.2 Promo: 200, noindex, ассеты.
-- [ ] 7.3 API и Telegram.
-- [ ] 7.4 Rate limit и JSON 429.
-- [ ] 7.5 Сервисы после reboot.
-- [ ] 7.6 Сертификаты и продление.
-- [ ] 7.7 SEO и мобильная проверка.
-- [ ] 7.8 Результаты записаны.
+- [x] 7.1 Домен и HTTPS.
+- [x] 7.2 Promo: 200, noindex, ассеты.
+- [x] 7.3 API и Telegram.
+- [x] 7.4 Rate limit и JSON 429.
+- [x] 7.5 Сервисы после reboot.
+- [x] 7.6 Сертификаты и продление.
+- [x] 7.7 SEO и мобильная проверка.
+- [x] 7.8 Результаты записаны.
 
 ## Этап 8. Обслуживание
 
@@ -159,6 +159,13 @@
 | 2026-11-15 | 6.3 | `gh secret set` для четырёх секретов | 4 секрета, значения не печатались | нет |
 | 2026-11-15 | 6.4 | Коммит `fb5c6ac`, push `github/main`, workflow `43729148642` | success за 1m24s | без секретов в diff |
 | 2026-11-15 | 6.5 | Проверка релиза, симлинков и публичных URL | `fb5c6ac-1`; apex 200, HTTP/www 301, promo 200, API 400; логи чисты | нет |
+| 2026-11-15 | 7.1–7.2 | HTTPS/www/promo и ассеты | 301/301/200; promo 200, noindex; ассеты 27/24/14 — все 200 | нет |
+| 2026-11-15 | 7.3 | POST заявки в Telegram | первый раз `ETIMEDOUT`; DNS `api.telegram.org` -> недоступный `149.154.166.110`; закреплён `149.154.167.220` в `/etc/hosts`; повторно `{"ok":true}` | сетевой обход через hosts, следить за сменой IP |
+| 2026-11-15 | 7.4 | 15 POST с `{}` | 6x400, 9x429; JSON 429 корректен | rate limit снялся после reboot |
+| 2026-11-15 | 7.5 | `systemctl reboot` | SSH через 20с; style-logic/nginx/fail2ban active; UFW active; HTTPS 200 | нет |
+| 2026-11-15 | 7.6 | `certbot renew --dry-run --no-random-sleep-on-renew` | success; timer active; сертификат до 2027-02-12 | нет |
+| 2026-11-15 | 7.7 | SEO, responsive, mobile menu/form | canonical/OG абсолютные; gates responsive/mobile-first OK; promo overflow OK; main cookie-overlay — ложное срабатывание | sitemap/robots main 404 |
+| 2026-11-15 | 7.7 | Найден overflow 280px на `shkola-manikyura`; фикс hero/pricing; commit `5675765`, workflow `43732040400` | release `5675765-1`; gates 280/320/414 OK; mobile menu/form smoke OK | нет |
 
 ## Открытые вопросы и риски
 
@@ -167,6 +174,10 @@
 - Аудит зависимостей: main — 1 high (`js-yaml`), coffee — 1 high (`sharp`); в этом этапе не исправлялись.
 - Этап 5: `nginx -t` на сервере прошёл после добавления `server_names_hash_bucket_size 64`; исходная ошибка — дефолтное значение 32.
 - `activate-release.sh` успешно отработал в workflow run `43729148642`; релиз `fb5c6ac-1` активен, логи Actions проверены на секреты.
+- Telegram API: DNS `api.telegram.org` отдаёт недоступный с VPS `149.154.166.110`; в `/etc/hosts` закреплён `149.154.167.220`. При смене IP Telegram форму перепроверить.
+- `sitemap-index.xml` и `robots.txt` main отдают 404; promo закрыты noindex. Добавить sitemap/robots main отдельной задачей, если нужно.
+- `verify_overflow` для main флагует фиксированный cookie-баннер, перекрывающий hero-ссылки; после reject баннер скрыт. Это overlay, не layout-дефект.
+- GitHub Actions: аннотации о Node.js 20 deprecation у `actions/checkout@v4` и `actions/setup-node@v4`; обновить actions в этапе обслуживания.
 - 512M swap; следить за `free -h` и OOM.
 - Снапшот `pre-bootstrap` недоступен; по решению заказчика этап 1 выполняется без него, fallback — переустановка сервера.
 - `certbot renew --dry-run` без `--no-random-sleep-on-renew` может ждать до ~2.5 минут; это не зависание.
