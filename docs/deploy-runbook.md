@@ -1668,6 +1668,8 @@ sudo systemctl restart style-logic
 curl -fsS -o /dev/null -w '%{http_code}\n' http://127.0.0.1:4321/
 ```
 
+После `restart` health-check повторять: одиночный `curl` сразу может вернуть `connection refused`, пока Node поднимается. В `activate-release.sh` уже есть 10 попыток по 2с.
+
 Откат promo:
 
 ```bash
@@ -1681,7 +1683,7 @@ sudo /usr/bin/systemctl reload nginx
 - nginx: держать копию предыдущего `style-logic.conf` рядом (`style-logic.conf.bak.<date>`), после правок всегда `nginx -t`.
 - systemd: `systemctl daemon-reload` после изменения unit.
 - SSH: не закрывать текущую сессию, пока новый вход не проверен. Резервная копия `sshd_config` уже создана на этапе 1.5.
-- Полный откат сервера: снапшот `pre-bootstrap` из панели провайдера.
+- Полный откат сервера: снапшот `pre-bootstrap` из панели провайдера. Снапшот `pre-bootstrap` недоступен; 8.4/9.4 отложены, fallback — переустановка сервера.
 
 ### 9.4 Что сделать после первого успешного деплоя
 
