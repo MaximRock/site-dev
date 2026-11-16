@@ -236,7 +236,7 @@ systemctl restart style-logic
 
 2. Вернуть promo-симлинки на предыдущий REV.
 3. Вернуть nginx из `style-logic.conf.bak.<date>`, выполнить `nginx -t` и reload.
-4. При полной неудаче — снапшот `pre-bootstrap`.
+4. При полной неудаче — cold rebuild по `docs/deploy/recovery.md`; снапшоты провайдером не предоставляются.
 
 ## Артефакты
 

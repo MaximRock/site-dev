@@ -15,19 +15,19 @@
 | Этап | Статус | Дата | Исполнитель | Заметки |
 | --- | --- | --- | --- | --- |
 | 0. Инвентарь | [x] | 2026-11-13 | opencode | read-only, сервер не изменялся |
-| 1. Bootstrap | [x] | 2026-11-14 | opencode | завершён; reboot выполнен; снапшот пропущен по решению заказчика |
+| 1. Bootstrap | [x] | 2026-11-14 | opencode | завершён; reboot выполнен; снапшоты не предоставляются |
 | 2. Заглушка и TLS | [x] | 2026-11-14 | opencode | сертификат до 2027-02-12; www HTTPS пока 200, редирект на этапе 5 |
 | 3. Миграция репо | [x] | 2026-11-14 | opencode | 3.0 закрыт коммитами `f756cf6` и `3e03381`; 3.1–3.10 готовы, сборки и smoke пройдены |
 | 4. Артефакты деплоя | [x] | 2026-11-14 | opencode | артефакты созданы и проверены локально; сервер не изменялся, `nginx -t` на сервере не запускался |
 | 5. Первый деплой | [x] | 2026-11-14 | opencode | REV `3e03381-manual-20261114-201438`; сервис active, сайт и promo открываются, `nginx -t` на сервере успешен |
 | 6. GitHub Actions | [x] | 2026-11-15 | opencode | workflow run `43729148642` успешен; REV `fb5c6ac-1`, симлинки переключены |
 | 7. Приёмка | [x] | 2026-11-15 | opencode | пройдена; API ok, rate limit 429, reboot/certbot ок; mobile overflow исправлен в `5675765-1` |
-| 8. Обслуживание | [x] | 2026-11-15 | opencode | 8.1–8.3, 8.5–8.6 готовы; 8.4 пропущен по решению заказчика, обсудить после общего плана |
-| 9. Откат | [x] | 2026-11-16 | opencode | 9.1–9.3, 9.5 пройдены; 9.4 отложен вместе с 8.4 |
+| 8. Обслуживание | [~] | 2026-11-15 | opencode | 8.1–8.3, 8.5–8.6 готовы; 8.4 — по плану `docs/deploy/recovery.md` |
+| 9. Откат | [~] | 2026-11-16 | opencode | 9.1–9.3, 9.5 пройдены; 9.4 — cold rebuild по `docs/deploy/recovery.md` |
 
 ## Этап 1. Bootstrap
 
-- [-] 1.1 Снапшот `pre-bootstrap`: пропущен по решению заказчика, fallback — переустановка сервера.
+- [-] 1.1 Снапшот `pre-bootstrap`: провайдер не предоставляет; fallback — cold rebuild по `docs/deploy/recovery.md`.
 - [x] 1.2 Инвентарь записан.
 - [x] 1.3 Обновления и пакеты.
 - [x] 1.4 Swap проверен.
@@ -105,7 +105,7 @@
 - [x] 8.1 Автообновления безопасности: `unattended-upgrades` active/enabled, 0 upgradable.
 - [x] 8.2 Ограничение journald: `SystemMaxUse=200M`, journal 79.7M.
 - [x] 8.3 Регулярные проверки: диск 15%, swap 0, failed 0, fail2ban без текущих банов, certbot dry-run success.
-- [-] 8.4 Бэкапы: GitHub и сертификат готовы; снапшот Planetahost и копия секретов в менеджере паролей пропущены по решению заказчика. Обсудить после общего плана.
+- [ ] 8.4 Бэкапы: GitHub и сертификат готовы; снапшотов нет. KeePassXC, age-архив и cold rebuild — по плану `docs/deploy/recovery.md`.
 - [x] 8.5 Retention релизов и диск: main 4, promo по 4, лимит 5; песочница 5 из 6; диск 13%.
 - [x] 8.6 Мониторинг и алерты: серверный timer каждые 5 минут, внешний GitHub Actions каждые 15 минут, Telegram-алерт на сервере.
 
@@ -114,7 +114,7 @@
 - [x] 9.1 Откат main: `180f2b7-1` → `5675765-1` → `180f2b7-1`, 320мс.
 - [x] 9.2 Откат promo: все три promo `180f2b7-1` → `5675765-1` → `180f2b7-1`, 224мс.
 - [x] 9.3 Откат конфигов: nginx 424мс, systemd unit 1573мс, sudoers/sshd проверены.
-- [-] 9.4 Полный откат из снапшота: отложен вместе с 8.4, не проверялся.
+- [ ] 9.4 Cold rebuild без снапшота: ожидает временный VPS; план — `docs/deploy/recovery.md`.
 - [x] 9.5 Учебный откат выполнен: полный цикл 1353мс, без длительного простоя.
 
 ## Журнал выполнения
@@ -124,7 +124,7 @@
 | 2026-11-13 | 0 | `hostnamectl`, `free -h`, `df -h /`, `swapon --show`, `ss -tulpn`, `ufw status`, версии | сервер чистый, только SSH 22 | нет |
 | 2026-11-13 | 0 | `getaddrinfo` для домена | A -> 62.173.152.100, AAAA нет | нет |
 | 2026-11-13 | 0 | Созданы `docs/deploy/00-09` и `STATUS.md` | план готов, сервер не изменялся | нет |
-| 2026-11-14 | 1.2 | Повторный read-only инвентарь | Ubuntu 24.04.4, 3.8G/40G, swap 512M, только SSH 22, pending reboot | снапшот недоступен, пропущен по решению заказчика |
+| 2026-11-14 | 1.2 | Повторный read-only инвентарь | Ubuntu 24.04.4, 3.8G/40G, swap 512M, только SSH 22, pending reboot | снапшоты не предоставляются; fallback — cold rebuild |
 | 2026-11-14 | 1.3 | `apt update`, `full-upgrade`, установка nginx/certbot/fail2ban/ufw/git/rsync | APT_RC=0, 0 пакетов к обновлению | needrestart отложил часть рестартов до reboot |
 | 2026-11-14 | 1.4 | Проверка swap | `/swapfile` 512M, fstab в порядке | нет |
 | 2026-11-14 | 1.5 | Создан `deploy`, скопирован `authorized_keys` | вход `deploy` по ключу работает | нет |
@@ -169,15 +169,16 @@
 | 2026-11-15 | 8.1 | Проверены `20auto-upgrades` и `unattended-upgrades` | конфиг уже верный; active/enabled; 0 upgradable | изменений не потребовалось |
 | 2026-11-15 | 8.2 | Создан `/etc/systemd/journald.conf.d/99-size.conf`, restart journald | active; journal 79.7M; vacuum 0B | нет |
 | 2026-11-15 | 8.3 | `df`, `free`, `systemctl --failed`, `journalctl -p err`, fail2ban, certbot dry-run | диск 15%, swap 0, failed 0; ошибки только SSH-сканеры и networkd wait; certbot success | нет |
-| 2026-11-15 | 8.4 | Проверены GitHub, `/etc/site/site.env`, сертификат | remote `180f2b7`; 600 root:root, 2 ключа; cert до 2027-02-12 | снапшот провайдера и менеджер паролей пропущены по решению заказчика; вернуться после общего плана |
+| 2026-11-15 | 8.4 | Проверены GitHub, `/etc/site/site.env`, сертификат | remote `180f2b7`; 600 root:root, 2 ключа; cert до 2027-02-12 | снапшоты не предоставляются; KeePassXC, age и cold rebuild — по `docs/deploy/recovery.md` |
 | 2026-11-15 | 8.5 | Проверены релизы, диск, retention в песочнице | main 4, promo по 4; `current` `180f2b7-1`; sandbox 5 из 6; диск 13% | старые релизы не удалялись |
 | 2026-11-15 | 8.6 | Установлены `style-logic-monitor` и timer; создан `.github/workflows/uptime.yml` | timer active/enabled; state `ok`; ручной run `43741414243` success | первый старт упал `226/NAMESPACE`, исправлено `StateDirectory` |
 | 2026-11-15 | 8.6 | Actions обновлены до `checkout@v7`, `setup-node@v7`, `github-script@v9`; deploy run `43741416636` | success 2m16s; release `180f2b7-1`; Node 20 warning ушла | осталась аннотация миграции `ubuntu-latest` на Ubuntu 26 |
 | 2026-11-16 | 9.1 | Откат main `180f2b7-1` → `5675765-1`, restart, health; возврат `180f2b7-1` | 320мс; current и сервис проверены | health-check требует retry |
 | 2026-11-16 | 9.2 | Откат трёх promo `180f2b7-1` → `5675765-1`, nginx reload; возврат | 224мс; все promo 200 | нет |
 | 2026-11-16 | 9.3 | Созданы бэкапы `2026-11-16-1806`; nginx и systemd restore probe; sudoers/sshd | nginx 424мс, unit 1573мс; `nginx -t`, `visudo`, `sshd -t` OK | старый nginx backup — заглушка до этапа 5, не использовать |
-| 2026-11-16 | 9.4 | Полный откат из снапшота | отложен вместе с 8.4; снапшот не подтверждён | не проверялся; fallback — переустановка |
+| 2026-11-16 | 9.4 | Cold rebuild без снапшота | ожидает временный VPS; план — `docs/deploy/recovery.md` | снапшоты не предоставляются; fallback — переустановка |
 | 2026-11-16 | 9.5 | Учебный откат main+promo с retry и возвратом | полный цикл 1353мс; API 400; финальный релиз `180f2b7-1`; сервисы active | первый прогон прервался из-за health-check без retry; trap восстановил current |
+| 2026-11-16 | план | Создан `docs/deploy/recovery.md` | 8.4/9.4 переведены на KeePassXC + age + cold rebuild | Ansible, S3 и снапшоты не используются |
 
 ## Открытые вопросы и риски
 
@@ -191,9 +192,8 @@
 - `verify_overflow` для main флагует фиксированный cookie-баннер, перекрывающий hero-ссылки; после reject баннер скрыт. Это overlay, не layout-дефект.
 - GitHub Actions: Node.js 20 deprecation закрыта обновлением до `checkout@v7`, `setup-node@v7`, `github-script@v9`; осталась будущая миграция `ubuntu-latest` на Ubuntu 26 (октябрь 2026).
 - Мониторинг: серверный Telegram-алерт не сработает при полной недоступности VPS; для этого внешний GitHub Actions создаёт issue. Telegram-секреты в CI не передаются.
-- Снапшот этапов 8/9.4: снапшот VPS в панели Planetahost и копия `TELEGRAM_*` в менеджере паролей пропущены по решению заказчика; 9.4 не проверялся. Вернуться к обсуждению после общего плана. Fallback — переустановка сервера.
+- Снапшоты не предоставляются: 8.4 и 9.4 закрываются через KeePassXC, age-архив и cold rebuild по `docs/deploy/recovery.md`; fallback — переустановка сервера.
 - Откат: одиночный `curl` сразу после `systemctl restart style-logic` может вернуть `connection refused`; health-check делать с retry. В `activate-release.sh` уже 10 попыток по 2с.
 - Конфиги: старый `/etc/nginx/sites-available/style-logic.conf.bak.2026-11-14-202041` — заглушка до этапа 5; для отката использовать свежий бэкап `2026-11-16-1806`.
 - 512M swap; следить за `free -h` и OOM.
-- Снапшот `pre-bootstrap` недоступен; по решению заказчика этап 1 выполняется без него, fallback — переустановка сервера.
 - `certbot renew --dry-run` без `--no-random-sleep-on-renew` может ждать до ~2.5 минут; это не зависание.
