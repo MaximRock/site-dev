@@ -117,6 +117,33 @@
 - [ ] 9.4 Cold rebuild без снапшота: ожидает временный VPS; план — `docs/deploy/recovery.md`.
 - [x] 9.5 Учебный откат выполнен: полный цикл 1353мс, без длительного простоя.
 
+## План на 2026-11-17
+
+Реализация — завтра; сегодня production и `.dotfiles` не меняются.
+
+### Версия сайта
+
+- [ ] `v1.0.0` — annotated tag на `180f2b7` (production release `180f2b7-1`); не на `HEAD` `f0d1ff3`.
+- [ ] Push только `refs/tags/v1.0.0`; `git push --tags` не использовать.
+- [ ] GitHub Release `v1.0.0`; notes без секретов и IP.
+- [ ] Проверить remote tag, release, отсутствие нового deploy-run; production не изменялся.
+
+### NixOS packages
+
+- [ ] Добавить `keepassxc` и `age` в `/home/max/.dotfiles/modules/nixos/common/packages.nix` (`environment.systemPackages`).
+- [ ] `/etc/nixos/configuration.nix` не трогать.
+- [ ] Перед rebuild подтвердить, что текущие незакоммиченные изменения `.dotfiles` (flclashx/happ, flake, overlays и др.) готовы к применению; иначе изолировать.
+- [ ] `sudo nixos-rebuild switch --flake /home/max/.dotfiles#nixos`.
+- [ ] Проверить `command -v keepassxc age` и версии.
+- [ ] Коммиты в `.dotfiles` — с коллегой; только `modules/nixos/common/packages.nix`, без чужих изменений.
+
+### Docs
+
+- [ ] Обновить `docs/deploy/recovery.md`: путь `.dotfiles/...` и команда rebuild.
+- [ ] Коммит сайта с `[skip ci]`.
+
+8.4/9.4 остаются по `docs/deploy/recovery.md`; этим планом не закрываются.
+
 ## Журнал выполнения
 
 | Дата | Этап | Команда или действие | Результат | Отклонения |
@@ -179,6 +206,7 @@
 | 2026-11-16 | 9.4 | Cold rebuild без снапшота | ожидает временный VPS; план — `docs/deploy/recovery.md` | снапшоты не предоставляются; fallback — переустановка |
 | 2026-11-16 | 9.5 | Учебный откат main+promo с retry и возвратом | полный цикл 1353мс; API 400; финальный релиз `180f2b7-1`; сервисы active | первый прогон прервался из-за health-check без retry; trap восстановил current |
 | 2026-11-16 | план | Создан `docs/deploy/recovery.md` | 8.4/9.4 переведены на KeePassXC + age + cold rebuild | Ansible, S3 и снапшоты не используются |
+| 2026-11-16 | план | Зафиксирован план `v1.0.0` и NixOS-пакетов | реализация 2026-11-17; ничего не выполнено | тег, rebuild и production не менялись |
 
 ## Открытые вопросы и риски
 
