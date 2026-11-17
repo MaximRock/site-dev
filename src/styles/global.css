@@ -336,6 +336,59 @@ html {
     @apply py-16 lg:py-30;
   }
 
+  .legal-doc {
+    @apply max-w-prose text-body;
+  }
+
+  .legal-doc > section {
+    @apply scroll-mt-6;
+  }
+
+  .legal-doc > section + section {
+    @apply mt-10;
+  }
+
+  .legal-doc h2 {
+    @apply text-2xl font-semibold sm:text-3xl;
+  }
+
+  .legal-doc h3 {
+    @apply mt-6 text-lg font-semibold text-heading;
+  }
+
+  .legal-doc p {
+    @apply mt-3;
+  }
+
+  .legal-doc ul {
+    @apply mt-3 list-disc space-y-1.5 pl-6;
+  }
+
+  .legal-doc li::marker {
+    color: var(--color-accent);
+  }
+
+  .legal-doc a {
+    @apply text-accent-link underline underline-offset-2;
+    transition: color var(--motion-fast) ease;
+  }
+
+  .legal-doc a:hover {
+    color: var(--color-accent2);
+  }
+
+  .legal-doc a:focus-visible {
+    color: var(--color-heading);
+  }
+
+  .legal-doc strong {
+    @apply font-semibold text-heading;
+  }
+
+  .legal-doc address {
+    @apply not-italic;
+  }
+
   .field-label {
     @apply mb-2 block font-display text-sm font-semibold text-heading;
   }

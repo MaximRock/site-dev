@@ -1,5 +1,5 @@
 ---
-import { CONTACTS, NAV } from "../data/site.js";
+import { CONTACTS, LEGAL_DOCS, NAV } from "../data/site.js";
 import Icon from "./Icon.astro";
 import BrandMark from "./BrandMark.astro";
 import { Icon as BrandIcon } from "astro-icon/components";
@@ -70,13 +70,26 @@ import { Icon as BrandIcon } from "astro-icon/components";
           </a>
         </li>
       </ul>
-      <p class="mt-5 text-sm text-muted">
-        <a href="/privacy" class="transition hover:text-accent-link">Политика конфиденциальности</a>
-      </p>
     </div>
   </div>
 
   <div class="container-x mt-12 border-t border-line pt-6">
-    <p class="text-sm text-muted">© 2026 «S|L». Все права защищены.</p>
+    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <p class="text-sm text-muted">© 2026 «S|L». Все права защищены.</p>
+      <ul class="flex flex-col gap-2 text-sm sm:flex-row sm:flex-wrap sm:gap-x-6">
+        {
+          LEGAL_DOCS.map((doc) => (
+            <li>
+              <a
+                href={doc.href}
+                class="inline-flex min-h-6 items-center text-muted transition hover:text-accent-link focus-visible:text-heading active:text-heading"
+              >
+                {doc.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </div>
 </footer>

@@ -18,8 +18,8 @@ export const COOKIE_CONSENT = {
   enabled: true,
   storageKey: "sl-cookie-consent",
   text: "Мы используем cookie и Яндекс.Метрику, чтобы анализировать посещаемость и улучшать сайт. Подробнее: в",
-  policyLabel: "политике конфиденциальности",
-  policyHref: "/privacy",
+  policyLabel: "политике использования cookie-файлов",
+  policyHref: "/cookies",
   acceptAllLabel: "Принять все",
   rejectAllLabel: "Только необходимые",
   customizeLabel: "Настроить",
@@ -53,6 +53,11 @@ export const NAV = [
   { label: "О нас", href: "/#about" },
   { label: "FAQ", href: "/#faq" },
   { label: "Контакты", href: "/#contacts" },
+];
+
+export const LEGAL_DOCS = [
+  { label: "Политика обработки персональных данных", href: "/privacy" },
+  { label: "Политика использования cookie-файлов", href: "/cookies" },
 ];
 
 export const NAV_DESKTOP = [
@@ -293,7 +298,7 @@ export const TEAM = [
 export const LEGAL_POINTS = [
   { title: "Лицензии на изображения", text: "Используем только легальные стоковые изображения." },
   { title: "Лицензии на шрифты", text: "Подключаем шрифты с корректной лицензией." },
-  { title: "Политика конфиденциальности", text: "Раздел будет оформлен в ближайшее время." },
+  { title: "Политика обработки персональных данных", text: "Документ опубликован и доступен в подвале сайта." },
   { title: "Соответствие ФЗ-152", text: "Требования к персональным данным учитываем." },
 ];
 
