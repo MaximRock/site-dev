@@ -12,3 +12,6 @@ plan-site.docx
 data-for.md
 .vercel
 .env*
+
+# Internal documentation
+/docs/
