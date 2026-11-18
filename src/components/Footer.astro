@@ -75,7 +75,12 @@ import { Icon as BrandIcon } from "astro-icon/components";
 
   <div class="container-x mt-12 border-t border-line pt-6">
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-      <p class="text-sm text-muted">© 2026 «S|L». Все права защищены.</p>
+      <div>
+        <p class="text-sm text-muted">© 2026 «S|L». Все права защищены.</p>
+        <p class="mt-1 text-sm text-muted">
+          Самозанятый Герасименко Ирина Викторовна, ИНН 614500193470
+        </p>
+      </div>
       <ul class="flex flex-col gap-2 text-sm sm:flex-row sm:flex-wrap sm:gap-x-6">
         {
           LEGAL_DOCS.map((doc) => (
