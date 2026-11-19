@@ -127,10 +127,14 @@ const ogImage = new URL("/logo.png", site).href;
       })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym", null, null);
     }
     (window as any).ym(metrikaId, "init", {
+      ssr: true,
       clickmap: true,
       trackLinks: true,
       accurateTrackBounce: true,
       webvisor: !!prefs.webvisor,
+      ecommerce: "dataLayer",
+      referrer: document.referrer,
+      url: location.href,
     });
   };
 

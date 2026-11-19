@@ -11,7 +11,7 @@ export const CONTACTS = {
 
 export const SITE = {
   demoMode: false,
-  metrikaId: 44147844,
+  metrikaId: 114348241,
 };
 
 export const COOKIE_CONSENT = {
